@@ -6,10 +6,12 @@
   align-items: center;
 }
 
-.burger-container {
+.navigation {
+  display: flex;
+  align-items: center;
+}
+
+.navigation__link {
   display: flex;
 }
 
-.orders-container {
-  display: flex;
-}

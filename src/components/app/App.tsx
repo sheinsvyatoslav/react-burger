@@ -2,13 +2,16 @@ import React from 'react';
 import AppHeader from '../app-header/AppHeader';
 import BurgerIngredients from '../burger-ingredients/BurgerIngredients';
 import BurgerConstructor from '../burger-constructor/BurgerConstructor';
+import './App.css'
 
 function App() {
   return (
-    <div className="App">
+    <div className="app">
       <AppHeader />
-      <BurgerIngredients />
-      <BurgerConstructor />
+      <main className="menu">
+        <BurgerIngredients />
+        <BurgerConstructor />
+      </main>
     </div>
   );
 }
