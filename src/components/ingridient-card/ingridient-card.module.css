@@ -1,12 +1,17 @@
-.ingridient-card {
+.card {
   max-width: 272px;
   display: flex;
   flex-direction: column;
   align-items: center;
   position: relative;
+  cursor: pointer;
 }
 
-.ingridient-card__price {
+.price {
   display: flex;
   justify-content: center;
+}
+
+.name {
+  text-align: center;
 }

@@ -1,11 +1,12 @@
-import {useState} from 'react';
-import {Tab} from '@ya.praktikum/react-developer-burger-ui-components';
+import { useState } from 'react';
+import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
+import burgerNavigationStyles from './burger-navigation.module.css';
 
 function BurgerNavigation() {
   const [current, setCurrent] = useState('buns')
 
   return (
-    <div style={{ display: 'flex' }}>
+    <div className={`${burgerNavigationStyles.container} mb-10`}>
       <Tab value="buns" active={current === 'buns'} onClick={setCurrent}>
         Булки
       </Tab>
