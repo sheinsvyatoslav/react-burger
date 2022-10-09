@@ -1,9 +1,19 @@
-import data from '../../utils/data.json'
 import burgerConstructorStyles from './burger-constructor.module.css'
 import { CurrencyIcon, Button, ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import PropTypes, { InferProps } from 'prop-types';
+import data from '../../utils/data.json'
 
-function BurgerConstructor() {
-  
+BurgerConstructor.propTypes = {
+  ingridients: PropTypes.array.isRequired,
+  onOpenOrderPopup: PropTypes.func.isRequired
+};
+
+function BurgerConstructor({ ingridients, onOpenOrderPopup }: InferProps<typeof BurgerConstructor.propTypes>) {
+
+  const handleClickOrder = () => {
+    onOpenOrderPopup()
+  }
+
   return (
     <section className={`${burgerConstructorStyles.container} ml-4 mr-4 pb-13`}>
       <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', overflow: 'hidden' }} className="mt-25">
@@ -17,9 +27,9 @@ function BurgerConstructor() {
           />
         </div>
         <div className={`${burgerConstructorStyles.cards} pr-2`}>
-          {data.map((item, i) => (
+          {ingridients.map((item, i) => (
             item.type !== 'bun' &&
-            <div className={burgerConstructorStyles.card}>
+            <div className={burgerConstructorStyles.card} key={item._id}>
               <div className="pr-2">
                 <DragIcon type="primary" />
               </div>
@@ -27,7 +37,6 @@ function BurgerConstructor() {
                 text={item.name}
                 price={item.price}
                 thumbnail={item.image}
-                key={item._id}
               />
             </div> 
           ))
@@ -48,7 +57,7 @@ function BurgerConstructor() {
           <p className="text text_type_digits-medium mr-2">610</p>
           <CurrencyIcon type="primary" />
         </div>
-        <Button type="primary" size="large" htmlType="submit">Оформить заказ</Button>
+        <Button type="primary" size="large" htmlType="submit" onClick={handleClickOrder}>Оформить заказ</Button>
       </div>
     </section>
   );
