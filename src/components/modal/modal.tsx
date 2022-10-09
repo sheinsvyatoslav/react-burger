@@ -1,10 +1,11 @@
-import modalStyles from './modal.module.css'
+import { useEffect } from 'react';
+import modalStyles from './modal.module.css';
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import ModalOverlay from '../modal-overlay/modal-overlay';
 import PropTypes, { InferProps } from 'prop-types';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import { cardTypes } from '../../utils/constants';
-import OrderDetails from '../order-details/order-details'
+import OrderDetails from '../order-details/order-details';
 
 Modal.propTypes = {
   card: cardTypes,
@@ -13,6 +14,20 @@ Modal.propTypes = {
 };
 
 function Modal({ card, isOpened, onClosePopup }: InferProps<typeof Modal.propTypes>) {
+
+  useEffect(() => {
+    const handleEscClose = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        onClosePopup();
+      }
+    }
+
+    document.addEventListener('keydown', handleEscClose);
+    
+    return () => {
+      document.removeEventListener('keydown', handleEscClose);
+    } 
+  }, [])
 
   return (
     <div className={`${modalStyles.popup} ${isOpened && modalStyles.popupOpened}`}>

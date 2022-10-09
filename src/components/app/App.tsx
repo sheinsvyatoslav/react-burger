@@ -5,6 +5,7 @@ import BurgerConstructor from '../burger-constructor/burger-constructor';
 import Modal from '../modal/modal';
 import styles from './app.module.css';
 import { emptyCard } from '../../utils/constants';
+import getIngridients from '../../utils/api';
 
 function App() {
   const [ingridients, setIngridients] = useState([]);
@@ -41,30 +42,14 @@ function App() {
   }
 
   useEffect(() => {
-    const handleEscClose = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        handleClosePopupClick();
-      }
-    }
-
-    document.addEventListener('keydown', handleEscClose);
-    
-    return () => {
-      document.removeEventListener('keydown', handleEscClose);
-    } 
-  }, [])
-
-  const getData = () => {
-    return fetch('https://norma.nomoreparties.space/api/ingredients')
-      .then(res => res.json())
-      .then(result => {
-        setIngridients(result.data);
+    getIngridients()
+      .then((result: any) => {
+        setIngridients(result.data)
       })
-      .catch(err => console.log(err));
-  }
-
-  useEffect(() => {
-    getData();
+      .catch((err: Error) => {
+        console.log(err);
+        alert(err);
+      })
   }, []);
 
   return (

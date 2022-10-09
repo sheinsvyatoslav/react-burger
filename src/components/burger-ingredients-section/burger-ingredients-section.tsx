@@ -1,9 +1,10 @@
 import IngridientCard from '../ingridient-card/ingridient-card';
 import burgerIngridientsSectionStyles from './burger-ingredients-section.module.css'
 import PropTypes, { InferProps } from 'prop-types';
+import { cardTypes } from '../../utils/constants';
 
 BurgerIngredientsSection.propTypes = {
-  ingridients: PropTypes.array.isRequired,
+  ingridients: PropTypes.arrayOf(cardTypes).isRequired,
   name: PropTypes.string.isRequired,
   category: PropTypes.string.isRequired,
   onOpenIngridientPopup: PropTypes.func.isRequired

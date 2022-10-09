@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-components';
 import ingridientCardStyles from './ingridient-card.module.css';
 import PropTypes, { InferProps } from 'prop-types';
@@ -9,6 +10,7 @@ IngridientCard.propTypes = {
 };
 
 function IngridientCard({ card, onOpenIngridientPopup }: InferProps<typeof IngridientCard.propTypes> ) {
+  const [count, setCount] = useState(1)
 
   const handleClickCard = () => {
     onOpenIngridientPopup(card)
@@ -22,7 +24,7 @@ function IngridientCard({ card, onOpenIngridientPopup }: InferProps<typeof Ingri
         <CurrencyIcon type="primary" />
       </div>
       <p className={`${ingridientCardStyles.name} text text_type_main-small mr-2 mb-6`}>{card.name}</p>
-      <Counter count={1} size="small" />
+      {count > 0 && <Counter count={count} size="small" />}
     </article>
   );
 }

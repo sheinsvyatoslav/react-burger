@@ -5,17 +5,17 @@ function AppHeader() {
 
   return (
     <header className={headerStyles.header}>
-      <div className={`${headerStyles.container} pb-4 pt-4`}>
-        <nav className={headerStyles.navigation}>
-          <div className={`${headerStyles.link} pr-5 pb-4 pt-4 mr-1`}>
+      <nav className={`${headerStyles.navigation} pb-4 pt-4`}>
+        <div className={headerStyles.container}>
+          <a className={`${headerStyles.link} pr-5 pb-4 pt-4 mr-1`} href='#'>
             <BurgerIcon type="primary" />
-            <p className="text text_type_main-default ml-2">Конструктор</p>
-          </div>
-          <div className={`${headerStyles.link} pl-5 pr-5 pb-4 pt-4`}>
+            <p className={`${headerStyles.linkText} text text_type_main-default ml-2`}>Конструктор</p>
+          </a>
+          <a className={`${headerStyles.link} pl-5 pr-5 pb-4 pt-4`} href='#'>
             <ListIcon type="secondary" />
             <p className="text text_type_main-default text_color_inactive ml-2">Лента заказов</p>
-          </div>
-        </nav>
+          </a>
+        </div>
         <div className={headerStyles.logo}>
           <Logo />
         </div>
@@ -23,7 +23,7 @@ function AppHeader() {
           <ProfileIcon type="secondary" />
           <p className="text text_type_main-default text_color_inactive ml-2">Личный кабинет</p>
         </a>
-      </div>
+      </nav>
     </header>
   );
 }

@@ -1,10 +1,11 @@
 import burgerConstructorStyles from './burger-constructor.module.css'
 import { CurrencyIcon, Button, ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import PropTypes, { InferProps } from 'prop-types';
-import data from '../../utils/data.json'
+import data from '../../utils/data.json';
+import { cardTypes } from '../../utils/constants';
 
 BurgerConstructor.propTypes = {
-  ingridients: PropTypes.array.isRequired,
+  ingridients: PropTypes.arrayOf(cardTypes).isRequired,
   onOpenOrderPopup: PropTypes.func.isRequired
 };
 

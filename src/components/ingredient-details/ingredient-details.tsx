@@ -13,7 +13,7 @@ function IngredientDetails({ card }: InferProps<typeof IngredientDetails.propTyp
       <img className='mb-4' src={card.image_large} alt={card.name} />
       <h2 className={`${ingredientDetailsStyles.name} text text_type_main-medium mb-8 `}>{card.name} </h2>
       <div className={ingredientDetailsStyles.infoContainer}>
-        <div className={`${ingredientDetailsStyles.info}`}>
+        <div className={ingredientDetailsStyles.info}>
           <p className="text text_type_main-small text_color_inactive mb-2">Калории,ккал</p>
           <p className="text text_type_digits-default text_color_inactive">{card.calories}</p>
         </div>
