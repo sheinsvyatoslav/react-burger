@@ -2,49 +2,43 @@ import { useState, useEffect } from 'react';
 import AppHeader from '../app-header/app-header';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
-import Modal from '../modal/modal';
 import styles from './app.module.css';
-import { emptyCard } from '../../utils/constants';
-import getIngridients from '../../utils/api';
+import { emptyCard, Card } from '../../utils/constants';
+import { getIngredients } from '../../utils/api';
+import { IngredientsContext } from '../../contexts/ingredientsContext';
 
 function App() {
-  const [ingridients, setIngridients] = useState([]);
-  const [isPopupOpened, setIsPopupOpened] = useState(false);
-  const [selectedCard, setSelectedCard] = useState(emptyCard)
+  const [ingredients, setIngredients] = useState([]);
+  const [isOrderPopupOpened, setIsOrderPopupOpened] = useState(false);
+  const [isIngredientPopupOpened, setIsIngredientPopupOpened] = useState(false);
+  const [selectedCard, setSelectedCard] = useState(emptyCard);
+  const [bun, setBun] = useState(emptyCard);
+  const [noBunIngredients, setNoBunIngredients] = useState([])
+  const [totalPrice, setTotalPrice] = useState(0);
 
-  type Card = {
-    _id: string,
-    name: string, 
-    type: string,
-    proteins: number,
-    fat: number,
-    carbohydrates : number,
-    calories: number,
-    price: number,
-    image: string,
-    image_mobile: string,
-    image_large: string,
-    __v: number,
-  };
-
-  const handleOpenPopupClick = () => {
+  const handleOpenOrderPopupClick = () => {
     setSelectedCard(emptyCard);
-    setIsPopupOpened(true);
+    setIsOrderPopupOpened(true);
   }
 
   const handleClosePopupClick = () => {
-    setIsPopupOpened(false);
+    setIsOrderPopupOpened(false);
+    setIsIngredientPopupOpened(false);
   }
 
-  const handleSetCardClick = (card: Card) => {
+  const handleOpenIngredientPopupClick = (card: Card) => {
     setSelectedCard(card);
-    setIsPopupOpened(true);
+    setIsIngredientPopupOpened(true);
   }
 
   useEffect(() => {
-    getIngridients()
+    getIngredients()
       .then((result: any) => {
-        setIngridients(result.data)
+        setIngredients(result.data);
+        const bunIngredient = result.data.find((item: Card) => item.type === 'bun');
+        const noBun = result.data.filter((item: Card) => item.type !== 'bun');
+        setBun(bunIngredient);
+        setNoBunIngredients(noBun);
       })
       .catch((err: Error) => {
         console.log(err);
@@ -53,14 +47,26 @@ function App() {
   }, []);
 
   return (
-    <div >
+    <IngredientsContext.Provider value={ingredients}>
       <AppHeader />
       <main className={styles.menu}>
-        <BurgerIngredients ingridients={ingridients} onOpenIngridientPopup={handleSetCardClick} />
-        <BurgerConstructor ingridients={ingridients} onOpenOrderPopup={handleOpenPopupClick}/>
+        <BurgerIngredients
+          onOpenIngredientPopup={handleOpenIngredientPopupClick} 
+          selectedCard={selectedCard}
+          onClosePopup={handleClosePopupClick}
+          isIngredientPopupOpened={isIngredientPopupOpened}
+        />
+        <BurgerConstructor  
+          onOpenOrderPopup={handleOpenOrderPopupClick}
+          isOrderPopupOpened={isOrderPopupOpened}
+          onClosePopup={handleClosePopupClick}
+          bun={bun}
+          noBunIngredients={noBunIngredients}
+          totalPrice={totalPrice}
+          setTotalPrice={setTotalPrice}
+        />
       </main>
-      <Modal isOpened={isPopupOpened} onClosePopup={handleClosePopupClick} card={selectedCard} />
-    </div>
+    </IngredientsContext.Provider>
   );
 }
 
