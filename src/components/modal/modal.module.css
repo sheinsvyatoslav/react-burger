@@ -27,21 +27,7 @@
   width: 580px;
 }
 
-.closeButtonIngridients {
-  background: transparent;
-  border: 0;
-  padding: 0;
-  transition: opacity 0.3s ease-in-out;
-  width: 24px;
-  height: 24px;
-}
-
-.closeButtonIngridients:hover {
-  opacity: 0.6;
-  cursor: pointer;
-}
-
-.closeButtonOrder {
+.closeButton {
   background: transparent;
   border: 0;
   padding: 0;
@@ -53,13 +39,13 @@
   right: 40px;
 }
 
-.closeButtonOrder:hover {
+.closeButton:hover {
   opacity: 0.6;
   cursor: pointer;
 }
 
 .title {
+  height: 64px;
   display: flex;
-  justify-content: space-between;
   align-items: center;
 }

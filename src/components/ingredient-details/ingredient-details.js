@@ -1,12 +1,11 @@
 import ingredientDetailsStyles from './ingredient-details.module.css'
-import { InferProps } from 'prop-types';
 import { cardTypes } from '../../utils/constants';
 
 IngredientDetails.propTypes = {
   card: cardTypes,
 };
 
-function IngredientDetails({ card }: InferProps<typeof IngredientDetails.propTypes> ) {
+function IngredientDetails({ card }) {
 
   return (
     <div className={ingredientDetailsStyles.container}>

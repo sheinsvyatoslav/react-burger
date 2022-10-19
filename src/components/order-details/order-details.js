@@ -1,4 +1,4 @@
-import PropTypes, { InferProps } from 'prop-types';
+import PropTypes from 'prop-types';
 import OrderDetailsStyles from './order-details.module.css';
 import orderDoneImage from '../../images/order-done.png';
 
@@ -6,7 +6,7 @@ OrderDetails.propTypes = {
   orderNumber: PropTypes.number.isRequired,
 };
 
-function OrderDetails({ orderNumber }: InferProps<typeof OrderDetails.propTypes>) {
+function OrderDetails({ orderNumber }) {
   return (
     <div className={OrderDetailsStyles.container}>
       <p className="text text_type_digits-large">{orderNumber}</p>

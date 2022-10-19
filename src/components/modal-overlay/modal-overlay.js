@@ -1,13 +1,13 @@
 import modalOverlayStyles from './modal-overlay.module.css';
-import PropTypes, { InferProps } from 'prop-types';
+import PropTypes from 'prop-types';
 
 ModalOverlay.propTypes = {
-  onClosePopup: PropTypes.func.isRequired,
+  handleClosePopup: PropTypes.func.isRequired,
 };
 
-function ModalOverlay({ onClosePopup }: InferProps<typeof ModalOverlay.propTypes>) {
+function ModalOverlay({ handleClosePopup }) {
   const handleClick = () => {
-    onClosePopup();
+    handleClosePopup();
   }
 
   return (

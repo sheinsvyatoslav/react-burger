@@ -1,19 +1,19 @@
 import { useState } from 'react';
 import { CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-components';
 import ingredientCardStyles from './ingredient-card.module.css';
-import PropTypes, { InferProps } from 'prop-types';
+import PropTypes from 'prop-types';
 import { cardTypes } from '../../utils/constants';
 
 IngredientCard.propTypes = {
   card: cardTypes,
-  onOpenIngredientPopup: PropTypes.func.isRequired
+  handleOpenIngredientPopup: PropTypes.func.isRequired
 };
 
-function IngredientCard({ card, onOpenIngredientPopup }: InferProps<typeof IngredientCard.propTypes> ) {
-  const [count, setCount] = useState(1)
+function IngredientCard({ card, handleOpenIngredientPopup }) {
+  const [count, setCount] = useState(1);
 
   const handleClickCard = () => {
-    onOpenIngredientPopup(card)
+    handleOpenIngredientPopup(card);
   }
 
   return (

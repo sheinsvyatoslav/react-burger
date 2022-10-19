@@ -3,7 +3,7 @@ import AppHeader from '../app-header/app-header';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
 import styles from './app.module.css';
-import { emptyCard, Card } from '../../utils/constants';
+import { emptyCard } from '../../utils/constants';
 import { getIngredients } from '../../utils/api';
 import { IngredientsContext } from '../../contexts/ingredientsContext';
 
@@ -16,31 +16,31 @@ function App() {
   const [noBunIngredients, setNoBunIngredients] = useState([])
   const [totalPrice, setTotalPrice] = useState(0);
 
-  const handleOpenOrderPopupClick = () => {
+  const handleOpenOrderPopup = () => {
     setSelectedCard(emptyCard);
     setIsOrderPopupOpened(true);
   }
 
-  const handleClosePopupClick = () => {
+  const handleClosePopup = () => {
     setIsOrderPopupOpened(false);
     setIsIngredientPopupOpened(false);
   }
 
-  const handleOpenIngredientPopupClick = (card: Card) => {
+  const handleOpenIngredientPopup = card => {
     setSelectedCard(card);
     setIsIngredientPopupOpened(true);
   }
 
   useEffect(() => {
     getIngredients()
-      .then((result: any) => {
+      .then(result => {
         setIngredients(result.data);
-        const bunIngredient = result.data.find((item: Card) => item.type === 'bun');
-        const noBun = result.data.filter((item: Card) => item.type !== 'bun');
+        const bunIngredient = result.data.find(item => item.type === 'bun');
+        const noBun = result.data.filter(item => item.type !== 'bun');
         setBun(bunIngredient);
         setNoBunIngredients(noBun);
       })
-      .catch((err: Error) => {
+      .catch(err => {
         console.log(err);
         alert(err);
       })
@@ -51,15 +51,15 @@ function App() {
       <AppHeader />
       <main className={styles.menu}>
         <BurgerIngredients
-          onOpenIngredientPopup={handleOpenIngredientPopupClick} 
+          handleOpenIngredientPopup={handleOpenIngredientPopup} 
           selectedCard={selectedCard}
-          onClosePopup={handleClosePopupClick}
+          handleClosePopup={handleClosePopup}
           isIngredientPopupOpened={isIngredientPopupOpened}
         />
         <BurgerConstructor  
-          onOpenOrderPopup={handleOpenOrderPopupClick}
+          handleOpenOrderPopup={handleOpenOrderPopup}
           isOrderPopupOpened={isOrderPopupOpened}
-          onClosePopup={handleClosePopupClick}
+          handleClosePopup={handleClosePopup}
           bun={bun}
           noBunIngredients={noBunIngredients}
           totalPrice={totalPrice}
