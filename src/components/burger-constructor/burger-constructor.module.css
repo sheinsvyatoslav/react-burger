@@ -1,8 +1,15 @@
-.container {
+.main {
   display: flex;
   flex-direction: column;
   max-width: 50%;
   max-height: 912px;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  overflow: hidden;
 }
 
 .cards::-webkit-scrollbar {
