@@ -24,9 +24,10 @@ export function createOrder(ingredients) {
           });
         }
       })
-      .catch((err) => {
-        alert(err);
-        console.log(err);
+      .catch(() => {
+        dispatch({
+          type: CREATE_ORDER_FAILED,
+        });
       });
   };
 }

@@ -2,6 +2,7 @@ import {
   CurrencyIcon,
   Counter,
 } from "@ya.praktikum/react-developer-burger-ui-components";
+import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
 import { useDrag } from "react-dnd";
 import { cardTypes } from "../../utils/constants";
@@ -11,6 +12,7 @@ import { OPEN_INGREDIENT_DETAILS_POPUP } from "../../services/actions/popups";
 
 IngredientCard.propTypes = {
   ingredient: cardTypes,
+  category: PropTypes.string.isRequired,
 };
 
 function IngredientCard({ ingredient, category }) {

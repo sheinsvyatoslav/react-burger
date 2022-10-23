@@ -31,7 +31,7 @@ function BurgerConstructor() {
   useEffect(() => {
     dispatch({
       type: GET_CONSTRUCTOR_INGREDIENTS,
-      ingredients: ingredients.filter((item) => item.type === "bun"),
+      ingredients: [],
     });
   }, [dispatch, ingredients]);
 
@@ -69,6 +69,13 @@ function BurgerConstructor() {
         className={`${burgerConstructorStyles.container} mt-25`}
         ref={ingridientsTarget}
       >
+        {!bun && (
+          <p
+            className={`text text_type_main-medium ${burgerConstructorStyles.tip}`}
+          >
+            Пожалуйста, перенесите сюда булку для создания заказа
+          </p>
+        )}
         <div className="ml-8 pr-4">
           {bun && (
             <ConstructorElement
@@ -111,6 +118,7 @@ function BurgerConstructor() {
           size="large"
           htmlType="submit"
           onClick={handleOrderClick}
+          disabled={!bun}
         >
           Оформить заказ
         </Button>

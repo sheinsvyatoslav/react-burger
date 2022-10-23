@@ -9,6 +9,7 @@ import { getIngredients } from "../../services/actions/ingredients";
 BurgerIngredientsSection.propTypes = {
   name: PropTypes.string.isRequired,
   category: PropTypes.string.isRequired,
+  innerRef: PropTypes.func.isRequired,
 };
 
 function BurgerIngredientsSection({ name, category, innerRef }) {

@@ -4,12 +4,20 @@ import {
   ConstructorElement,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useSelector, useDispatch } from "react-redux";
+import PropTypes from "prop-types";
 import { useDrag, useDrop } from "react-dnd";
+
+import { constructorCardType } from "../../utils/constants";
 import constructorCardStyles from "./constructor-card.module.css";
 import {
   DELETE_CONSTRUCTOR_INGREDIENT,
   UPDATE_CONSTRUCTOR_LIST,
 } from "../../services/actions/ingredients";
+
+ConstructorCard.propTypes = {
+  item: constructorCardType,
+  index: PropTypes.number.isRequired,
+};
 
 function ConstructorCard({ item, index }) {
   const { noBunIngredients } = useSelector(
