@@ -1,15 +1,15 @@
-import { request, INGREDIENTS_URL, ORDERS_URL } from './api-constants'
+import { request, INGREDIENTS_URL, ORDERS_URL } from "./api-constants";
 
-export const getIngredients = () => request(INGREDIENTS_URL, {});
+export const getIngredientsRequest = () => request(INGREDIENTS_URL, {});
 
-export const createOrder = (ingredients) => {
+export const createOrderRequest = (ingredients) => {
   return request(ORDERS_URL, {
-    method: 'POST',
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      ingredients
-    })
-  })
+      ingredients,
+    }),
+  });
 };

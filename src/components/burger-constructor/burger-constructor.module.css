@@ -41,8 +41,3 @@
   overflow-y: scroll;
   gap: 16px;
 }
-
-.card {
-  display: flex;
-  align-items: center;
-}

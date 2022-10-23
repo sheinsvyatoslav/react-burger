@@ -1,8 +1,8 @@
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
 // export type Card = {
 //   _id: string,
-//   name: string, 
+//   name: string,
 //   type: string,
 //   proteins: number,
 //   fat: number,
@@ -17,11 +17,11 @@ import PropTypes from 'prop-types';
 
 export const cardTypes = PropTypes.shape({
   _id: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired, 
+  name: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
   proteins: PropTypes.number.isRequired,
   fat: PropTypes.number.isRequired,
-  carbohydrates : PropTypes.number.isRequired,
+  carbohydrates: PropTypes.number.isRequired,
   calories: PropTypes.number.isRequired,
   price: PropTypes.number.isRequired,
   image: PropTypes.string.isRequired,
@@ -31,22 +31,22 @@ export const cardTypes = PropTypes.shape({
 }).isRequired;
 
 export const emptyCard = {
-  _id: '',
-  name: '', 
-  type: '',
+  _id: "",
+  name: "",
+  type: "",
   proteins: 0,
   fat: 0,
-  carbohydrates : 0,
+  carbohydrates: 0,
   calories: 0,
   price: 0,
-  image: '',
-  image_mobile: '',
-  image_large: '',
+  image: "",
+  image_mobile: "",
+  image_large: "",
   __v: 0,
-}
+};
 
 export const INGREDIENT_TYPES = {
-  BUN: 'bun',
-  SAUCE: 'sauce',
-  MAIN: 'main'
+  BUN: "bun",
+  SAUCE: "sauce",
+  MAIN: "main",
 };

@@ -1,38 +1,45 @@
-import { useContext } from 'react';
-import PropTypes from 'prop-types';
-import IngredientCard from '../ingredient-card/ingredient-card';
-import burgerIngredientsSectionStyles from './burger-ingredients-section.module.css'
-import { IngredientsContext } from '../../contexts/ingredientsContext';
+import { useEffect, useMemo } from "react";
+import PropTypes from "prop-types";
+import { useDispatch, useSelector } from "react-redux";
+
+import IngredientCard from "../ingredient-card/ingredient-card";
+import burgerIngredientsSectionStyles from "./burger-ingredients-section.module.css";
+import { getIngredients } from "../../services/actions/ingredients";
 
 BurgerIngredientsSection.propTypes = {
   name: PropTypes.string.isRequired,
   category: PropTypes.string.isRequired,
-  handleOpenIngredientPopup: PropTypes.func.isRequired
 };
 
-function BurgerIngredientsSection({ 
-  name, 
-  category, 
-  handleOpenIngredientPopup 
-}) {
+function BurgerIngredientsSection({ name, category, innerRef }) {
+  const dispatch = useDispatch();
 
-  const ingredients = useContext(IngredientsContext);
-  return (
-    <div className="mb-10">
-      <h2 className="text text_type_main-medium mb-6">{name}</h2>
-      <div className={burgerIngredientsSectionStyles.cards}>
-        {ingredients.map(item => (
-          item.type === category &&
-          <IngredientCard 
-          card={item}
-          key={item._id}
-          handleOpenIngredientPopup={handleOpenIngredientPopup}
+  const { ingredients } = useSelector((state) => state.ingredients);
+
+  useEffect(() => {
+    dispatch(getIngredients());
+  }, [dispatch]);
+
+  const content = useMemo(() => {
+    return ingredients.map((ingredient) => {
+      return (
+        ingredient.type === category && (
+          <IngredientCard
+            ingredient={ingredient}
+            key={ingredient._id}
+            category={category}
           />
-        ))
-        }
-      </div>
+        )
+      );
+    });
+  }, [ingredients, category]);
+
+  return (
+    <div className="mb-10" ref={innerRef}>
+      <h2 className="text text_type_main-medium mb-6">{name}</h2>
+      <div className={burgerIngredientsSectionStyles.cards}>{content}</div>
     </div>
   );
 }
 
-export default BurgerIngredientsSection
+export default BurgerIngredientsSection;
