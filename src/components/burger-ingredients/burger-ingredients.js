@@ -1,4 +1,5 @@
-import { useSelector } from "react-redux";
+import { useCallback } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { useInView } from "react-intersection-observer";
 
 import IngredientDetails from "../ingredient-details/ingredient-details";
@@ -7,10 +8,12 @@ import BurgerIngredientsSection from "../burger-ingredients-section/burger-ingre
 import Modal from "../modal/modal";
 
 import { INGREDIENT_TYPES } from "../../utils/constants";
+import { CLOSE_POPUPS } from "../../services/actions/popups";
 
 import burgerIngredientsStyles from "./burger-ingredients.module.css";
 
 function BurgerIngredients() {
+  const dispatch = useDispatch();
   const [bunsRef, inViewBuns] = useInView({
     threshold: 0,
   });
@@ -22,6 +25,10 @@ function BurgerIngredients() {
   });
 
   const { isIngredientPopupOpened } = useSelector((state) => state.popups);
+
+  const handleClosePopup = useCallback(() => {
+    dispatch({ type: CLOSE_POPUPS });
+  }, [dispatch]);
 
   return (
     <section className={`${burgerIngredientsStyles.container} mr-10`}>
@@ -50,7 +57,11 @@ function BurgerIngredients() {
           innerRef={mainsRef}
         />
       </div>
-      <Modal isOpened={isIngredientPopupOpened} title="Детали ингридиента">
+      <Modal
+        isOpened={isIngredientPopupOpened}
+        handleClosePopup={handleClosePopup}
+        title="Детали ингридиента"
+      >
         <IngredientDetails />
       </Modal>
     </section>

@@ -1,23 +1,26 @@
-import { useEffect } from "react";
+import { useEffect, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { useDrop } from "react-dnd";
 import { v1 } from "uuid";
 import {
   CurrencyIcon,
   Button,
   ConstructorElement,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useDrop } from "react-dnd";
+
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
+import ConstructorCard from "../constructor-card/constructor-card";
 import burgerConstructorStyles from "./burger-constructor.module.css";
 import { createOrder } from "../../services/actions/order";
+
 import { OPEN_ORDER_DETAILS_POPUP } from "../../services/actions/popups";
 import {
   GET_CONSTRUCTOR_INGREDIENTS,
   ADD_CONSTRUCTOR_INGREDIENT,
 } from "../../services/actions/ingredients";
 import { GET_TOTAL_PRICE } from "../../services/actions/order";
-import ConstructorCard from "../constructor-card/constructor-card";
+import { CLOSE_POPUPS } from "../../services/actions/popups";
 
 function BurgerConstructor() {
   const { isOrderPopupOpened } = useSelector((state) => state.popups);
@@ -27,6 +30,10 @@ function BurgerConstructor() {
   const { ingredients } = useSelector((state) => state.ingredients);
   const { totalPrice } = useSelector((state) => state.order);
   const dispatch = useDispatch();
+
+  const handleClosePopup = useCallback(() => {
+    dispatch({ type: CLOSE_POPUPS });
+  }, [dispatch]);
 
   useEffect(() => {
     dispatch({
@@ -123,7 +130,11 @@ function BurgerConstructor() {
           Оформить заказ
         </Button>
       </div>
-      <Modal isOpened={isOrderPopupOpened} title="">
+      <Modal
+        isOpened={isOrderPopupOpened}
+        handleClosePopup={handleClosePopup}
+        title=""
+      >
         <OrderDetails />
       </Modal>
     </section>

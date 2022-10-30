@@ -1,26 +1,19 @@
-import { useEffect, useCallback } from "react";
+import { useEffect } from "react";
 import ReactDOM from "react-dom";
 import PropTypes from "prop-types";
-import { useDispatch } from "react-redux";
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import modalStyles from "./modal.module.css";
 import ModalOverlay from "../modal-overlay/modal-overlay";
-import { CLOSE_POPUPS } from "../../services/actions/popups";
 const modalRoot = document.getElementById("modals");
 
 Modal.propTypes = {
   isOpened: PropTypes.bool.isRequired,
   children: PropTypes.node.isRequired,
   title: PropTypes.string.isRequired,
+  handleClosePopup: PropTypes.func.isRequired,
 };
 
-function Modal({ isOpened, children, title }) {
-  const dispatch = useDispatch();
-
-  const handleClosePopup = useCallback(() => {
-    dispatch({ type: CLOSE_POPUPS });
-  }, [dispatch]);
-
+function Modal({ isOpened, children, title, handleClosePopup }) {
   useEffect(() => {
     if (!isOpened) return;
     const handleEscClose = (e) => {
@@ -59,7 +52,7 @@ function Modal({ isOpened, children, title }) {
           <CloseIcon type="primary" />
         </button>
       </div>
-      <ModalOverlay />
+      <ModalOverlay handleClosePopup={handleClosePopup} />
     </div>,
     modalRoot
   );
