@@ -71,7 +71,7 @@ function BurgerConstructor() {
   });
 
   return (
-    <section className={`${burgerConstructorStyles.main} ml-4 mr-4 pb-13`}>
+    <section className={`${burgerConstructorStyles.main} pb-13`}>
       <div
         className={`${burgerConstructorStyles.container} mt-25`}
         ref={ingridientsTarget}
@@ -83,7 +83,7 @@ function BurgerConstructor() {
             Пожалуйста, перенесите сюда булку для создания заказа
           </p>
         )}
-        <div className="ml-8 pr-4">
+        <div className="ml-8 pr-4 pl-4">
           {bun && (
             <ConstructorElement
               type="top"
@@ -95,13 +95,13 @@ function BurgerConstructor() {
           )}
         </div>
         {noBunIngredients && (
-          <div className={`${burgerConstructorStyles.cards} pr-2`}>
+          <div className={`${burgerConstructorStyles.cards} pr-2 pl-4`}>
             {noBunIngredients.map((item, i) => (
               <ConstructorCard item={item} key={item.dragId} index={i} />
             ))}
           </div>
         )}
-        <div className="ml-8 pr-4">
+        <div className="ml-8 pr-4 pl-4">
           {bun && (
             <ConstructorElement
               type="bottom"
@@ -113,7 +113,7 @@ function BurgerConstructor() {
           )}
         </div>
       </div>
-      <div className={`${burgerConstructorStyles.button} mt-10 mb-10`}>
+      <div className={`${burgerConstructorStyles.button} mt-10 mb-10 pr-4`}>
         <div
           className={`${burgerConstructorStyles.price} mt-2 mb-2 mr-10 ml-5`}
         >
