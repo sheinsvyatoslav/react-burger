@@ -1,4 +1,4 @@
-# Stellar Burger
+# Stellar Burgers
 
 ## Описание проекта
 ---
