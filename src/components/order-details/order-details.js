@@ -2,7 +2,7 @@ import { useSelector } from "react-redux";
 import OrderDetailsStyles from "./order-details.module.css";
 import orderDoneImage from "../../images/order-done.png";
 
-function OrderDetails() {
+const OrderDetails = () => {
   const orderNumber = useSelector((state) => state.order.orderNumber);
 
   return (
@@ -24,6 +24,6 @@ function OrderDetails() {
       </p>
     </div>
   );
-}
+};
 
 export default OrderDetails;

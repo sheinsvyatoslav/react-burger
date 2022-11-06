@@ -14,12 +14,7 @@ import {
   UPDATE_CONSTRUCTOR_LIST,
 } from "../../services/actions/ingredients";
 
-ConstructorCard.propTypes = {
-  item: constructorCardType,
-  index: PropTypes.number.isRequired,
-};
-
-function ConstructorCard({ item, index }) {
+const ConstructorCard = ({ item, index }) => {
   const { noBunIngredients } = useSelector(
     (state) => state.ingredients.constructorIngredients
   );
@@ -109,6 +104,11 @@ function ConstructorCard({ item, index }) {
       />
     </div>
   );
-}
+};
+
+ConstructorCard.propTypes = {
+  item: constructorCardType,
+  index: PropTypes.number.isRequired,
+};
 
 export default ConstructorCard;

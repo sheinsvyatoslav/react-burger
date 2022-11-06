@@ -7,24 +7,19 @@ import { useSelector, useDispatch } from "react-redux";
 import { useDrag } from "react-dnd";
 import { cardTypes } from "../../utils/constants";
 import ingredientCardStyles from "./ingredient-card.module.css";
-import { ADD_INGREDIENT_DETAILS } from "../../services/actions/ingredients";
-import { OPEN_INGREDIENT_DETAILS_POPUP } from "../../services/actions/popups";
+import { addIngredientDetails } from "../../services/actions/ingredients";
+import { openIngedientDetailsPopup } from "../../services/actions/popups";
 
-IngredientCard.propTypes = {
-  ingredient: cardTypes,
-  category: PropTypes.string.isRequired,
-};
-
-function IngredientCard({ ingredient, category }) {
+const IngredientCard = ({ ingredient, category }) => {
   const { ingredientsCount } = useSelector((state) => state.ingredients);
   const { constructorIngredients } = useSelector((state) => state.ingredients);
   const dispatch = useDispatch();
+  const id = ingredient._id;
 
   const handleCardClick = () => {
-    dispatch({ type: OPEN_INGREDIENT_DETAILS_POPUP });
-    dispatch({ type: ADD_INGREDIENT_DETAILS, selectedIngredient: ingredient });
+    dispatch(openIngedientDetailsPopup({ id, ingredient }));
+    dispatch(addIngredientDetails(ingredient));
   };
-  const id = ingredient._id;
 
   const [{ opacity }, ref] = useDrag({
     type: "ingredients",
@@ -62,6 +57,11 @@ function IngredientCard({ ingredient, category }) {
       )}
     </article>
   );
-}
+};
+
+IngredientCard.propTypes = {
+  ingredient: cardTypes,
+  category: PropTypes.string.isRequired,
+};
 
 export default IngredientCard;

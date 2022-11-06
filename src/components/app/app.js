@@ -1,22 +1,81 @@
+import { useEffect } from "react";
+import { Route, Switch, useLocation } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import AppHeader from "../app-header/app-header";
-import BurgerIngredients from "../burger-ingredients/burger-ingredients";
-import BurgerConstructor from "../burger-constructor/burger-constructor";
-import styles from "./app.module.css";
-import { HTML5Backend } from "react-dnd-html5-backend";
-import { DndProvider } from "react-dnd";
+import Main from "../main/main";
+import Login from "../login/login";
+import Register from "../register/register";
+import ForgotPassword from "../forgot-password/forgot-password";
+import ResetPassword from "../reset-password/reset-password";
+import ProtectedRoute from "../protected-routes/protected-route";
+import ProtectedRouteAuth from "../protected-routes/protected-route-auth";
+import Profile from "../profile/profile";
+import PageNotFound from "../not-found/not-found";
+import IngredientPage from "../ingredient-page/ingredient-page";
+import { clearForm } from "../../services/actions/form";
+import {
+  getStorageIngredients,
+  getIngredientsCount,
+} from "../../services/actions/ingredients";
 
-function App() {
+const App = () => {
+  const dispatch = useDispatch();
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.pathname === "/") {
+      localStorage.removeItem("isPopupOpened");
+      if (localStorage.getItem("constructorIngredients")) {
+        dispatch(
+          getStorageIngredients(
+            JSON.parse(localStorage.getItem("constructorIngredients"))
+          )
+        );
+        dispatch(
+          getIngredientsCount(
+            JSON.parse(localStorage.getItem("ingredientsCount"))
+          )
+        );
+      }
+    }
+    dispatch(clearForm());
+  }, [location, dispatch]);
+
   return (
     <>
       <AppHeader />
-      <main className={styles.menu}>
-        <DndProvider backend={HTML5Backend}>
-          <BurgerIngredients />
-          <BurgerConstructor />
-        </DndProvider>
-      </main>
+      <Switch>
+        <Route exact path="/">
+          <Main />
+        </Route>
+        <Route exact path="/ingredients/:id">
+          {JSON.parse(localStorage.getItem("isPopupOpened")) ? (
+            <Main />
+          ) : (
+            <IngredientPage />
+          )}
+        </Route>
+        <ProtectedRoute exact path="/profile">
+          <Profile />
+        </ProtectedRoute>
+        <ProtectedRouteAuth exact path="/login">
+          <Login />
+        </ProtectedRouteAuth>
+        <ProtectedRouteAuth exact path="/register">
+          <Register />
+        </ProtectedRouteAuth>
+        <ProtectedRouteAuth exact path="/forgot-password">
+          <ForgotPassword />
+        </ProtectedRouteAuth>
+        <ProtectedRouteAuth exact path="/reset-password">
+          <ResetPassword />
+        </ProtectedRouteAuth>
+        <Route>
+          <PageNotFound />
+        </Route>
+      </Switch>
     </>
   );
-}
+};
 
 export default App;

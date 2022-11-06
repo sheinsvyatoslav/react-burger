@@ -3,13 +3,7 @@ import PropTypes from "prop-types";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import burgerNavigationStyles from "./burger-navigation.module.css";
 
-BurgerNavigation.propTypes = {
-  inViewBuns: PropTypes.bool.isRequired,
-  inViewSauces: PropTypes.bool.isRequired,
-  inViewFilling: PropTypes.bool.isRequired,
-};
-
-function BurgerNavigation({ inViewBuns, inViewSauces, inViewFilling }) {
+const BurgerNavigation = ({ inViewBuns, inViewSauces, inViewFilling }) => {
   const [current, setCurrent] = useState("buns");
 
   useEffect(() => {
@@ -35,6 +29,12 @@ function BurgerNavigation({ inViewBuns, inViewSauces, inViewFilling }) {
       </Tab>
     </div>
   );
-}
+};
+
+BurgerNavigation.propTypes = {
+  inViewBuns: PropTypes.bool.isRequired,
+  inViewSauces: PropTypes.bool.isRequired,
+  inViewFilling: PropTypes.bool.isRequired,
+};
 
 export default BurgerNavigation;

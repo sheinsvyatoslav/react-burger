@@ -1,0 +1,22 @@
+.main {
+  margin: 120px auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.link {
+  color: #4C4CFF;
+  transition: opacity 0.1s ease-in-out;
+  background: transparent;
+  cursor: pointer;
+  border: 0;
+}
+
+.link:hover {
+  opacity: 0.8;
+}
+
+.link:focus {
+  outline: none;
+}

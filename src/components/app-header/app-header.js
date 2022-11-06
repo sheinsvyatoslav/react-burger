@@ -1,31 +1,59 @@
-import { Logo, ProfileIcon, BurgerIcon, ListIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import headerStyles from './app-header.module.css'
+import {
+  Logo,
+  ProfileIcon,
+  BurgerIcon,
+  ListIcon,
+} from "@ya.praktikum/react-developer-burger-ui-components";
+import { NavLink, useLocation } from "react-router-dom";
+import headerStyles from "./app-header.module.css";
 
-function AppHeader() {
-
+const AppHeader = () => {
+  const location = useLocation();
   return (
     <header className={headerStyles.header}>
+      <div className={headerStyles.logo}>
+        <Logo />
+      </div>
+
       <nav className={`${headerStyles.navigation} pb-4 pt-4`}>
         <div className={headerStyles.container}>
-          <a className={`${headerStyles.link} pr-5 pb-4 pt-4 mr-1`} href='#'>
-            <BurgerIcon type="primary" />
-            <p className={`${headerStyles.linkText} text text_type_main-default ml-2`}>Конструктор</p>
-          </a>
-          <a className={`${headerStyles.link} pl-5 pr-5 pb-4 pt-4`} href='#'>
-            <ListIcon type="secondary" />
-            <p className="text text_type_main-default text_color_inactive ml-2">Лента заказов</p>
-          </a>
+          <NavLink
+            className={`${headerStyles.link} pr-5 pb-4 pt-4 mr-1`}
+            to="/"
+            activeClassName={headerStyles.activeLink}
+            exact
+          >
+            <BurgerIcon
+              type={location.pathname === "/" ? "primary" : "secondary"}
+            />
+            <p className="text text_type_main-default ml-2">Конструктор</p>
+          </NavLink>
+          <NavLink
+            className={`${headerStyles.link} pl-5 pr-5 pb-4 pt-4`}
+            to="/orders"
+            activeClassName={headerStyles.activeLink}
+            exact
+          >
+            <ListIcon
+              type={location.pathname === "/orders" ? "primary" : "secondary"}
+            />
+            <p className="text text_type_main-default ml-2">Лента заказов</p>
+          </NavLink>
         </div>
-        <div className={headerStyles.logo}>
-          <Logo />
-        </div>
-        <a className={headerStyles.link} href='#'>
-          <ProfileIcon type="secondary" />
-          <p className="text text_type_main-default text_color_inactive ml-2">Личный кабинет</p>
-        </a>
+        <NavLink
+          className={headerStyles.link}
+          to="/profile"
+          activeClassName={headerStyles.activeLink}
+          exact
+        >
+          <ProfileIcon
+            type={location.pathname === "/profile" ? "primary" : "secondary"}
+          />
+          <p className="text text_type_main-default ml-2">Личный кабинет</p>
+        </NavLink>
       </nav>
     </header>
   );
-}
+};
 
 export default AppHeader;

@@ -1,20 +1,18 @@
-import { useSelector } from "react-redux";
+import { object } from "prop-types";
 import ingredientDetailsStyles from "./ingredient-details.module.css";
 
-function IngredientDetails() {
-  const { selectedIngredient } = useSelector((state) => state.ingredients);
-
+const IngredientDetails = ({ ingredient }) => {
   return (
     <div className={ingredientDetailsStyles.container}>
       <img
         className="mb-4"
-        src={selectedIngredient.image_large}
-        alt={selectedIngredient.name}
+        src={ingredient.image_large}
+        alt={ingredient.name}
       />
       <h2
         className={`${ingredientDetailsStyles.name} text text_type_main-medium mb-8 `}
       >
-        {selectedIngredient.name}
+        {ingredient.name}
       </h2>
       <div className={ingredientDetailsStyles.infoContainer}>
         <div className={ingredientDetailsStyles.info}>
@@ -22,7 +20,7 @@ function IngredientDetails() {
             Калории,ккал
           </p>
           <p className="text text_type_digits-default text_color_inactive">
-            {selectedIngredient.calories}
+            {ingredient.calories}
           </p>
         </div>
         <div className={ingredientDetailsStyles.info}>
@@ -30,7 +28,7 @@ function IngredientDetails() {
             Белки, г
           </p>
           <p className="text text_type_digits-default text_color_inactive">
-            {selectedIngredient.proteins}
+            {ingredient.proteins}
           </p>
         </div>
         <div className={ingredientDetailsStyles.info}>
@@ -38,7 +36,7 @@ function IngredientDetails() {
             Жиры, г
           </p>
           <p className="text text_type_digits-default text_color_inactive">
-            {selectedIngredient.fat}
+            {ingredient.fat}
           </p>
         </div>
         <div className={ingredientDetailsStyles.info}>
@@ -46,12 +44,16 @@ function IngredientDetails() {
             Углеводы, г
           </p>
           <p className="text text_type_digits-default text_color_inactive">
-            {selectedIngredient.carbohydrates}
+            {ingredient.carbohydrates}
           </p>
         </div>
       </div>
     </div>
   );
-}
+};
+
+IngredientDetails.propTypes = {
+  ingredient: object.isRequired,
+};
 
 export default IngredientDetails;

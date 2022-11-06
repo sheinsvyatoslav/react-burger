@@ -6,13 +6,7 @@ import IngredientCard from "../ingredient-card/ingredient-card";
 import burgerIngredientsSectionStyles from "./burger-ingredients-section.module.css";
 import { getIngredients } from "../../services/actions/ingredients";
 
-BurgerIngredientsSection.propTypes = {
-  name: PropTypes.string.isRequired,
-  category: PropTypes.string.isRequired,
-  innerRef: PropTypes.func.isRequired,
-};
-
-function BurgerIngredientsSection({ name, category, innerRef }) {
+const BurgerIngredientsSection = ({ name, category, innerRef }) => {
   const dispatch = useDispatch();
 
   const { ingredients } = useSelector((state) => state.ingredients);
@@ -41,6 +35,12 @@ function BurgerIngredientsSection({ name, category, innerRef }) {
       <div className={burgerIngredientsSectionStyles.cards}>{content}</div>
     </div>
   );
-}
+};
+
+BurgerIngredientsSection.propTypes = {
+  name: PropTypes.string.isRequired,
+  category: PropTypes.string.isRequired,
+  innerRef: PropTypes.func.isRequired,
+};
 
 export default BurgerIngredientsSection;

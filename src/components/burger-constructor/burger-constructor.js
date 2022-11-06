@@ -12,49 +12,64 @@ import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
 import ConstructorCard from "../constructor-card/constructor-card";
 import burgerConstructorStyles from "./burger-constructor.module.css";
-import { createOrder } from "../../services/actions/order";
+import { createOrder, getTotalPrice } from "../../services/actions/order";
 
-import { OPEN_ORDER_DETAILS_POPUP } from "../../services/actions/popups";
 import {
-  GET_CONSTRUCTOR_INGREDIENTS,
+  openOrderDetailsPopup,
+  closeOrderPopup,
+} from "../../services/actions/popups";
+import {
   ADD_CONSTRUCTOR_INGREDIENT,
+  clearConstructor,
 } from "../../services/actions/ingredients";
-import { GET_TOTAL_PRICE } from "../../services/actions/order";
-import { CLOSE_POPUPS } from "../../services/actions/popups";
+import history from "../../utils/history";
+import { getCookie } from "../../utils/cookie";
 
-function BurgerConstructor() {
+const BurgerConstructor = () => {
   const { isOrderPopupOpened } = useSelector((state) => state.popups);
   const { bun, noBunIngredients } = useSelector(
     (state) => state.ingredients.constructorIngredients
   );
-  const { ingredients } = useSelector((state) => state.ingredients);
+  const { ingredients, constructorIngredients, ingredientsCount } = useSelector(
+    (state) => state.ingredients
+  );
   const { totalPrice } = useSelector((state) => state.order);
   const dispatch = useDispatch();
 
   const handleClosePopup = useCallback(() => {
-    dispatch({ type: CLOSE_POPUPS });
+    dispatch(closeOrderPopup());
   }, [dispatch]);
 
   useEffect(() => {
-    dispatch({
-      type: GET_CONSTRUCTOR_INGREDIENTS,
-      ingredients: [],
-    });
-  }, [dispatch, ingredients]);
+    if (
+      constructorIngredients.bun ||
+      constructorIngredients.noBunIngredients.length > 0
+    ) {
+      localStorage.setItem(
+        "constructorIngredients",
+        JSON.stringify(constructorIngredients)
+      );
+      localStorage.setItem(
+        "ingredientsCount",
+        JSON.stringify(ingredientsCount)
+      );
+    }
+  }, [constructorIngredients, ingredientsCount]);
 
   useEffect(() => {
-    dispatch({
-      type: GET_TOTAL_PRICE,
-      bun: bun,
-      noBunIngredients: noBunIngredients,
-    });
+    dispatch(getTotalPrice(bun, noBunIngredients));
   }, [dispatch, noBunIngredients, bun]);
 
   const handleOrderClick = () => {
-    dispatch(
-      createOrder([bun._id, ...noBunIngredients.map((item) => item._id)])
-    );
-    dispatch({ type: OPEN_ORDER_DETAILS_POPUP });
+    if (getCookie("accessToken")) {
+      dispatch(
+        createOrder([bun._id, ...noBunIngredients.map((item) => item._id)])
+      );
+      dispatch(openOrderDetailsPopup());
+      localStorage.removeItem("constructorIngredients");
+      localStorage.removeItem("ingredientsCount");
+      dispatch(clearConstructor());
+    } else history.push("/login");
   };
 
   const [, ingridientsTarget] = useDrop({
@@ -126,6 +141,7 @@ function BurgerConstructor() {
           htmlType="submit"
           onClick={handleOrderClick}
           disabled={!bun}
+          aria-label={"Оформить заказ"}
         >
           Оформить заказ
         </Button>
@@ -139,6 +155,6 @@ function BurgerConstructor() {
       </Modal>
     </section>
   );
-}
+};
 
 export default BurgerConstructor;

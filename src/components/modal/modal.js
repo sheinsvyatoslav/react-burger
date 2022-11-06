@@ -6,14 +6,7 @@ import modalStyles from "./modal.module.css";
 import ModalOverlay from "../modal-overlay/modal-overlay";
 const modalRoot = document.getElementById("modals");
 
-Modal.propTypes = {
-  isOpened: PropTypes.bool.isRequired,
-  children: PropTypes.node.isRequired,
-  title: PropTypes.string.isRequired,
-  handleClosePopup: PropTypes.func.isRequired,
-};
-
-function Modal({ isOpened, children, title, handleClosePopup }) {
+const Modal = ({ isOpened, children, title, handleClosePopup }) => {
   useEffect(() => {
     if (!isOpened) return;
     const handleEscClose = (e) => {
@@ -56,6 +49,13 @@ function Modal({ isOpened, children, title, handleClosePopup }) {
     </div>,
     modalRoot
   );
-}
+};
+
+Modal.propTypes = {
+  isOpened: PropTypes.bool,
+  children: PropTypes.node.isRequired,
+  title: PropTypes.string.isRequired,
+  handleClosePopup: PropTypes.func.isRequired,
+};
 
 export default Modal;
