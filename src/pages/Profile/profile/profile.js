@@ -13,7 +13,6 @@ import {
 } from "../../../services/actions/form";
 import profileStyles from "./profile.module.css";
 import { logout } from "../../../services/actions/auth";
-import { getCookie } from "../../../utils/cookie";
 import { getUser, updateUser } from "../../../services/actions/user";
 
 const Profile = () => {

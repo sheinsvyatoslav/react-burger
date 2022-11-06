@@ -10,8 +10,8 @@ import { useDrag, useDrop } from "react-dnd";
 import { constructorCardType } from "../../../utils/constants";
 import constructorCardStyles from "./constructor-card.module.css";
 import {
-  DELETE_CONSTRUCTOR_INGREDIENT,
-  UPDATE_CONSTRUCTOR_LIST,
+  deleteConstructorIngredient,
+  updateConstructorIngredient,
 } from "../../../services/actions/ingredients";
 
 const ConstructorCard = ({ item, index }) => {
@@ -39,11 +39,7 @@ const ConstructorCard = ({ item, index }) => {
       const newCards = [...noBunIngredients];
       newCards.splice(dragIndex, 1);
       newCards.splice(hoverIndex, 0, dragCard);
-
-      dispatch({
-        type: UPDATE_CONSTRUCTOR_LIST,
-        newCards: newCards,
-      });
+      dispatch(updateConstructorIngredient(newCards));
     },
     [noBunIngredients, dispatch]
   );
@@ -96,10 +92,7 @@ const ConstructorCard = ({ item, index }) => {
         price={item.price}
         thumbnail={item.image}
         handleClose={() => {
-          dispatch({
-            type: DELETE_CONSTRUCTOR_INGREDIENT,
-            deletedIngredient: item,
-          });
+          dispatch(deleteConstructorIngredient(item));
         }}
       />
     </div>

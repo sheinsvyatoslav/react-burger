@@ -19,7 +19,7 @@ import {
   closeOrderPopup,
 } from "../../../services/actions/popups";
 import {
-  ADD_CONSTRUCTOR_INGREDIENT,
+  addConstructorIngredient,
   clearConstructor,
 } from "../../../services/actions/ingredients";
 import history from "../../../utils/history";
@@ -75,13 +75,12 @@ const BurgerConstructor = () => {
   const [, ingridientsTarget] = useDrop({
     accept: "ingredients",
     drop(ingredient) {
-      dispatch({
-        type: ADD_CONSTRUCTOR_INGREDIENT,
-        draggedIngridient: ingredients.find(
-          (item) => item._id === ingredient.id
-        ),
-        dragId: v1(),
-      });
+      dispatch(
+        addConstructorIngredient(
+          ingredients.find((item) => item._id === ingredient.id),
+          v1()
+        )
+      );
     },
   });
 

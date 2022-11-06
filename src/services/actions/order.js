@@ -33,6 +33,8 @@ export const createOrder = (ingredients) => {
   };
 };
 
-export const getTotalPrice = (bun, noBunIngredients) => (dispatch) => {
-  dispatch({ type: GET_TOTAL_PRICE, bun, noBunIngredients });
-};
+export const getTotalPrice = (bun, noBunIngredients) => ({
+  type: GET_TOTAL_PRICE,
+  bun,
+  noBunIngredients,
+});

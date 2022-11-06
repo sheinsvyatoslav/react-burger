@@ -34,15 +34,35 @@ export const getIngredients = () => {
   };
 };
 
-export const addIngredientDetails = (ingredient) => (dispatch) =>
-  dispatch({ type: ADD_INGREDIENT_DETAILS, selectedIngredient: ingredient });
+export const addIngredientDetails = (ingredient) => ({
+  type: ADD_INGREDIENT_DETAILS,
+  selectedIngredient: ingredient,
+});
 
-export const getStorageIngredients = (ingredients) => (dispatch) => {
-  dispatch({ type: GET_CONSTRUCTOR_INGREDIENTS, ingredients });
-};
+export const addConstructorIngredient = (draggedIngridient, dragId) => ({
+  type: ADD_CONSTRUCTOR_INGREDIENT,
+  draggedIngridient,
+  dragId,
+});
 
-export const getIngredientsCount = (ingredientsCount) => (dispatch) => {
-  dispatch({ type: GET_INGREDIENTS_COUNT, ingredientsCount });
-};
+export const deleteConstructorIngredient = (deletedIngredient) => ({
+  type: DELETE_CONSTRUCTOR_INGREDIENT,
+  deletedIngredient,
+});
+
+export const updateConstructorIngredient = (newCards) => ({
+  type: DELETE_CONSTRUCTOR_INGREDIENT,
+  newCards,
+});
+
+export const getStorageIngredients = (ingredients) => ({
+  type: GET_CONSTRUCTOR_INGREDIENTS,
+  ingredients,
+});
+
+export const getIngredientsCount = (ingredientsCount) => ({
+  type: GET_INGREDIENTS_COUNT,
+  ingredientsCount,
+});
 
 export const clearConstructor = () => ({ type: CLEAR_CONSTRUCTOR });
