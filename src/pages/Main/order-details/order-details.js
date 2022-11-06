@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import OrderDetailsStyles from "./order-details.module.css";
-import orderDoneImage from "../../images/order-done.png";
+import orderDoneImage from "../../../images/order-done.png";
 
 const OrderDetails = () => {
   const orderNumber = useSelector((state) => state.order.orderNumber);

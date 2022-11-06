@@ -1,5 +1,5 @@
 import pageNotFoundStyles from "./not-found.module.css";
-import history from "../../utils/history";
+import history from "../../../utils/history";
 
 const PageNotFound = () => {
   return (

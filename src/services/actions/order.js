@@ -1,4 +1,5 @@
 import { createOrderRequest } from "../../utils/main-api";
+import { refreshToken } from "./auth";
 
 export const CREATE_ORDER_REQUEST = "CREATE_ORDER_REQUEST";
 export const CREATE_ORDER_SUCCESS = "CREATE_ORDER_SUCCESS";
@@ -23,7 +24,11 @@ export const createOrder = (ingredients) => {
       .catch((err) => {
         alert(err);
         console.log(err);
-        dispatch({ type: CREATE_ORDER_FAILED });
+        if (err.message === "invalid token") {
+          dispatch(refreshToken(createOrder()));
+        } else {
+          dispatch({ type: CREATE_ORDER_FAILED });
+        }
       });
   };
 };

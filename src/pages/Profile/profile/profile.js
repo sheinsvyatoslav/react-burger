@@ -10,11 +10,11 @@ import {
   setEditMode,
   clearForm,
   offEditMode,
-} from "../../services/actions/form";
+} from "../../../services/actions/form";
 import profileStyles from "./profile.module.css";
-import { logout } from "../../services/actions/auth";
-import { getCookie } from "../../utils/cookie";
-import { getUser, updateUser } from "../../services/actions/user";
+import { logout } from "../../../services/actions/auth";
+import { getCookie } from "../../../utils/cookie";
+import { getUser, updateUser } from "../../../services/actions/user";
 
 const Profile = () => {
   const { name, email, password, isFormValid } = useSelector(
@@ -42,7 +42,7 @@ const Profile = () => {
 
   const handleLogout = (e) => {
     e.preventDefault();
-    dispatch(logout(getCookie("refreshToken")));
+    dispatch(logout());
   };
 
   const onIconClick = (e) => {

@@ -14,6 +14,9 @@ import {
   LOGOUT_SUBMIT,
   LOGOUT_SUBMIT_SUCCESS,
   LOGOUT_SUBMIT_FAILED,
+  REFRESH_TOKEN,
+  REFRESH_TOKEN_SUCCESS,
+  REFRESH_TOKEN_FAILED,
 } from "../actions/auth";
 
 const initialState = {
@@ -35,8 +38,8 @@ const initialState = {
   loginRequest: false,
   loginFailed: false,
 
-  logoutRequest: false,
-  logoutFailed: false,
+  refreshTokenRequest: false,
+  refreshTokenFailed: false,
 };
 
 export const authReducer = (state = initialState, action) => {
@@ -139,6 +142,26 @@ export const authReducer = (state = initialState, action) => {
         ...state,
         logoutRequest: false,
         logoutFailed: true,
+      };
+    }
+    case REFRESH_TOKEN: {
+      return {
+        ...state,
+        refreshTokenRequest: true,
+        refreshTokenFailed: false,
+      };
+    }
+    case REFRESH_TOKEN_SUCCESS: {
+      return {
+        ...state,
+        refreshTokenRequest: false,
+      };
+    }
+    case REFRESH_TOKEN_FAILED: {
+      return {
+        ...state,
+        refreshTokenRequest: false,
+        refreshTokenFailed: true,
       };
     }
     default: {

@@ -2,16 +2,16 @@ import { useEffect } from "react";
 import { Route, Switch, useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import AppHeader from "../app-header/app-header";
-import Main from "../main/main";
-import Login from "../login/login";
-import Register from "../register/register";
-import ForgotPassword from "../forgot-password/forgot-password";
-import ResetPassword from "../reset-password/reset-password";
+import Main from "../../pages/Main/main/main";
+import Login from "../../pages/Login/login/login";
+import Register from "../../pages/Register/register/register";
+import ForgotPassword from "../../pages/ForgotPassword/forgot-password/forgot-password";
+import ResetPassword from "../../pages/ResetPassword/reset-password/reset-password";
 import ProtectedRoute from "../protected-routes/protected-route";
 import ProtectedRouteAuth from "../protected-routes/protected-route-auth";
-import Profile from "../profile/profile";
-import PageNotFound from "../not-found/not-found";
-import IngredientPage from "../ingredient-page/ingredient-page";
+import Profile from "../../pages/Profile/profile/profile";
+import PageNotFound from "../../pages/NotFound/not-found/not-found";
+import IngredientPage from "../../pages/IngredientPage/ingredient-page/ingredient-page";
 import { clearForm } from "../../services/actions/form";
 import {
   getStorageIngredients,

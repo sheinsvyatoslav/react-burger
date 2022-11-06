@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import IngredientCard from "../ingredient-card/ingredient-card";
 import burgerIngredientsSectionStyles from "./burger-ingredients-section.module.css";
-import { getIngredients } from "../../services/actions/ingredients";
+import { getIngredients } from "../../../services/actions/ingredients";
 
 const BurgerIngredientsSection = ({ name, category, innerRef }) => {
   const dispatch = useDispatch();

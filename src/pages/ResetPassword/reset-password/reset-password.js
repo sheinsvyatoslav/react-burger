@@ -7,10 +7,10 @@ import {
 import {
   setFormValue,
   toggleVisibilityPassword,
-} from "../../services/actions/form";
-import { resetPassword } from "../../services/actions/auth";
+} from "../../../services/actions/form";
+import { resetPassword } from "../../../services/actions/auth";
 import resetPasswordStyles from "./reset-password.module.css";
-import { getCookie } from "../../utils/cookie";
+import { getCookie } from "../../../utils/cookie";
 
 const ResetPassword = () => {
   const { password, token, isFormValid } = useSelector((state) => state.form);

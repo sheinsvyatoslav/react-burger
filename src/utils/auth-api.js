@@ -4,7 +4,9 @@ import {
   RESTORE_URL,
   LOGIN_URL,
   LOGOUT_URL,
+  REFRESH_TOKEN_URL,
 } from "./api-constants";
+import { getCookie } from "./cookie";
 
 export const registerRequest = ({ email, password, name }) =>
   request(REGISTER_URL, {
@@ -54,13 +56,24 @@ export const loginRequest = ({ email, password }) =>
     }),
   });
 
-export const logoutRequest = (token) =>
+export const logoutRequest = () =>
   request(LOGOUT_URL, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      token,
+      token: getCookie("refreshToken"),
+    }),
+  });
+
+export const refreshTokenRequest = () =>
+  request(REFRESH_TOKEN_URL, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      token: getCookie("refreshToken"),
     }),
   });

@@ -7,14 +7,12 @@ import { Link } from "react-router-dom";
 import {
   setFormValue,
   toggleVisibilityPassword,
-} from "../../services/actions/form";
-import { register } from "../../services/actions/auth";
-import registerStyles from "./register.module.css";
+} from "../../../services/actions/form";
+import { login } from "../../../services/actions/auth";
+import loginStyles from "./login.module.css";
 
-const Register = () => {
-  const { name, email, password, isFormValid } = useSelector(
-    (state) => state.form
-  );
+const Login = () => {
+  const { email, password, isFormValid } = useSelector((state) => state.form);
   const dispatch = useDispatch();
 
   const handleChange = (e) => {
@@ -33,8 +31,7 @@ const Register = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(
-      register({
-        name: name.value,
+      login({
         email: email.value,
         password: password.value,
       })
@@ -46,26 +43,14 @@ const Register = () => {
   };
 
   return (
-    <section className={registerStyles.main}>
-      <h2 className={`${registerStyles.title} text text_type_main-medium`}>
-        Регистрация
+    <section className={loginStyles.main}>
+      <h2 className={`${loginStyles.title} text text_type_main-medium`}>
+        Вход
       </h2>
       <form
-        className={`${registerStyles.form} mb-20 mt-6`}
+        className={`${loginStyles.form} mb-20 mt-6`}
         onSubmit={handleSubmit}
       >
-        <Input
-          type={"text"}
-          placeholder="Имя"
-          onChange={handleChange}
-          value={name.value}
-          name={"name"}
-          error={!name.isValid}
-          errorText={name.errorMessage}
-          size={"default"}
-          required
-          maxLength="30"
-        />
         <Input
           type={"email"}
           placeholder="E-mail"
@@ -98,21 +83,29 @@ const Register = () => {
           onClick={handleSubmit}
           htmlType="submit"
           disabled={!isFormValid}
-          aria-label={"Зарегистрироваться"}
+          aria-label={"Войти"}
         >
-          Зарегистрироваться
+          Войти
         </Button>
       </form>
       <p
-        className={`${registerStyles.tip} text text_type_main-default text_color_inactive`}
+        className={`${loginStyles.tip} text text_type_main-default text_color_inactive`}
       >
-        Уже зарегистрированы?{" "}
-        <Link className={registerStyles.link} to="/login">
-          Войти
+        Вы — новый пользователь?{" "}
+        <Link className={loginStyles.link} to="/register">
+          Зарегистрироваться
+        </Link>
+      </p>
+      <p
+        className={`${loginStyles.tip} text text_type_main-default text_color_inactive mt-4`}
+      >
+        Забыли пароль?{" "}
+        <Link className={loginStyles.link} to="/forgot-password">
+          Восстановить пароль
         </Link>
       </p>
     </section>
   );
 };
 
-export default Register;
+export default Login;

@@ -1,5 +1,6 @@
 import { getUserRequest, updateUserRequest } from "../../utils/main-api";
 import { getCookie, setCookie } from "../../utils/cookie";
+import { refreshToken } from "./auth";
 
 export const GET_USER = "GET_USER";
 export const GET_USER_SUCCESS = "GET_USER_SUCCESS";
@@ -29,7 +30,11 @@ export const getUser = () => {
       })
       .catch((err) => {
         console.log(err);
-        dispatch({ type: GET_USER_FAILED });
+        if (err.message === "invalid token") {
+          dispatch(refreshToken(getUser()));
+        } else {
+          dispatch({ type: GET_USER_FAILED });
+        }
       });
   };
 };
@@ -50,7 +55,11 @@ export const updateUser = ({ email, password, name }) => {
       })
       .catch((err) => {
         console.log(err);
-        dispatch({ type: UPDATE_USER_FAILED });
+        if (err.message === "invalid token") {
+          dispatch(refreshToken(updateUser()));
+        } else {
+          dispatch({ type: GET_USER_FAILED });
+        }
       });
   };
 };

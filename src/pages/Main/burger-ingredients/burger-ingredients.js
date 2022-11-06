@@ -3,13 +3,13 @@ import { useDispatch } from "react-redux";
 import { useInView } from "react-intersection-observer";
 import { useHistory } from "react-router-dom";
 
-import IngredientDetails from "../ingredient-details/ingredient-details";
+import IngredientDetails from "../../IngredientPage/ingredient-details/ingredient-details";
 import BurgerNavigation from "../burger-navigation/burger-navigation";
 import BurgerIngredientsSection from "../burger-ingredients-section/burger-ingredients-section";
-import Modal from "../modal/modal";
+import Modal from "../../../components/modal/modal";
 
-import { INGREDIENT_TYPES } from "../../utils/constants";
-import { closeIngredientPopup } from "../../services/actions/popups";
+import { INGREDIENT_TYPES } from "../../../utils/constants";
+import { closeIngredientPopup } from "../../../services/actions/popups";
 
 import burgerIngredientsStyles from "./burger-ingredients.module.css";
 

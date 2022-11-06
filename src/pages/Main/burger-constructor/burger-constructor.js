@@ -8,22 +8,22 @@ import {
   ConstructorElement,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
-import Modal from "../modal/modal";
+import Modal from "../../../components/modal/modal";
 import OrderDetails from "../order-details/order-details";
 import ConstructorCard from "../constructor-card/constructor-card";
 import burgerConstructorStyles from "./burger-constructor.module.css";
-import { createOrder, getTotalPrice } from "../../services/actions/order";
+import { createOrder, getTotalPrice } from "../../../services/actions/order";
 
 import {
   openOrderDetailsPopup,
   closeOrderPopup,
-} from "../../services/actions/popups";
+} from "../../../services/actions/popups";
 import {
   ADD_CONSTRUCTOR_INGREDIENT,
   clearConstructor,
-} from "../../services/actions/ingredients";
-import history from "../../utils/history";
-import { getCookie } from "../../utils/cookie";
+} from "../../../services/actions/ingredients";
+import history from "../../../utils/history";
+import { getCookie } from "../../../utils/cookie";
 
 const BurgerConstructor = () => {
   const { isOrderPopupOpened } = useSelector((state) => state.popups);

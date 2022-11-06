@@ -4,6 +4,7 @@ import {
   resetPasswordRequest,
   loginRequest,
   logoutRequest,
+  refreshTokenRequest,
 } from "../../utils/auth-api";
 import { clearForm } from "./form";
 import { setCookie, clearCookie } from "../../utils/cookie";
@@ -28,6 +29,10 @@ export const LOGIN_SUBMIT_FAILED = "LOGIN_SUBMIT_FAILED";
 export const LOGOUT_SUBMIT = "LOGOUT_SUBMIT";
 export const LOGOUT_SUBMIT_SUCCESS = "LOGOUT_SUBMIT_SUCCESS";
 export const LOGOUT_SUBMIT_FAILED = "LOGOUT_SUBMIT_FAILED";
+
+export const REFRESH_TOKEN = "REFRESH_TOKEN";
+export const REFRESH_TOKEN_SUCCESS = "REFRESH_TOKEN_SUCCESS";
+export const REFRESH_TOKEN_FAILED = "REFRESH_TOKEN_FAILED";
 
 export const register = ({ email, password, name }) => {
   return (dispatch) => {
@@ -121,10 +126,10 @@ export const login = ({ email, password }) => {
   };
 };
 
-export const logout = (token) => {
+export const logout = () => {
   return (dispatch) => {
     dispatch({ type: LOGOUT_SUBMIT });
-    logoutRequest(token)
+    logoutRequest()
       .then((res) => {
         if (res && res.success) {
           clearCookie("accessToken");
@@ -144,4 +149,13 @@ export const logout = (token) => {
         dispatch({ type: LOGOUT_SUBMIT_FAILED });
       });
   };
+};
+
+export const refreshToken = (afterRefresh) => (dispatch) => {
+  refreshTokenRequest().then((res) => {
+    let authToken = res.accessToken.split("Bearer ")[1];
+    setCookie("accessToken", authToken);
+    setCookie("refreshToken", res.refreshToken);
+    dispatch(afterRefresh);
+  });
 };

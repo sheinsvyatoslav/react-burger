@@ -6,10 +6,10 @@ import {
   CurrencyIcon,
   Counter,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { cardTypes } from "../../utils/constants";
+import { cardTypes } from "../../../utils/constants";
 import ingredientCardStyles from "./ingredient-card.module.css";
-import { addIngredientDetails } from "../../services/actions/ingredients";
-import { openIngedientDetailsPopup } from "../../services/actions/popups";
+import { addIngredientDetails } from "../../../services/actions/ingredients";
+import { openIngedientDetailsPopup } from "../../../services/actions/popups";
 
 const IngredientCard = ({ ingredient, category }) => {
   const { ingredientsCount } = useSelector((state) => state.ingredients);

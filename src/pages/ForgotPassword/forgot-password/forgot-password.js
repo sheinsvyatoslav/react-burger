@@ -5,8 +5,8 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link } from "react-router-dom";
 import forgotPasswordStyles from "./forgot-password.module.css";
-import { restorePassword } from "../../services/actions/auth";
-import { setFormValue } from "../../services/actions/form";
+import { restorePassword } from "../../../services/actions/auth";
+import { setFormValue } from "../../../services/actions/form";
 
 const ForgotPassword = () => {
   const { email, isFormValid } = useSelector((state) => state.form);
