@@ -20,7 +20,7 @@ const refreshTokenRequest = (token) =>
     body: JSON.stringify({
       token,
     }),
-  }).catch((err) => console.log(err));
+  });
 
 export const request = (url, options) =>
   fetch(url, options).then((res) => {

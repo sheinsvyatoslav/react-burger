@@ -1,6 +1,7 @@
 import { useCallback } from "react";
 import { useDispatch } from "react-redux";
 import { useInView } from "react-intersection-observer";
+import { useHistory } from "react-router-dom";
 
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import BurgerNavigation from "../burger-navigation/burger-navigation";
@@ -13,6 +14,7 @@ import { closeIngredientPopup } from "../../services/actions/popups";
 import burgerIngredientsStyles from "./burger-ingredients.module.css";
 
 const BurgerIngredients = () => {
+  const history = useHistory();
   const dispatch = useDispatch();
 
   const [bunsRef, inViewBuns] = useInView({
@@ -27,7 +29,8 @@ const BurgerIngredients = () => {
 
   const handleClosePopup = useCallback(() => {
     dispatch(closeIngredientPopup());
-  }, [dispatch]);
+    history.replace("/");
+  }, [dispatch, history]);
 
   return (
     <section className={`${burgerIngredientsStyles.container} mr-10`}>

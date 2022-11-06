@@ -75,7 +75,7 @@ const Register = () => {
           error={!email.isValid}
           errorText={email.errorMessage}
           size={"default"}
-          pattern="\w+[@][a-zA-Z]+\.[a-zA-Z]+"
+          pattern="^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$"
           required
         />
         <Input

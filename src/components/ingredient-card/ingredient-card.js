@@ -1,10 +1,11 @@
+import { useSelector, useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
+import { useDrag } from "react-dnd";
+import PropTypes from "prop-types";
 import {
   CurrencyIcon,
   Counter,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import PropTypes from "prop-types";
-import { useSelector, useDispatch } from "react-redux";
-import { useDrag } from "react-dnd";
 import { cardTypes } from "../../utils/constants";
 import ingredientCardStyles from "./ingredient-card.module.css";
 import { addIngredientDetails } from "../../services/actions/ingredients";
@@ -14,11 +15,13 @@ const IngredientCard = ({ ingredient, category }) => {
   const { ingredientsCount } = useSelector((state) => state.ingredients);
   const { constructorIngredients } = useSelector((state) => state.ingredients);
   const dispatch = useDispatch();
+  const history = useHistory();
   const id = ingredient._id;
 
   const handleCardClick = () => {
     dispatch(openIngedientDetailsPopup({ id, ingredient }));
     dispatch(addIngredientDetails(ingredient));
+    history.replace(`/ingredients/${id}`);
   };
 
   const [{ opacity }, ref] = useDrag({

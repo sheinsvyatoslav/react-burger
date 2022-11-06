@@ -11,14 +11,12 @@ export const openIngedientDetailsPopup =
     localStorage.setItem("isPopupOpened", true);
     localStorage.setItem("ingredient", JSON.stringify(ingredient));
     dispatch({ type: OPEN_INGREDIENT_DETAILS_POPUP });
-    history.push(`/ingredients/${id}`);
   };
 
 export const closeIngredientPopup = () => (dispatch) => {
   localStorage.removeItem("isPopupOpened");
   localStorage.removeItem("ingredient");
   dispatch({ type: CLOSE_INGREDIENT_DETAILS_POPUP });
-  history.push("/");
 };
 
 export const openOrderDetailsPopup = () => ({ type: OPEN_ORDER_DETAILS_POPUP });
