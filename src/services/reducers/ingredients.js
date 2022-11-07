@@ -2,8 +2,6 @@ import {
   GET_INGREDIENTS_REQUEST,
   GET_INGREDIENTS_SUCCESS,
   GET_INGREDIENTS_FAILED,
-  ADD_INGREDIENT_DETAILS,
-  DELETE_INGREDIENT_DETAILS,
   ADD_CONSTRUCTOR_INGREDIENT,
   UPDATE_CONSTRUCTOR_LIST,
   DELETE_CONSTRUCTOR_INGREDIENT,
@@ -44,14 +42,11 @@ export const ingredientsReducer = (state = initialState, action) => {
     case GET_INGREDIENTS_FAILED: {
       return { ...state, ingredientsFailed: true, ingredientsRequest: false };
     }
-    case ADD_INGREDIENT_DETAILS: {
+    case GET_CONSTRUCTOR_INGREDIENTS: {
       return {
         ...state,
-        selectedIngredient: action.selectedIngredient,
+        constructorIngredients: action.ingredients,
       };
-    }
-    case DELETE_INGREDIENT_DETAILS: {
-      return { ...state, selectedIngredient: {} };
     }
     case ADD_CONSTRUCTOR_INGREDIENT: {
       const newItem = action.draggedIngridient;
@@ -106,12 +101,6 @@ export const ingredientsReducer = (state = initialState, action) => {
         },
       };
     }
-    case GET_CONSTRUCTOR_INGREDIENTS: {
-      return {
-        ...state,
-        constructorIngredients: action.ingredients,
-      };
-    }
     case GET_INGREDIENTS_COUNT: {
       return {
         ...state,
@@ -122,6 +111,7 @@ export const ingredientsReducer = (state = initialState, action) => {
       return {
         ...state,
         constructorIngredients: initialState.constructorIngredients,
+        ingredientsCount: initialState.ingredientsCount,
       };
     }
     default: {

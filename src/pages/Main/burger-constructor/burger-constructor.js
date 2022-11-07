@@ -21,16 +21,18 @@ import {
 import {
   addConstructorIngredient,
   clearConstructor,
+  getConstructorIngredients,
 } from "../../../services/actions/ingredients";
-import history from "../../../utils/history";
 import { getCookie } from "../../../utils/cookie";
+import { useHistory } from "react-router-dom";
 
 const BurgerConstructor = () => {
+  const history = useHistory();
   const { isOrderPopupOpened } = useSelector((state) => state.popups);
   const { bun, noBunIngredients } = useSelector(
     (state) => state.ingredients.constructorIngredients
   );
-  const { ingredients, constructorIngredients, ingredientsCount } = useSelector(
+  const { ingredients, constructorIngredients } = useSelector(
     (state) => state.ingredients
   );
   const { totalPrice } = useSelector((state) => state.order);
@@ -41,20 +43,8 @@ const BurgerConstructor = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    if (
-      constructorIngredients.bun ||
-      constructorIngredients.noBunIngredients.length > 0
-    ) {
-      localStorage.setItem(
-        "constructorIngredients",
-        JSON.stringify(constructorIngredients)
-      );
-      localStorage.setItem(
-        "ingredientsCount",
-        JSON.stringify(ingredientsCount)
-      );
-    }
-  }, [constructorIngredients, ingredientsCount]);
+    dispatch(getConstructorIngredients(constructorIngredients));
+  }, [dispatch, constructorIngredients]);
 
   useEffect(() => {
     dispatch(getTotalPrice(bun, noBunIngredients));
@@ -66,10 +56,8 @@ const BurgerConstructor = () => {
         createOrder([bun._id, ...noBunIngredients.map((item) => item._id)])
       );
       dispatch(openOrderDetailsPopup());
-      localStorage.removeItem("constructorIngredients");
-      localStorage.removeItem("ingredientsCount");
       dispatch(clearConstructor());
-    } else history.push("/login");
+    } else history.replace("/login");
   };
 
   const [, ingridientsTarget] = useDrop({

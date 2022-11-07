@@ -8,7 +8,6 @@ import {
 } from "../../utils/auth-api";
 import { clearForm } from "./form";
 import { setCookie, clearCookie } from "../../utils/cookie";
-import history from "../../utils/history";
 
 export const REGISTER_SUBMIT = "REGISTER_SUBMIT";
 export const REGISTER_SUBMIT_SUCCESS = "REGISTER_SUBMIT_SUCCESS";
@@ -34,7 +33,7 @@ export const REFRESH_TOKEN = "REFRESH_TOKEN";
 export const REFRESH_TOKEN_SUCCESS = "REFRESH_TOKEN_SUCCESS";
 export const REFRESH_TOKEN_FAILED = "REFRESH_TOKEN_FAILED";
 
-export const register = ({ email, password, name }) => {
+export const register = ({ email, password, name, newRoute }) => {
   return (dispatch) => {
     dispatch({ type: REGISTER_SUBMIT });
     registerRequest({ email, password, name })
@@ -42,7 +41,7 @@ export const register = ({ email, password, name }) => {
         if (res && res.success) {
           dispatch({ type: REGISTER_SUBMIT_SUCCESS });
           dispatch(clearForm());
-          dispatch(login({ email, password }));
+          dispatch(login({ email, password, newRoute }));
         } else {
           dispatch({ type: REGISTER_SUBMIT_FAILED });
         }
@@ -55,7 +54,7 @@ export const register = ({ email, password, name }) => {
   };
 };
 
-export const restorePassword = (email) => {
+export const restorePassword = ({ email, newRoute }) => {
   return (dispatch) => {
     dispatch({ type: RESTORE_SUBMIT });
     restorePasswordRequest(email)
@@ -64,7 +63,7 @@ export const restorePassword = (email) => {
           dispatch({ type: RESTORE_SUBMIT_SUCCESS });
           dispatch(clearForm());
           setCookie("message", res.message);
-          history.push("/reset-password");
+          newRoute();
         } else {
           dispatch({ type: RESTORE_SUBMIT_FAILED });
         }
@@ -77,7 +76,7 @@ export const restorePassword = (email) => {
   };
 };
 
-export const resetPassword = ({ password, token }) => {
+export const resetPassword = ({ password, token, newRoute }) => {
   return (dispatch) => {
     dispatch({ type: RESET_SUBMIT });
     resetPasswordRequest({ password, token })
@@ -86,7 +85,7 @@ export const resetPassword = ({ password, token }) => {
           dispatch({ type: RESET_SUBMIT_SUCCESS });
           dispatch(clearForm());
           clearCookie("message");
-          history.push("/login");
+          newRoute();
         } else {
           dispatch({ type: RESET_SUBMIT_FAILED });
         }
@@ -99,7 +98,7 @@ export const resetPassword = ({ password, token }) => {
   };
 };
 
-export const login = ({ email, password }) => {
+export const login = ({ email, password, newRoute }) => {
   return (dispatch) => {
     dispatch({ type: LOGIN_SUBMIT });
     loginRequest({ email, password })
@@ -113,7 +112,7 @@ export const login = ({ email, password }) => {
           setCookie("refreshToken", res.refreshToken);
           dispatch({ type: LOGIN_SUBMIT_SUCCESS });
           dispatch(clearForm());
-          history.push("/");
+          newRoute();
         } else {
           dispatch({ type: LOGIN_SUBMIT_FAILED });
         }
@@ -126,7 +125,7 @@ export const login = ({ email, password }) => {
   };
 };
 
-export const logout = () => {
+export const logout = (newRoute) => {
   return (dispatch) => {
     dispatch({ type: LOGOUT_SUBMIT });
     logoutRequest()
@@ -135,9 +134,7 @@ export const logout = () => {
           clearCookie("accessToken");
           clearCookie("refreshToken");
           clearCookie("password");
-          localStorage.removeItem("constructorIngredients");
-          localStorage.removeItem("ingredientsCount");
-          history.push("/login");
+          newRoute();
           dispatch({ type: LOGOUT_SUBMIT_SUCCESS });
         } else {
           dispatch({ type: LOGOUT_SUBMIT_FAILED });

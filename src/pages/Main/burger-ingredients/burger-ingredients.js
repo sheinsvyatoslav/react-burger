@@ -1,22 +1,10 @@
-import { useCallback } from "react";
-import { useDispatch } from "react-redux";
 import { useInView } from "react-intersection-observer";
-import { useHistory } from "react-router-dom";
-
-import IngredientDetails from "../../IngredientPage/ingredient-details/ingredient-details";
 import BurgerNavigation from "../burger-navigation/burger-navigation";
 import BurgerIngredientsSection from "../burger-ingredients-section/burger-ingredients-section";
-import Modal from "../../../components/modal/modal";
-
 import { INGREDIENT_TYPES } from "../../../utils/constants";
-import { closeIngredientPopup } from "../../../services/actions/popups";
-
 import burgerIngredientsStyles from "./burger-ingredients.module.css";
 
 const BurgerIngredients = () => {
-  const history = useHistory();
-  const dispatch = useDispatch();
-
   const [bunsRef, inViewBuns] = useInView({
     threshold: 0,
   });
@@ -26,11 +14,6 @@ const BurgerIngredients = () => {
   const [mainsRef, inViewFilling] = useInView({
     threshold: 0,
   });
-
-  const handleClosePopup = useCallback(() => {
-    dispatch(closeIngredientPopup());
-    history.replace("/");
-  }, [dispatch, history]);
 
   return (
     <section className={`${burgerIngredientsStyles.container} mr-10`}>
@@ -59,15 +42,6 @@ const BurgerIngredients = () => {
           innerRef={mainsRef}
         />
       </div>
-      <Modal
-        isOpened={JSON.parse(localStorage.getItem("isPopupOpened"))}
-        handleClosePopup={handleClosePopup}
-        title="Детали ингридиента"
-      >
-        <IngredientDetails
-          ingredient={JSON.parse(localStorage.getItem("ingredient")) || {}}
-        />
-      </Modal>
     </section>
   );
 };

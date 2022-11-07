@@ -1,4 +1,4 @@
-import { Link, Redirect } from "react-router-dom";
+import { Link, Redirect, useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import {
   Input,
@@ -15,6 +15,7 @@ import { getCookie } from "../../../utils/cookie";
 const ResetPassword = () => {
   const { password, token, isFormValid } = useSelector((state) => state.form);
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const handleChange = (e) => {
     const target = e.target;
@@ -35,6 +36,7 @@ const ResetPassword = () => {
       resetPassword({
         password: password.value,
         token: token.value,
+        newRoute: () => history.replace("/login"),
       })
     );
   };

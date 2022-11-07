@@ -3,7 +3,7 @@ import {
   Input,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import forgotPasswordStyles from "./forgot-password.module.css";
 import { restorePassword } from "../../../services/actions/auth";
 import { setFormValue } from "../../../services/actions/form";
@@ -11,6 +11,7 @@ import { setFormValue } from "../../../services/actions/form";
 const ForgotPassword = () => {
   const { email, isFormValid } = useSelector((state) => state.form);
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const handleChange = (e) => {
     const target = e.target;
@@ -27,7 +28,12 @@ const ForgotPassword = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(restorePassword(email.value));
+    dispatch(
+      restorePassword({
+        email: email.value,
+        newRoute: () => history.replace("/reset-password"),
+      })
+    );
   };
 
   return (
@@ -50,7 +56,7 @@ const ForgotPassword = () => {
           error={!email.isValid}
           errorText={email.errorMessage}
           size={"default"}
-          pattern="^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$"
+          pattern="^.+@(\w+)\.(\w+)$"
           required
         />
         <Button

@@ -11,7 +11,7 @@ import { constructorCardType } from "../../../utils/constants";
 import constructorCardStyles from "./constructor-card.module.css";
 import {
   deleteConstructorIngredient,
-  updateConstructorIngredient,
+  updateConstructorList,
 } from "../../../services/actions/ingredients";
 
 const ConstructorCard = ({ item, index }) => {
@@ -39,7 +39,7 @@ const ConstructorCard = ({ item, index }) => {
       const newCards = [...noBunIngredients];
       newCards.splice(dragIndex, 1);
       newCards.splice(hoverIndex, 0, dragCard);
-      dispatch(updateConstructorIngredient(newCards));
+      dispatch(updateConstructorList(newCards));
     },
     [noBunIngredients, dispatch]
   );

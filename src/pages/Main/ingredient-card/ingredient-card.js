@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation, Link } from "react-router-dom";
 import { useDrag } from "react-dnd";
 import PropTypes from "prop-types";
 import {
@@ -8,19 +8,15 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { cardTypes } from "../../../utils/constants";
 import ingredientCardStyles from "./ingredient-card.module.css";
-import { addIngredientDetails } from "../../../services/actions/ingredients";
-import { openIngedientDetailsPopup } from "../../../services/actions/popups";
 
 const IngredientCard = ({ ingredient, category }) => {
   const { ingredientsCount } = useSelector((state) => state.ingredients);
   const { constructorIngredients } = useSelector((state) => state.ingredients);
-  const dispatch = useDispatch();
   const history = useHistory();
+  const location = useLocation();
   const id = ingredient._id;
 
   const handleCardClick = () => {
-    dispatch(openIngedientDetailsPopup({ id, ingredient }));
-    dispatch(addIngredientDetails(ingredient));
     history.replace(`/ingredients/${id}`);
   };
 
@@ -33,32 +29,43 @@ const IngredientCard = ({ ingredient, category }) => {
   });
 
   return (
-    <article
-      className={ingredientCardStyles.card}
-      onClick={handleCardClick}
-      style={{ opacity }}
-      ref={ref}
+    <Link
+      key={id}
+      to={{
+        pathname: `/ingredients/${id}`,
+        state: { background: location, ingredient },
+      }}
+      className={ingredientCardStyles.link}
     >
-      <img src={ingredient.image} alt={ingredient.name} />
-      <div className={`${ingredientCardStyles.price} mt-2 mb-2`}>
-        <p className="text text_type_digits-default mr-2">{ingredient.price}</p>
-        <CurrencyIcon type="primary" />
-      </div>
-      <p
-        className={`${ingredientCardStyles.name} text text_type_main-small mr-2 mb-6`}
+      <article
+        className={ingredientCardStyles.card}
+        onClick={handleCardClick}
+        style={{ opacity }}
+        ref={ref}
       >
-        {ingredient.name}
-      </p>
-      {category === "bun" &&
-      constructorIngredients.bun &&
-      id === constructorIngredients.bun._id ? (
-        <Counter count={1} size="small" />
-      ) : ingredientsCount[id] ? (
-        <Counter count={ingredientsCount[id]} size="small" />
-      ) : (
-        <></>
-      )}
-    </article>
+        <img src={ingredient.image} alt={ingredient.name} />
+        <div className={`${ingredientCardStyles.price} mt-2 mb-2`}>
+          <p className="text text_type_digits-default mr-2">
+            {ingredient.price}
+          </p>
+          <CurrencyIcon type="primary" />
+        </div>
+        <p
+          className={`${ingredientCardStyles.name} text text_type_main-small mr-2 mb-6`}
+        >
+          {ingredient.name}
+        </p>
+        {category === "bun" &&
+        constructorIngredients.bun &&
+        id === constructorIngredients.bun._id ? (
+          <Counter count={1} size="small" />
+        ) : ingredientsCount[id] ? (
+          <Counter count={ingredientsCount[id]} size="small" />
+        ) : (
+          <></>
+        )}
+      </article>
+    </Link>
   );
 };
 

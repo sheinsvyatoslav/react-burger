@@ -4,7 +4,7 @@ import {
   Input,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { NavLink } from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
 import {
   setFormValue,
   setEditMode,
@@ -21,6 +21,7 @@ const Profile = () => {
   );
   const { user } = useSelector((state) => state.user);
   const dispatch = useDispatch();
+  const history = useHistory();
 
   useEffect(() => {
     dispatch(getUser());
@@ -41,7 +42,7 @@ const Profile = () => {
 
   const handleLogout = (e) => {
     e.preventDefault();
-    dispatch(logout());
+    dispatch(logout(() => history.replace("/login")));
   };
 
   const onIconClick = (e) => {

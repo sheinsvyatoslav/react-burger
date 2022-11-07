@@ -16,9 +16,6 @@ const IngredientPage = () => {
 
   return (
     <section className={ingredientPageStyles.main}>
-      <h2 className={`${ingredientPageStyles.title} text text_type_main-large`}>
-        Детали ингредиента
-      </h2>
       {ingredients
         .filter((item) => item._id === id)
         .map((item) => (

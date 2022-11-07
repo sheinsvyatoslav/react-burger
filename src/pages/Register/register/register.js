@@ -3,19 +3,21 @@ import {
   Input,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import {
   setFormValue,
   toggleVisibilityPassword,
 } from "../../../services/actions/form";
 import { register } from "../../../services/actions/auth";
 import registerStyles from "./register.module.css";
+import { useEffect } from "react";
 
 const Register = () => {
   const { name, email, password, isFormValid } = useSelector(
     (state) => state.form
   );
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const handleChange = (e) => {
     const target = e.target;
@@ -37,6 +39,7 @@ const Register = () => {
         name: name.value,
         email: email.value,
         password: password.value,
+        newRoute: () => history.replace("/"),
       })
     );
   };
@@ -75,7 +78,7 @@ const Register = () => {
           error={!email.isValid}
           errorText={email.errorMessage}
           size={"default"}
-          pattern="^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$"
+          pattern="^.+@(\w+)\.(\w+)$"
           required
         />
         <Input
