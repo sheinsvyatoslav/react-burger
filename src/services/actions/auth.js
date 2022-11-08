@@ -42,6 +42,7 @@ export const register = ({ email, password, name, newRoute }) => {
           dispatch({ type: REGISTER_SUBMIT_SUCCESS });
           dispatch(clearForm());
           dispatch(login({ email, password, newRoute }));
+          newRoute();
         } else {
           dispatch({ type: REGISTER_SUBMIT_FAILED });
         }
@@ -98,7 +99,7 @@ export const resetPassword = ({ password, token, newRoute }) => {
   };
 };
 
-export const login = ({ email, password, newRoute }) => {
+export const login = ({ email, password }) => {
   return (dispatch) => {
     dispatch({ type: LOGIN_SUBMIT });
     loginRequest({ email, password })
@@ -112,7 +113,6 @@ export const login = ({ email, password, newRoute }) => {
           setCookie("refreshToken", res.refreshToken);
           dispatch({ type: LOGIN_SUBMIT_SUCCESS });
           dispatch(clearForm());
-          newRoute();
         } else {
           dispatch({ type: LOGIN_SUBMIT_FAILED });
         }

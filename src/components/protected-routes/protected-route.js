@@ -5,8 +5,12 @@ const ProtectedRoute = ({ children, ...props }) => {
   return (
     <Route
       {...props}
-      render={() =>
-        getCookie("accessToken") ? children : <Redirect to="/login" />
+      render={({ location }) =>
+        getCookie("accessToken") ? (
+          children
+        ) : (
+          <Redirect to={{ pathname: "/login", state: { from: location } }} />
+        )
       }
     />
   );

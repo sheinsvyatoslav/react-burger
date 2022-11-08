@@ -16,13 +16,14 @@ import { clearForm } from "../../services/actions/form";
 import Modal from "../modal/modal";
 import IngredientDetails from "../../pages/IngredientPage/ingredient-details/ingredient-details";
 import { closeIngredientPopup } from "../../services/actions/popups";
+import { getIngredients } from "../../services/actions/ingredients";
 
 const App = () => {
   const location = useLocation();
   const history = useHistory();
   const dispatch = useDispatch();
-  let background = location.state && location.state.background;
-  let selectedIngredient = location.state && location.state.ingredient;
+  const background = location.state && location.state.background;
+  const selectedIngredient = location.state && location.state.ingredient;
 
   const handleModalClose = () => {
     dispatch(closeIngredientPopup());
@@ -32,6 +33,10 @@ const App = () => {
   useEffect(() => {
     dispatch(clearForm());
   }, [location, dispatch]);
+
+  useEffect(() => {
+    dispatch(getIngredients());
+  }, [dispatch]);
 
   return (
     <>

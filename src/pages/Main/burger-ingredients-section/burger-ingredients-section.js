@@ -1,19 +1,12 @@
-import { useEffect, useMemo } from "react";
+import { useMemo } from "react";
 import PropTypes from "prop-types";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 import IngredientCard from "../ingredient-card/ingredient-card";
 import burgerIngredientsSectionStyles from "./burger-ingredients-section.module.css";
-import { getIngredients } from "../../../services/actions/ingredients";
 
 const BurgerIngredientsSection = ({ name, category, innerRef }) => {
-  const dispatch = useDispatch();
-
   const { ingredients } = useSelector((state) => state.ingredients);
-
-  useEffect(() => {
-    dispatch(getIngredients());
-  }, [dispatch]);
 
   const content = useMemo(() => {
     return ingredients.map((ingredient) => {

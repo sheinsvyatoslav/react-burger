@@ -166,7 +166,6 @@ const Profile = () => {
             type="primary"
             size="medium"
             htmlType="submit"
-            onClick={handleSubmit}
             disabled={!isFormValid}
             aria-label={"Сохранить"}
           >

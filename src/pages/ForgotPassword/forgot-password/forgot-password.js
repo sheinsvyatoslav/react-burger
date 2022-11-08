@@ -62,7 +62,6 @@ const ForgotPassword = () => {
         <Button
           type="primary"
           size="medium"
-          onClick={handleSubmit}
           htmlType="submit"
           disabled={!isFormValid}
           aria-label={"Восстановить"}

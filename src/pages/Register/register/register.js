@@ -10,7 +10,6 @@ import {
 } from "../../../services/actions/form";
 import { register } from "../../../services/actions/auth";
 import registerStyles from "./register.module.css";
-import { useEffect } from "react";
 
 const Register = () => {
   const { name, email, password, isFormValid } = useSelector(
@@ -98,7 +97,6 @@ const Register = () => {
         <Button
           type="primary"
           size="medium"
-          onClick={handleSubmit}
           htmlType="submit"
           disabled={!isFormValid}
           aria-label={"Зарегистрироваться"}

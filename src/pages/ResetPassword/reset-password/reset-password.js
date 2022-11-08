@@ -92,7 +92,6 @@ const ResetPassword = () => {
         <Button
           type="primary"
           size="medium"
-          onClick={handleSubmit}
           htmlType="submit"
           disabled={!isFormValid}
           aria-label={"Сохранить"}

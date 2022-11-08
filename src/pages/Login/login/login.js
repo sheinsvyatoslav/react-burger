@@ -3,18 +3,19 @@ import {
   Input,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { Link, useHistory } from "react-router-dom";
+import { Link, Redirect, useLocation } from "react-router-dom";
 import {
   setFormValue,
   toggleVisibilityPassword,
 } from "../../../services/actions/form";
 import { login } from "../../../services/actions/auth";
+import { getCookie } from "../../../utils/cookie";
 import loginStyles from "./login.module.css";
 
 const Login = () => {
   const { email, password, isFormValid } = useSelector((state) => state.form);
   const dispatch = useDispatch();
-  const history = useHistory();
+  const location = useLocation();
 
   const handleChange = (e) => {
     const target = e.target;
@@ -35,7 +36,6 @@ const Login = () => {
       login({
         email: email.value,
         password: password.value,
-        newRoute: () => history.replace("/"),
       })
     );
   };
@@ -43,6 +43,10 @@ const Login = () => {
   const onIconClick = () => {
     dispatch(toggleVisibilityPassword());
   };
+
+  if (getCookie("accessToken")) {
+    return <Redirect to={location?.state?.from || "/"} />;
+  }
 
   return (
     <section className={loginStyles.main}>
@@ -82,7 +86,6 @@ const Login = () => {
         <Button
           type="primary"
           size="medium"
-          onClick={handleSubmit}
           htmlType="submit"
           disabled={!isFormValid}
           aria-label={"Войти"}
