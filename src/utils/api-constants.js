@@ -1,6 +1,3 @@
-import { getCookie } from "./cookie";
-import { refreshToken } from "../services/actions/auth";
-
 const BASE_API_URL = "https://norma.nomoreparties.space/api";
 const BASE_AUTH_URL = `${BASE_API_URL}/auth`;
 export const INGREDIENTS_URL = `${BASE_API_URL}/ingredients`;
