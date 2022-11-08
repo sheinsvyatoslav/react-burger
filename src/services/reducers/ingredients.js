@@ -2,12 +2,12 @@ import {
   GET_INGREDIENTS_REQUEST,
   GET_INGREDIENTS_SUCCESS,
   GET_INGREDIENTS_FAILED,
-  ADD_INGREDIENT_DETAILS,
-  DELETE_INGREDIENT_DETAILS,
-  GET_CONSTRUCTOR_INGREDIENTS,
   ADD_CONSTRUCTOR_INGREDIENT,
   UPDATE_CONSTRUCTOR_LIST,
   DELETE_CONSTRUCTOR_INGREDIENT,
+  GET_CONSTRUCTOR_INGREDIENTS,
+  GET_INGREDIENTS_COUNT,
+  CLEAR_CONSTRUCTOR,
 } from "../actions/ingredients";
 
 const initialState = {
@@ -16,7 +16,10 @@ const initialState = {
   ingredientsFailed: false,
 
   selectedIngredient: {},
-  constructorIngredients: {},
+  constructorIngredients: {
+    bun: null,
+    noBunIngredients: [],
+  },
   ingredientsCount: {},
 };
 
@@ -39,24 +42,10 @@ export const ingredientsReducer = (state = initialState, action) => {
     case GET_INGREDIENTS_FAILED: {
       return { ...state, ingredientsFailed: true, ingredientsRequest: false };
     }
-    case ADD_INGREDIENT_DETAILS: {
-      return {
-        ...state,
-        selectedIngredient: action.selectedIngredient,
-      };
-    }
-    case DELETE_INGREDIENT_DETAILS: {
-      return { ...state, selectedIngredient: {} };
-    }
     case GET_CONSTRUCTOR_INGREDIENTS: {
       return {
         ...state,
-        constructorIngredients: {
-          bun: action.ingredients.find((item) => item.type === "bun"),
-          noBunIngredients: action.ingredients.filter(
-            (item) => item.type !== "bun"
-          ),
-        },
+        constructorIngredients: action.ingredients,
       };
     }
     case ADD_CONSTRUCTOR_INGREDIENT: {
@@ -110,6 +99,19 @@ export const ingredientsReducer = (state = initialState, action) => {
           ...state.constructorIngredients,
           noBunIngredients: [...action.newCards],
         },
+      };
+    }
+    case GET_INGREDIENTS_COUNT: {
+      return {
+        ...state,
+        ingredientsCount: action.ingredientsCount,
+      };
+    }
+    case CLEAR_CONSTRUCTOR: {
+      return {
+        ...state,
+        constructorIngredients: initialState.constructorIngredients,
+        ingredientsCount: initialState.ingredientsCount,
       };
     }
     default: {

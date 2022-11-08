@@ -1,0 +1,43 @@
+.main {
+  display: flex;
+  margin: 120px auto;
+  max-width: 1240px;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.link {
+  text-decoration: none;
+  transition: opacity 0.1s ease-in-out;
+  width: 320px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+}
+
+.link:hover {
+  opacity: 0.8;
+}
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  max-width: 320px;
+}
+
+.selected { 
+  color: #F2F2F3;
+}
+
+.tip {
+  opacity: 0.4;
+}
+
+.buttons{
+  display: flex;
+  justify-content: flex-end;
+}

@@ -6,14 +6,7 @@ import modalStyles from "./modal.module.css";
 import ModalOverlay from "../modal-overlay/modal-overlay";
 const modalRoot = document.getElementById("modals");
 
-Modal.propTypes = {
-  isOpened: PropTypes.bool.isRequired,
-  children: PropTypes.node.isRequired,
-  title: PropTypes.string.isRequired,
-  handleClosePopup: PropTypes.func.isRequired,
-};
-
-function Modal({ isOpened, children, title, handleClosePopup }) {
+const Modal = ({ isOpened, children, handleClosePopup }) => {
   useEffect(() => {
     if (!isOpened) return;
     const handleEscClose = (e) => {
@@ -33,16 +26,7 @@ function Modal({ isOpened, children, title, handleClosePopup }) {
     <div
       className={`${modalStyles.popup} ${isOpened && modalStyles.popupOpened}`}
     >
-      <div
-        className={`${modalStyles.container} ${
-          title ? `pl-10 pt-10 pr-10 pb-15` : `pt-30 pb-30 pl-25 pr-25`
-        }`}
-      >
-        {title && (
-          <h2 className={`${modalStyles.title} text text_type_main-large`}>
-            {title}
-          </h2>
-        )}
+      <div className={`${modalStyles.container} pl-10 pr-10 pt-10 pb-15`}>
         {children}
         <button
           className={modalStyles.closeButton}
@@ -56,6 +40,12 @@ function Modal({ isOpened, children, title, handleClosePopup }) {
     </div>,
     modalRoot
   );
-}
+};
+
+Modal.propTypes = {
+  isOpened: PropTypes.bool,
+  children: PropTypes.node.isRequired,
+  handleClosePopup: PropTypes.func.isRequired,
+};
 
 export default Modal;
