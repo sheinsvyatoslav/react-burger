@@ -1,4 +1,5 @@
 import { useInView } from "react-intersection-observer";
+
 import BurgerNavigation from "../burger-navigation/burger-navigation";
 import BurgerIngredientsSection from "../burger-ingredients-section/burger-ingredients-section";
 import { INGREDIENT_TYPES } from "../../../utils/constants";

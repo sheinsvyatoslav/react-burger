@@ -1,5 +1,6 @@
-import pageNotFoundStyles from "./not-found.module.css";
 import { useHistory } from "react-router-dom";
+
+import pageNotFoundStyles from "./not-found.module.css";
 
 const PageNotFound = () => {
   const history = useHistory();

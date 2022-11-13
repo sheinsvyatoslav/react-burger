@@ -1,12 +1,13 @@
 import { useSelector, useDispatch } from "react-redux";
+import { Link, useHistory } from "react-router-dom";
 import {
   Input,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { Link, useHistory } from "react-router-dom";
-import forgotPasswordStyles from "./forgot-password.module.css";
+
 import { restorePassword } from "../../../services/actions/auth";
 import { setFormValue } from "../../../services/actions/form";
+import forgotPasswordStyles from "./forgot-password.module.css";
 
 const ForgotPassword = () => {
   const { email, isFormValid } = useSelector((state) => state.form);

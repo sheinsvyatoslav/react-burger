@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { Route, Switch, useLocation, useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
+
 import AppHeader from "../app-header/app-header";
 import Main from "../../pages/Main/main/main";
 import Login from "../../pages/Login/login/login";
@@ -12,9 +13,10 @@ import ProtectedRouteAuth from "../protected-routes/protected-route-auth";
 import Profile from "../../pages/Profile/profile/profile";
 import PageNotFound from "../../pages/NotFound/not-found/not-found";
 import IngredientPage from "../../pages/IngredientPage/ingredient-page/ingredient-page";
-import { clearForm } from "../../services/actions/form";
 import Modal from "../modal/modal";
 import IngredientDetails from "../../pages/IngredientPage/ingredient-details/ingredient-details";
+
+import { clearForm } from "../../services/actions/form";
 import { closeIngredientPopup } from "../../services/actions/popups";
 import { getIngredients } from "../../services/actions/ingredients";
 
@@ -22,8 +24,8 @@ const App = () => {
   const location = useLocation();
   const history = useHistory();
   const dispatch = useDispatch();
-  const background = location.state && location.state.background;
-  const selectedIngredient = location.state && location.state.ingredient;
+  const background = location.state?.background;
+  const selectedIngredient = location.state?.ingredient;
 
   const handleModalClose = () => {
     dispatch(closeIngredientPopup());

@@ -1,10 +1,10 @@
+import { NavLink, useLocation, Link } from "react-router-dom";
 import {
   Logo,
   ProfileIcon,
   BurgerIcon,
   ListIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { NavLink, useLocation, Link } from "react-router-dom";
 import headerStyles from "./app-header.module.css";
 
 const AppHeader = () => {

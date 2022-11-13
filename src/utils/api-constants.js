@@ -9,9 +9,8 @@ export const REFRESH_TOKEN_URL = `${BASE_AUTH_URL}/token`;
 export const LOGOUT_URL = `${BASE_AUTH_URL}/logout`;
 export const USER_URL = `${BASE_AUTH_URL}/user`;
 
-const checkResponse = (res) => {
-  return res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
-};
+const checkResponse = (res) =>
+  res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
 
 export const request = (url, options) =>
   fetch(url, options).then(checkResponse);

@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
+
 import burgerNavigationStyles from "./burger-navigation.module.css";
 
 const BurgerNavigation = ({ inViewBuns, inViewSauces, inViewFilling }) => {

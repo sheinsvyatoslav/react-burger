@@ -1,6 +1,6 @@
 import { useMemo } from "react";
-import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
+import PropTypes from "prop-types";
 
 import IngredientCard from "../ingredient-card/ingredient-card";
 import burgerIngredientsSectionStyles from "./burger-ingredients-section.module.css";

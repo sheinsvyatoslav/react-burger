@@ -27,8 +27,8 @@ export const getUserRequest = () =>
     },
   });
 
-export const updateUserRequest = ({ email, password, name }) => {
-  return request(USER_URL, {
+export const updateUserRequest = ({ email, password, name }) =>
+  request(USER_URL, {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json",
@@ -40,4 +40,3 @@ export const updateUserRequest = ({ email, password, name }) => {
       name,
     }),
   });
-};

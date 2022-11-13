@@ -1,18 +1,18 @@
 import { useRef, useCallback } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { useDrag, useDrop } from "react-dnd";
+import PropTypes from "prop-types";
 import {
   DragIcon,
   ConstructorElement,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useSelector, useDispatch } from "react-redux";
-import PropTypes from "prop-types";
-import { useDrag, useDrop } from "react-dnd";
 
-import { constructorCardType } from "../../../utils/constants";
-import constructorCardStyles from "./constructor-card.module.css";
 import {
   deleteConstructorIngredient,
   updateConstructorList,
 } from "../../../services/actions/ingredients";
+import { constructorCardType } from "../../../utils/constants";
+import constructorCardStyles from "./constructor-card.module.css";
 
 const ConstructorCard = ({ item, index }) => {
   const { noBunIngredients } = useSelector(

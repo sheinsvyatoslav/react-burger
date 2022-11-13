@@ -1,4 +1,4 @@
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { useHistory, useLocation, Link } from "react-router-dom";
 import { useDrag } from "react-dnd";
 import PropTypes from "prop-types";
@@ -6,6 +6,7 @@ import {
   CurrencyIcon,
   Counter,
 } from "@ya.praktikum/react-developer-burger-ui-components";
+
 import { cardTypes } from "../../../utils/constants";
 import ingredientCardStyles from "./ingredient-card.module.css";
 

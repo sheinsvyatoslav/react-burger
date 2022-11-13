@@ -1,5 +1,6 @@
 import { useEffect, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
 import { useDrop } from "react-dnd";
 import { v1 } from "uuid";
 import {
@@ -11,9 +12,7 @@ import {
 import Modal from "../../../components/modal/modal";
 import OrderDetails from "../order-details/order-details";
 import ConstructorCard from "../constructor-card/constructor-card";
-import burgerConstructorStyles from "./burger-constructor.module.css";
 import { createOrder, getTotalPrice } from "../../../services/actions/order";
-
 import {
   openOrderDetailsPopup,
   closeOrderPopup,
@@ -24,7 +23,7 @@ import {
   getConstructorIngredients,
 } from "../../../services/actions/ingredients";
 import { getCookie } from "../../../utils/cookie";
-import { useHistory } from "react-router-dom";
+import burgerConstructorStyles from "./burger-constructor.module.css";
 
 const BurgerConstructor = () => {
   const history = useHistory();

@@ -1,19 +1,20 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { NavLink, useHistory } from "react-router-dom";
 import {
   Input,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { NavLink, useHistory } from "react-router-dom";
+
 import {
   setFormValue,
   setEditMode,
   clearForm,
   offEditMode,
 } from "../../../services/actions/form";
-import profileStyles from "./profile.module.css";
 import { logout } from "../../../services/actions/auth";
 import { getUser, updateUser } from "../../../services/actions/user";
+import profileStyles from "./profile.module.css";
 
 const Profile = () => {
   const { name, email, password, isFormValid } = useSelector(
