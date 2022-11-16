@@ -9,20 +9,20 @@ import {
   ConstructorElement,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
-import Modal from "../../../components/modal/modal";
+import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
 import ConstructorCard from "../constructor-card/constructor-card";
-import { createOrder, getTotalPrice } from "../../../services/actions/order";
+import { createOrder, getTotalPrice } from "../../services/actions/order";
 import {
   openOrderDetailsPopup,
   closeOrderPopup,
-} from "../../../services/actions/popups";
+} from "../../services/actions/popups";
 import {
   addConstructorIngredient,
   clearConstructor,
   getConstructorIngredients,
-} from "../../../services/actions/ingredients";
-import { getCookie } from "../../../utils/cookie";
+} from "../../services/actions/ingredients";
+import { getCookie } from "../../utils/cookie";
 import burgerConstructorStyles from "./burger-constructor.module.css";
 
 const BurgerConstructor = () => {
