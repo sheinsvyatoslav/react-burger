@@ -1,49 +1,43 @@
 import { Link, Redirect, useHistory } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import {
   Input,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
-import {
-  setFormValue,
-  toggleVisibilityPassword,
-} from "../../../services/actions/form";
 import { resetPassword } from "../../../services/actions/auth";
 import { getCookie } from "../../../utils/cookie";
+import { useFormAndValidation } from "../../../hooks/use-form-and-validation";
 import resetPasswordStyles from "./reset-password.module.css";
 
 const ResetPassword = () => {
-  const { password, token, isFormValid } = useSelector((state) => state.form);
+  const {
+    values,
+    handleChange,
+    errors,
+    isValid,
+    resetForm,
+    isHidden,
+    setIsHidden,
+  } = useFormAndValidation();
+  const { password, token } = values;
   const dispatch = useDispatch();
   const history = useHistory();
-
-  const handleChange = (e) => {
-    const target = e.target;
-    dispatch(
-      setFormValue(
-        target.name,
-        target.value,
-        target.checkValidity(),
-        target.validationMessage,
-        target.closest("form").checkValidity()
-      )
-    );
-  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(
       resetPassword({
-        password: password.value,
-        token: token.value,
+        password,
+        token,
+        resetForm,
         newRoute: () => history.replace("/login"),
       })
     );
   };
 
   const onIconClick = () => {
-    dispatch(toggleVisibilityPassword());
+    setIsHidden(!isHidden);
   };
 
   if (!getCookie("message")) {
@@ -66,14 +60,14 @@ const ResetPassword = () => {
         onSubmit={handleSubmit}
       >
         <Input
-          type={password.isHidden ? "password" : "text"}
+          type={isHidden ? "password" : "text"}
           placeholder="Пароль"
           onChange={handleChange}
-          value={password.value}
+          value={password || ""}
           name={"password"}
-          error={!password.isValid}
-          errorText={password.errorMessage}
-          icon={password.isHidden ? "ShowIcon" : "HideIcon"}
+          error={Boolean(errors.password)}
+          errorText={errors.password}
+          icon={isHidden ? "ShowIcon" : "HideIcon"}
           onIconClick={onIconClick}
           size={"default"}
           required
@@ -83,10 +77,10 @@ const ResetPassword = () => {
           type={"text"}
           placeholder="Введите код из письма"
           onChange={handleChange}
-          value={token.value}
+          value={token || ""}
           name={"token"}
-          error={!token.isValid}
-          errorText={token.errorMessage}
+          error={Boolean(errors.token)}
+          errorText={errors.token}
           size={"default"}
           required
         />
@@ -94,7 +88,7 @@ const ResetPassword = () => {
           type="primary"
           size="medium"
           htmlType="submit"
-          disabled={!isFormValid}
+          disabled={!isValid}
           aria-label={"Сохранить"}
         >
           Сохранить

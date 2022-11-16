@@ -1,51 +1,43 @@
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
 import {
   Input,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
-import {
-  setFormValue,
-  toggleVisibilityPassword,
-} from "../../../services/actions/form";
 import { register } from "../../../services/actions/auth";
+import { useFormAndValidation } from "../../../hooks/use-form-and-validation";
 import registerStyles from "./register.module.css";
 
 const Register = () => {
-  const { name, email, password, isFormValid } = useSelector(
-    (state) => state.form
-  );
+  const {
+    values,
+    handleChange,
+    errors,
+    isValid,
+    isHidden,
+    setIsHidden,
+    resetForm,
+  } = useFormAndValidation();
+  const { name, email, password } = values;
   const dispatch = useDispatch();
   const history = useHistory();
-
-  const handleChange = (e) => {
-    const target = e.target;
-    dispatch(
-      setFormValue(
-        target.name,
-        target.value,
-        target.checkValidity(),
-        target.validationMessage,
-        target.closest("form").checkValidity()
-      )
-    );
-  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(
       register({
-        name: name.value,
-        email: email.value,
-        password: password.value,
+        email,
+        password,
+        name,
+        resetForm,
         newRoute: () => history.replace("/"),
       })
     );
   };
 
   const onIconClick = () => {
-    dispatch(toggleVisibilityPassword());
+    setIsHidden(!isHidden);
   };
 
   return (
@@ -61,10 +53,10 @@ const Register = () => {
           type={"text"}
           placeholder="Имя"
           onChange={handleChange}
-          value={name.value}
+          value={name || ""}
           name={"name"}
-          error={!name.isValid}
-          errorText={name.errorMessage}
+          error={Boolean(errors.name)}
+          errorText={errors.name}
           size={"default"}
           required
           maxLength="30"
@@ -73,23 +65,23 @@ const Register = () => {
           type={"email"}
           placeholder="E-mail"
           onChange={handleChange}
-          value={email.value}
+          value={email || ""}
           name={"email"}
-          error={!email.isValid}
-          errorText={email.errorMessage}
+          error={Boolean(errors.email)}
+          errorText={errors.email}
           size={"default"}
           pattern="^.+@(\w+)\.(\w+)$"
           required
         />
         <Input
-          type={password.isHidden ? "password" : "text"}
+          type={isHidden ? "password" : "text"}
           placeholder="Пароль"
           onChange={handleChange}
-          value={password.value}
+          value={password || ""}
           name={"password"}
-          error={!password.isValid}
-          errorText={password.errorMessage}
-          icon={password.isHidden ? "ShowIcon" : "HideIcon"}
+          error={Boolean(errors.password)}
+          errorText={errors.password}
+          icon={isHidden ? "ShowIcon" : "HideIcon"}
           onIconClick={onIconClick}
           size={"default"}
           required
@@ -99,7 +91,7 @@ const Register = () => {
           type="primary"
           size="medium"
           htmlType="submit"
-          disabled={!isFormValid}
+          disabled={!isValid}
           aria-label={"Зарегистрироваться"}
         >
           Зарегистрироваться

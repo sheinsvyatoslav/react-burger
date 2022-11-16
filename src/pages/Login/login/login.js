@@ -1,48 +1,42 @@
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Link, Redirect, useLocation } from "react-router-dom";
 import {
   Input,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
-import {
-  setFormValue,
-  toggleVisibilityPassword,
-} from "../../../services/actions/form";
 import { login } from "../../../services/actions/auth";
 import { getCookie } from "../../../utils/cookie";
+import { useFormAndValidation } from "../../../hooks/use-form-and-validation";
 import loginStyles from "./login.module.css";
 
 const Login = () => {
-  const { email, password, isFormValid } = useSelector((state) => state.form);
+  const {
+    values,
+    handleChange,
+    errors,
+    isValid,
+    resetForm,
+    isHidden,
+    setIsHidden,
+  } = useFormAndValidation();
+  const { email, password } = values;
   const dispatch = useDispatch();
   const location = useLocation();
-
-  const handleChange = (e) => {
-    const target = e.target;
-    dispatch(
-      setFormValue(
-        target.name,
-        target.value,
-        target.checkValidity(),
-        target.validationMessage,
-        target.closest("form").checkValidity()
-      )
-    );
-  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(
       login({
-        email: email.value,
-        password: password.value,
+        email,
+        password,
+        resetForm,
       })
     );
   };
 
   const onIconClick = () => {
-    dispatch(toggleVisibilityPassword());
+    setIsHidden(!isHidden);
   };
 
   if (getCookie("accessToken")) {
@@ -62,23 +56,23 @@ const Login = () => {
           type={"email"}
           placeholder="E-mail"
           onChange={handleChange}
-          value={email.value}
+          value={email || ""}
           name={"email"}
-          error={!email.isValid}
-          errorText={email.errorMessage}
+          error={Boolean(errors.email)}
+          errorText={errors.email}
           size={"default"}
           pattern="^.+@(\w+)\.(\w+)$"
           required
         />
         <Input
-          type={password.isHidden ? "password" : "text"}
+          type={isHidden ? "password" : "text"}
           placeholder="Пароль"
           onChange={handleChange}
-          value={password.value}
+          value={password || ""}
           name={"password"}
-          error={!password.isValid}
-          errorText={password.errorMessage}
-          icon={password.isHidden ? "ShowIcon" : "HideIcon"}
+          error={Boolean(errors.password)}
+          errorText={errors.password}
+          icon={isHidden ? "ShowIcon" : "HideIcon"}
           onIconClick={onIconClick}
           size={"default"}
           required
@@ -88,7 +82,7 @@ const Login = () => {
           type="primary"
           size="medium"
           htmlType="submit"
-          disabled={!isFormValid}
+          disabled={!isValid}
           aria-label={"Войти"}
         >
           Войти

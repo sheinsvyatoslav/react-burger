@@ -1,4 +1,4 @@
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
 import {
   Input,
@@ -6,32 +6,22 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import { restorePassword } from "../../../services/actions/auth";
-import { setFormValue } from "../../../services/actions/form";
+import { useFormAndValidation } from "../../../hooks/use-form-and-validation";
 import forgotPasswordStyles from "./forgot-password.module.css";
 
 const ForgotPassword = () => {
-  const { email, isFormValid } = useSelector((state) => state.form);
+  const { values, handleChange, errors, isValid, resetForm } =
+    useFormAndValidation();
+  const { email } = values;
   const dispatch = useDispatch();
   const history = useHistory();
-
-  const handleChange = (e) => {
-    const target = e.target;
-    dispatch(
-      setFormValue(
-        target.name,
-        target.value,
-        target.checkValidity(),
-        target.validationMessage,
-        target.closest("form").checkValidity()
-      )
-    );
-  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(
       restorePassword({
-        email: email.value,
+        email,
+        resetForm,
         newRoute: () => history.replace("/reset-password"),
       })
     );
@@ -52,10 +42,10 @@ const ForgotPassword = () => {
           type={"email"}
           placeholder="E-mail"
           onChange={handleChange}
-          value={email.value}
+          value={email || ""}
           name={"email"}
-          error={!email.isValid}
-          errorText={email.errorMessage}
+          error={Boolean(errors.email)}
+          errorText={errors.email}
           size={"default"}
           pattern="^.+@(\w+)\.(\w+)$"
           required
@@ -64,7 +54,7 @@ const ForgotPassword = () => {
           type="primary"
           size="medium"
           htmlType="submit"
-          disabled={!isFormValid}
+          disabled={!isValid}
           aria-label={"Восстановить"}
         >
           Восстановить

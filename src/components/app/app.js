@@ -16,7 +16,7 @@ import IngredientPage from "../../pages/IngredientPage/ingredient-page/ingredien
 import Modal from "../modal/modal";
 import IngredientDetails from "../../pages/IngredientPage/ingredient-details/ingredient-details";
 
-import { clearForm } from "../../services/actions/form";
+import { useFormAndValidation } from "../../hooks/use-form-and-validation";
 import { closeIngredientPopup } from "../../services/actions/popups";
 import { getIngredients } from "../../services/actions/ingredients";
 
@@ -26,6 +26,7 @@ const App = () => {
   const dispatch = useDispatch();
   const background = location.state?.background;
   const selectedIngredient = location.state?.ingredient;
+  const { resetForm } = useFormAndValidation();
 
   const handleModalClose = () => {
     dispatch(closeIngredientPopup());
@@ -33,8 +34,8 @@ const App = () => {
   };
 
   useEffect(() => {
-    dispatch(clearForm());
-  }, [location, dispatch]);
+    resetForm();
+  }, [location, resetForm]);
 
   useEffect(() => {
     dispatch(getIngredients());

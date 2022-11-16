@@ -6,20 +6,24 @@ import {
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
-import {
-  setFormValue,
-  setEditMode,
-  clearForm,
-  offEditMode,
-} from "../../../services/actions/form";
 import { logout } from "../../../services/actions/auth";
 import { getUser, updateUser } from "../../../services/actions/user";
+import { useFormAndValidation } from "../../../hooks/use-form-and-validation";
 import profileStyles from "./profile.module.css";
 
 const Profile = () => {
-  const { name, email, password, isFormValid } = useSelector(
-    (state) => state.form
-  );
+  const {
+    values,
+    handleChange,
+    errors,
+    isValid,
+    resetForm,
+    editMode,
+    setEditMode,
+    setIsValid,
+  } = useFormAndValidation();
+  const { name, email, password } = values;
+
   const { user } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const history = useHistory();
@@ -27,19 +31,6 @@ const Profile = () => {
   useEffect(() => {
     dispatch(getUser());
   }, [dispatch]);
-
-  const handleChange = (e) => {
-    const target = e.target;
-    dispatch(
-      setFormValue(
-        target.name,
-        target.value,
-        target.checkValidity(),
-        target.validationMessage,
-        target.closest("form").checkValidity()
-      )
-    );
-  };
 
   const handleLogout = (e) => {
     e.preventDefault();
@@ -49,24 +40,28 @@ const Profile = () => {
   const onIconClick = (e) => {
     e.preventDefault();
     const target = e.target.closest(".input").getElementsByTagName("input")[0];
-    dispatch(setEditMode(target.name));
+    setEditMode({
+      ...editMode,
+      [target.name]: editMode[target.name] ? !editMode[target.name] : true,
+    });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(
       updateUser({
-        name: name.value || user.name,
-        email: email.value || user.email,
-        password: password.value || user.password,
+        name: name || user.name,
+        email: email || user.email,
+        password: password || user.password,
       })
     );
-    dispatch(offEditMode());
+    setEditMode({});
+    setIsValid(false);
   };
 
   const handleResetForm = (e) => {
     e.preventDefault();
-    dispatch(clearForm());
+    resetForm();
   };
 
   return (
@@ -112,14 +107,14 @@ const Profile = () => {
           type={"text"}
           placeholder="Имя"
           onChange={handleChange}
-          value={name.value || user.name || ""}
+          value={name || user.name || ""}
           name={"name"}
-          error={!name.isValid}
-          errorText={name.errorMessage}
-          icon={name.editMode ? "CheckMarkIcon" : "EditIcon"}
+          error={Boolean(errors.name)}
+          errorText={errors.name}
+          icon={editMode.name ? "CheckMarkIcon" : "EditIcon"}
           onIconClick={onIconClick}
           size={"default"}
-          disabled={!name.editMode}
+          disabled={!editMode.name}
           required
           maxLength="30"
         />
@@ -127,14 +122,14 @@ const Profile = () => {
           type={"email"}
           placeholder="E-mail"
           onChange={handleChange}
-          value={email.value || user.email || ""}
+          value={email || user.email || ""}
           name={"email"}
-          error={!email.isValid}
-          errorText={email.errorMessage}
-          icon={email.editMode ? "CheckMarkIcon" : "EditIcon"}
+          error={Boolean(errors.email)}
+          errorText={errors.email}
+          icon={editMode.email ? "CheckMarkIcon" : "EditIcon"}
           onIconClick={onIconClick}
           size={"default"}
-          disabled={!email.editMode}
+          disabled={!editMode.email}
           pattern="\w+[@][a-zA-Z]+\.[a-zA-Z]+"
           required
         />
@@ -142,14 +137,14 @@ const Profile = () => {
           type={"password"}
           placeholder="Пароль"
           onChange={handleChange}
-          value={password.value || user.password || ""}
+          value={password || user.password || ""}
           name={"password"}
-          error={!password.isValid}
-          errorText={password.errorMessage}
-          icon={password.editMode ? "CheckMarkIcon" : "EditIcon"}
+          error={Boolean(errors.password)}
+          errorText={errors.password}
+          icon={editMode.password ? "CheckMarkIcon" : "EditIcon"}
           onIconClick={onIconClick}
           size={"default"}
-          disabled={!password.editMode}
+          disabled={!editMode.password}
           required
           pattern=".{6,}"
         />
@@ -167,7 +162,7 @@ const Profile = () => {
             type="primary"
             size="medium"
             htmlType="submit"
-            disabled={!isFormValid}
+            disabled={!isValid}
             aria-label={"Сохранить"}
           >
             Сохранить
