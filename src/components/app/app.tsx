@@ -1,4 +1,4 @@
-import { useEffect, FC } from "react";
+import { useEffect } from "react";
 import { Route, Switch, useLocation, useHistory } from "react-router-dom";
 import { useAppDispatch } from "../../hooks/redux-hooks";
 import { Location } from "history";
@@ -28,7 +28,7 @@ export interface ILocationState {
   from: string;
 }
 
-const App: FC = () => {
+const App = () => {
   const location = useLocation();
   const history = useHistory();
   const dispatch = useAppDispatch();
