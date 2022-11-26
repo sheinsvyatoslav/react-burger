@@ -6,7 +6,7 @@
 
 ### **Проект разрабатывается с использованием:**
 * JS 
-* React (hooks)
+* React
 * Redux (redux-thunk)
 * react-dnd
 * CSS-modules
