@@ -5,11 +5,10 @@ import {
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
-import { restorePassword } from "../../../services/actions/auth";
+import { restorePassword } from "../../../services/slices/auth";
 import { useFormAndValidation } from "../../../hooks/use-form-and-validation";
 import forgotPasswordStyles from "./forgot-password.module.css";
 import { useAppDispatch } from "../../../hooks/redux-hooks";
-
 
 const ForgotPassword = () => {
   const { values, handleChange, errors, isValid, resetForm } =

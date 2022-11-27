@@ -7,7 +7,7 @@ import {
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
-import { login } from "../../../services/actions/auth";
+import { login } from "../../../services/slices/auth";
 import { getCookie } from "../../../utils/cookie";
 import { ILocationState } from "../../../components/app/app";
 import loginStyles from "./login.module.css";

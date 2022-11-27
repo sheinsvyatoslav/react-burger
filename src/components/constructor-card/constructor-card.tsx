@@ -10,7 +10,7 @@ import {
 import {
   deleteConstructorIngredient,
   updateConstructorList,
-} from "../../services/actions/ingredients";
+} from "../../services/slices/ingredients";
 import { TDraggingCard } from "../../utils/constants";
 import constructorCardStyles from "./constructor-card.module.css";
 
@@ -36,7 +36,9 @@ const ConstructorCard: FC<TConstructorCard> = ({ item, index }) => {
     type: "constructor-cards",
     item: () => ({
       id: id,
-      index: noBunIngredients.findIndex((item: TDraggingCard) => item.dragId === id),
+      index: noBunIngredients.findIndex(
+        (item: TDraggingCard) => item.dragId === id
+      ),
     }),
     collect: (monitor) => ({
       opacity: monitor.isDragging() ? 0.5 : 1,
@@ -57,7 +59,7 @@ const ConstructorCard: FC<TConstructorCard> = ({ item, index }) => {
   const [, drop] = useDrop({
     accept: "constructor-cards",
     hover(item: IDragItem, monitor) {
-      console.log(item)
+      console.log(item);
       if (!ref.current) {
         return;
       }

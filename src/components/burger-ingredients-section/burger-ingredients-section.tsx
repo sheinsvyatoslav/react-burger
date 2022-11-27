@@ -1,4 +1,4 @@
-import { FC, Ref, useMemo } from "react";
+import { FC, useMemo } from "react";
 import { useAppSelector } from "../../hooks/redux-hooks";
 
 import IngredientCard from "../ingredient-card/ingredient-card";
@@ -11,7 +11,11 @@ interface IBurgerIngredientsSection {
   innerRef: (node?: Element | null | undefined) => void;
 }
 
-const BurgerIngredientsSection: FC<IBurgerIngredientsSection> = ({ name, category, innerRef }) => {
+const BurgerIngredientsSection: FC<IBurgerIngredientsSection> = ({
+  name,
+  category,
+  innerRef,
+}) => {
   const { ingredients } = useAppSelector((state) => state.ingredients);
 
   const content = useMemo(() => {

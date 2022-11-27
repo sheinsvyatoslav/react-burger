@@ -6,7 +6,7 @@ import {
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
-import { resetPassword } from "../../../services/actions/auth";
+import { resetPassword } from "../../../services/slices/auth";
 import { getCookie } from "../../../utils/cookie";
 import { useFormAndValidation } from "../../../hooks/use-form-and-validation";
 import resetPasswordStyles from "./reset-password.module.css";

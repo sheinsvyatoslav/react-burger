@@ -7,8 +7,8 @@ import {
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
-import { logout } from "../../../services/actions/auth";
-import { getUser, updateUser } from "../../../services/actions/user";
+import { logout } from "../../../services/slices/auth";
+import { getUser, updateUser } from "../../../services/slices/user";
 
 import profileStyles from "./profile.module.css";
 
@@ -39,12 +39,14 @@ const Profile = () => {
 
   const handleLogout = (e: MouseEvent) => {
     e.preventDefault();
-    dispatch(logout({newRoute: () => history.replace("/login")}));
+    dispatch(logout({ newRoute: () => history.replace("/login") }));
   };
 
   const onIconClick = (e: MouseEvent) => {
     e.preventDefault();
-    const target = (e.target as IIconEventTarget).closest(".input").getElementsByTagName("input")[0];
+    const target = (e.target as IIconEventTarget)
+      .closest(".input")
+      .getElementsByTagName("input")[0];
     setEditMode({
       ...editMode,
       [target.name]: editMode[target.name] ? !editMode[target.name] : true,

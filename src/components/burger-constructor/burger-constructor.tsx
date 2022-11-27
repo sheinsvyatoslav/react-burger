@@ -18,7 +18,7 @@ import {
   addConstructorIngredient,
   clearConstructor,
   getConstructorIngredients,
-} from "../../services/actions/ingredients";
+} from "../../services/slices/ingredients";
 import { TCard, TDraggingCard } from "../../utils/constants";
 import { getCookie } from "../../utils/cookie";
 import burgerConstructorStyles from "./burger-constructor.module.css";
@@ -51,7 +51,7 @@ const BurgerConstructor = () => {
     if (getCookie("accessToken")) {
       dispatch(
         createOrder([
-          bun._id,
+          bun!._id,
           ...noBunIngredients.map((item: TCard) => item._id),
         ])
       );
@@ -64,12 +64,12 @@ const BurgerConstructor = () => {
     accept: "ingredients",
     drop(ingredient: { id: string }) {
       dispatch(
-        addConstructorIngredient(
-          ingredients.find((item: TCard) => {
+        addConstructorIngredient({
+          draggedIngridient: ingredients.find((item: TCard) => {
             return item._id === ingredient.id;
           }),
-          v1()
-        )
+          dragId: v1(),
+        })
       );
     },
   });

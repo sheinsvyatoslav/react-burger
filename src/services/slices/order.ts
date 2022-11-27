@@ -1,11 +1,10 @@
-import { createOrderRequest } from "../../utils/main-api";
-import { refreshToken } from "../actions/auth";
-import { TThunkAction, TCard } from "../../utils/constants";
 import { createSlice } from "@reduxjs/toolkit";
+import { createOrderRequest } from "../../utils/main-api";
+import { refreshToken } from "./auth";
+import { TThunkAction, TCard } from "../../utils/constants";
 
 const initialState = {
-  createOrderFetched: false,
-  createOrderFailed: false,
+  createOrderState: "idle",
   orderNumber: 0,
   totalPrice: 0,
 };
@@ -15,16 +14,14 @@ const orderSlice = createSlice({
   initialState,
   reducers: {
     createOrderPending(state) {
-      state.createOrderFetched = true;
-      state.createOrderFailed = false;
+      state.createOrderState = "pending";
     },
     createOrderSuccess(state, action) {
-      state.createOrderFetched = false;
+      state.createOrderState = "success";
       state.orderNumber = action.payload.orderNumber;
     },
     createOrderFailed(state) {
-      state.createOrderFailed = true;
-      state.createOrderFetched = false;
+      state.createOrderState = "failed";
     },
     getTotalPrice(state, action) {
       state.totalPrice =

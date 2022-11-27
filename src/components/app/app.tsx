@@ -18,8 +18,8 @@ import Modal from "../modal/modal";
 import IngredientDetails from "../../pages/IngredientPage/ingredient-details/ingredient-details";
 
 import { useFormAndValidation } from "../../hooks/use-form-and-validation";
-import { getIngredients } from "../../services/actions/ingredients";
-import { TCard } from '../../utils/constants'
+import { getIngredients } from "../../services/slices/ingredients";
+import { TCard } from "../../utils/constants";
 
 export interface ILocationState {
   background: Location;
@@ -31,7 +31,7 @@ const App = () => {
   const location = useLocation();
   const history = useHistory();
   const dispatch = useAppDispatch();
-  const locationState = location.state as ILocationState
+  const locationState = location.state as ILocationState;
   const background = locationState?.background;
   const selectedIngredient = locationState?.ingredient;
   const { resetForm } = useFormAndValidation();
