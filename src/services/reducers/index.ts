@@ -1,7 +1,7 @@
 import { combineReducers } from "redux";
 import { ingredientsReducer } from "./ingredients";
-import { popupReducer } from "./popups";
-import { orderReducer } from "./order";
+import popupReducer from "../slices/popups";
+import orderReducer from "../slices/order";
 import { authReducer } from "./auth";
 import { userReducer } from "./user";
 

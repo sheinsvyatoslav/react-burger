@@ -49,8 +49,6 @@ type TRestorePassword = {
 type TRegister = { name: string } & TAuthData & TNewRoute & TResetForm
 type TLogin = TAuthData & TResetForm
 
-
-
 export const register = ({ email, password, name, resetForm, newRoute }: TRegister): TThunkAction => {
   return (dispatch) => {
     dispatch({ type: REGISTER_SUBMIT });

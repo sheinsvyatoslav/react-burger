@@ -12,11 +12,8 @@ import {
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
 import ConstructorCard from "../constructor-card/constructor-card";
-import { createOrder, getTotalPrice } from "../../services/actions/order";
-import {
-  openOrderDetailsPopup,
-  closeOrderPopup,
-} from "../../services/actions/popups";
+import { createOrder, getTotalPrice } from "../../services/slices/order";
+import { openOrderPopup, closeOrderPopup } from "../../services/slices/popups";
 import {
   addConstructorIngredient,
   clearConstructor,
@@ -25,7 +22,6 @@ import {
 import { TCard, TDraggingCard } from "../../utils/constants";
 import { getCookie } from "../../utils/cookie";
 import burgerConstructorStyles from "./burger-constructor.module.css";
-
 
 const BurgerConstructor = () => {
   const history = useHistory();
@@ -48,27 +44,30 @@ const BurgerConstructor = () => {
   }, [dispatch, constructorIngredients]);
 
   useEffect(() => {
-    dispatch(getTotalPrice(bun, noBunIngredients));
+    dispatch(getTotalPrice({ bun, noBunIngredients }));
   }, [dispatch, noBunIngredients, bun]);
 
   const handleOrderClick = () => {
     if (getCookie("accessToken")) {
       dispatch(
-        createOrder([bun._id, ...noBunIngredients.map((item: TCard) => item._id)])
+        createOrder([
+          bun._id,
+          ...noBunIngredients.map((item: TCard) => item._id),
+        ])
       );
-      dispatch(openOrderDetailsPopup());
+      dispatch(openOrderPopup());
       dispatch(clearConstructor());
     } else history.replace("/login");
   };
 
   const [, ingridientsTarget] = useDrop({
     accept: "ingredients",
-    drop(ingredient: {id: string}) {
+    drop(ingredient: { id: string }) {
       dispatch(
         addConstructorIngredient(
           ingredients.find((item: TCard) => {
-            return item._id === ingredient.id
-          } ),
+            return item._id === ingredient.id;
+          }),
           v1()
         )
       );

@@ -18,7 +18,6 @@ import Modal from "../modal/modal";
 import IngredientDetails from "../../pages/IngredientPage/ingredient-details/ingredient-details";
 
 import { useFormAndValidation } from "../../hooks/use-form-and-validation";
-import { closeIngredientPopup } from "../../services/actions/popups";
 import { getIngredients } from "../../services/actions/ingredients";
 import { TCard } from '../../utils/constants'
 
@@ -38,7 +37,6 @@ const App = () => {
   const { resetForm } = useFormAndValidation();
 
   const handleModalClose = () => {
-    dispatch(closeIngredientPopup());
     history.replace("/");
   };
 
