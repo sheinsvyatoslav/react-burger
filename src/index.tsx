@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import "./index.css";
+import "./index.scss";
 import App from "./components/app/app";
 import { configureStore } from "@reduxjs/toolkit";
 import { Provider } from "react-redux";
@@ -13,7 +13,9 @@ const store = configureStore({
   devTools: process.env.NODE_ENV !== "production",
 });
 
-const root = ReactDOM.createRoot(document.getElementById("root") as HTMLDivElement);
+const root = ReactDOM.createRoot(
+  document.getElementById("root") as HTMLDivElement
+);
 root.render(
   <BrowserRouter>
     <React.StrictMode>
@@ -24,7 +26,7 @@ root.render(
   </BrowserRouter>
 );
 
-export type RootState = ReturnType<typeof store.getState>
-export type AppDispatch = typeof store.dispatch
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
 
 reportWebVitals();
