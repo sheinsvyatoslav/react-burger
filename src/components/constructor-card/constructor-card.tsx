@@ -12,7 +12,7 @@ import {
   updateConstructorList,
 } from "../../services/slices/ingredients";
 import { TDraggingCard } from "../../utils/constants";
-import constructorCardStyles from "./constructor-card.module.css";
+import constructorCardStyles from "./constructor-card.module.scss";
 
 interface TConstructorCard {
   item: TDraggingCard;

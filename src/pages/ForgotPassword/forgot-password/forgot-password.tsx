@@ -7,7 +7,7 @@ import {
 
 import { restorePassword } from "../../../services/slices/auth";
 import { useFormAndValidation } from "../../../hooks/use-form-and-validation";
-import forgotPasswordStyles from "./forgot-password.module.css";
+import forgotPasswordStyles from "./forgot-password.module.scss";
 import { useAppDispatch } from "../../../hooks/redux-hooks";
 
 const ForgotPassword = () => {

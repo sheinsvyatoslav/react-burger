@@ -9,7 +9,7 @@ import {
 
 import { TCard } from "../../utils/constants";
 
-import ingredientCardStyles from "./ingredient-card.module.css";
+import ingredientCardStyles from "./ingredient-card.module.scss";
 
 interface IIngredientCard {
   ingredient: TCard;
@@ -18,7 +18,9 @@ interface IIngredientCard {
 
 const IngredientCard: FC<IIngredientCard> = ({ ingredient, category }) => {
   const { ingredientsCount } = useAppSelector((state) => state.ingredients);
-  const { constructorIngredients } = useAppSelector((state) => state.ingredients);
+  const { constructorIngredients } = useAppSelector(
+    (state) => state.ingredients
+  );
   const history = useHistory();
   const location = useLocation();
   const id = ingredient._id;

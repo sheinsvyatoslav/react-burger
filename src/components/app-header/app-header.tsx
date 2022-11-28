@@ -5,7 +5,7 @@ import {
   BurgerIcon,
   ListIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import headerStyles from "./app-header.module.css";
+import headerStyles from "./app-header.module.scss";
 
 const AppHeader = () => {
   const location = useLocation();

@@ -1,7 +1,7 @@
 import { useState, useEffect, FC } from "react";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 
-import burgerNavigationStyles from "./burger-navigation.module.css";
+import burgerNavigationStyles from "./burger-navigation.module.scss";
 
 interface IBurgerNavigation {
   inViewBuns: boolean;
@@ -9,7 +9,11 @@ interface IBurgerNavigation {
   inViewFilling: boolean;
 }
 
-const BurgerNavigation: FC<IBurgerNavigation> = ({ inViewBuns, inViewSauces, inViewFilling }) => {
+const BurgerNavigation: FC<IBurgerNavigation> = ({
+  inViewBuns,
+  inViewSauces,
+  inViewFilling,
+}) => {
   const [current, setCurrent] = useState("buns");
 
   useEffect(() => {

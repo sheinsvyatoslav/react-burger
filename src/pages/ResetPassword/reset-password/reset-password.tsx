@@ -9,7 +9,7 @@ import {
 import { resetPassword } from "../../../services/slices/auth";
 import { getCookie } from "../../../utils/cookie";
 import { useFormAndValidation } from "../../../hooks/use-form-and-validation";
-import resetPasswordStyles from "./reset-password.module.css";
+import resetPasswordStyles from "./reset-password.module.scss";
 
 const ResetPassword = () => {
   const {

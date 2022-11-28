@@ -3,7 +3,7 @@ import { useAppSelector } from "../../hooks/redux-hooks";
 
 import IngredientCard from "../ingredient-card/ingredient-card";
 import { TCard } from "../../utils/constants";
-import burgerIngredientsSectionStyles from "./burger-ingredients-section.module.css";
+import burgerIngredientsSectionStyles from "./burger-ingredients-section.module.scss";
 
 interface IBurgerIngredientsSection {
   name: string;

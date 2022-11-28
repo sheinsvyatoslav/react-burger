@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { TCard } from "../../../utils/constants";
-import ingredientDetailsStyles from "./ingredient-details.module.css";
+import ingredientDetailsStyles from "./ingredient-details.module.scss";
 
 interface IIngredientDetails {
   ingredient?: TCard;

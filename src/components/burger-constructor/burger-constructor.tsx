@@ -21,7 +21,7 @@ import {
 } from "../../services/slices/ingredients";
 import { TCard, TDraggingCard } from "../../utils/constants";
 import { getCookie } from "../../utils/cookie";
-import burgerConstructorStyles from "./burger-constructor.module.css";
+import burgerConstructorStyles from "./burger-constructor.module.scss";
 
 const BurgerConstructor = () => {
   const history = useHistory();

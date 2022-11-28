@@ -8,7 +8,7 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import { register } from "../../../services/slices/auth";
-import registerStyles from "./register.module.css";
+import registerStyles from "./register.module.scss";
 
 const Register = () => {
   const {

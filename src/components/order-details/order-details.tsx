@@ -1,6 +1,6 @@
 import { useAppSelector } from "../../hooks/redux-hooks";
 
-import OrderDetailsStyles from "./order-details.module.css";
+import OrderDetailsStyles from "./order-details.module.scss";
 import orderDoneImage from "../../images/order-done.png";
 
 const OrderDetails = () => {

@@ -2,14 +2,14 @@ import { useEffect, FC, ReactNode } from "react";
 import ReactDOM from "react-dom";
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import ModalOverlay from "../modal-overlay/modal-overlay";
-import modalStyles from "./modal.module.css";
+import modalStyles from "./modal.module.scss";
 
 const modalRoot = document.getElementById("modals") as HTMLDivElement;
 
 interface IModal {
   isOpened: boolean;
   handleClosePopup: () => void;
-  title?: string
+  title?: string;
   children: ReactNode;
 }
 

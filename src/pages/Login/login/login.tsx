@@ -10,7 +10,7 @@ import {
 import { login } from "../../../services/slices/auth";
 import { getCookie } from "../../../utils/cookie";
 import { ILocationState } from "../../../components/app/app";
-import loginStyles from "./login.module.css";
+import loginStyles from "./login.module.scss";
 
 const Login = () => {
   const {

@@ -10,7 +10,7 @@ import {
 import { logout } from "../../../services/slices/auth";
 import { getUser, updateUser } from "../../../services/slices/user";
 
-import profileStyles from "./profile.module.css";
+import profileStyles from "./profile.module.scss";
 
 interface IIconEventTarget extends EventTarget {
   closest: (elem: string) => HTMLElement;

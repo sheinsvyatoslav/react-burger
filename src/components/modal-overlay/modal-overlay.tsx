@@ -1,5 +1,5 @@
 import { FC } from "react";
-import modalOverlayStyles from "./modal-overlay.module.css";
+import modalOverlayStyles from "./modal-overlay.module.scss";
 
 interface IModalOverlay {
   handleClosePopup: () => void;
