@@ -128,14 +128,10 @@ export const register = ({
   return (dispatch) => {
     dispatch(registerPending());
     registerRequest({ email, password, name })
-      .then((res) => {
-        if (res && res.success) {
-          dispatch(registerSuccess());
-          dispatch(login({ email, password, resetForm }));
-          newRoute();
-        } else {
-          dispatch(registerFailed());
-        }
+      .then(() => {
+        dispatch(registerSuccess());
+        dispatch(login({ email, password, resetForm }));
+        newRoute();
       })
       .catch((err) => {
         console.log(err);
@@ -153,14 +149,10 @@ export const restorePassword = ({
     dispatch(restorePending());
     restorePasswordRequest(email)
       .then((res) => {
-        if (res && res.success) {
-          dispatch(restoreSuccess());
-          setCookie("message", res.message);
-          resetForm();
-          newRoute();
-        } else {
-          dispatch(restoreFailed());
-        }
+        dispatch(restoreSuccess());
+        setCookie("message", res.message);
+        resetForm();
+        newRoute();
       })
       .catch((err) => {
         console.log(err);
@@ -178,15 +170,11 @@ export const resetPassword = ({
   return (dispatch) => {
     dispatch(resetPending());
     resetPasswordRequest({ password, token })
-      .then((res) => {
-        if (res && res.success) {
-          dispatch(resetSuccess());
-          clearCookie("message");
-          resetForm();
-          newRoute();
-        } else {
-          dispatch(resetFailed());
-        }
+      .then(() => {
+        dispatch(resetSuccess());
+        clearCookie("message");
+        resetForm();
+        newRoute();
       })
       .catch((err) => {
         console.log(err);
@@ -200,17 +188,13 @@ export const login = ({ email, password, resetForm }: TLogin): TThunkAction => {
     dispatch(loginPending());
     loginRequest({ email, password })
       .then((res) => {
-        if (res && res.success) {
-          let authToken = res.accessToken.split("Bearer ")[1];
-          if (authToken) {
-            setCookie("accessToken", authToken);
-            setCookie("password", password);
-          }
+        let authToken = res.accessToken.split("Bearer ")[1];
+        if (authToken) {
+          setCookie("accessToken", authToken);
+          setCookie("password", password);
           setCookie("refreshToken", res.refreshToken);
           dispatch(loginSuccess());
           resetForm();
-        } else {
-          dispatch(loginFailed());
         }
       })
       .catch((err) => {
@@ -224,16 +208,12 @@ export const logout = ({ newRoute }: TNewRoute): TThunkAction => {
   return (dispatch) => {
     dispatch(logoutPending());
     logoutRequest()
-      .then((res) => {
-        if (res && res.success) {
-          clearCookie("accessToken");
-          clearCookie("refreshToken");
-          clearCookie("password");
-          newRoute();
-          dispatch(logoutSuccess());
-        } else {
-          dispatch(logoutFailed());
-        }
+      .then(() => {
+        clearCookie("accessToken");
+        clearCookie("refreshToken");
+        clearCookie("password");
+        newRoute();
+        dispatch(logoutSuccess());
       })
       .catch((err) => {
         console.log(err);
@@ -247,13 +227,11 @@ export const refreshToken = (afterRefresh: TThunkAction): TThunkAction => {
     dispatch(refreshTokenPending());
     refreshTokenRequest()
       .then((res) => {
-        if (res && res.success) {
-          let authToken = res.accessToken.split("Bearer ")[1];
-          setCookie("accessToken", authToken);
-          setCookie("refreshToken", res.refreshToken);
-          dispatch(refreshTokenSuccess());
-          dispatch(afterRefresh);
-        }
+        let authToken = res.accessToken.split("Bearer ")[1];
+        setCookie("accessToken", authToken);
+        setCookie("refreshToken", res.refreshToken);
+        dispatch(refreshTokenSuccess());
+        dispatch(afterRefresh);
       })
       .catch((err) => {
         console.log(err);

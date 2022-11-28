@@ -57,17 +57,13 @@ export const getUser = (): TThunkAction => {
     dispatch(getUserPending());
     getUserRequest()
       .then((res) => {
-        if (res && res.success) {
-          dispatch(
-            getUserSuccess({
-              name: res.user.name,
-              email: res.user.email,
-              password: getCookie("password"),
-            })
-          );
-        } else {
-          dispatch(getUserFailed());
-        }
+        dispatch(
+          getUserSuccess({
+            name: res.user.name,
+            email: res.user.email,
+            password: getCookie("password"),
+          })
+        );
       })
       .catch((err) => {
         console.log(err);

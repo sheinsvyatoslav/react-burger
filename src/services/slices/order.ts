@@ -46,11 +46,7 @@ export const createOrder = (ingredients: Array<string>): TThunkAction => {
     dispatch(createOrderPending());
     createOrderRequest(ingredients)
       .then((res) => {
-        if (res && res.success) {
-          dispatch(createOrderSuccess({ orderNumber: res.order.number }));
-        } else {
-          dispatch(createOrderFailed());
-        }
+        dispatch(createOrderSuccess({ orderNumber: res.order.number }));
       })
       .catch((err) => {
         console.log(err);

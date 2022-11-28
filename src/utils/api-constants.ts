@@ -12,5 +12,11 @@ export const USER_URL = `${BASE_AUTH_URL}/user`;
 const checkResponse = (res: Response) =>
   res.ok ? res.json() : res.json().then((err: Error) => Promise.reject(err));
 
+const checkSuccess = (res: { success: boolean } & any) => {
+  if (res && res.success) {
+    return res;
+  } else throw Error("no data");
+};
+
 export const request = (url: string, options: RequestInit) =>
-  fetch(url, options).then(checkResponse);
+  fetch(url, options).then(checkResponse).then(checkSuccess);
