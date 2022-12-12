@@ -1,10 +1,24 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { createOrderRequest } from "../../utils/main-api";
+import {
+  createOrderRequest,
+  getOrderByNumberRequest,
+} from "../../utils/main-api";
 import { refreshToken } from "./auth";
-import { TThunkAction, TCard } from "../../utils/constants";
+import { TThunkAction, TCard, TOrder } from "../../utils/constants";
+import { clearIngredientsCount } from "./ingredients";
 
-const initialState = {
+type TOrderState = {
+  createOrderState: string;
+  getOrderByNumberState: string;
+  selectedOrder: TOrder | null;
+  orderNumber: number;
+  totalPrice: number;
+};
+
+const initialState: TOrderState = {
   createOrderState: "idle",
+  getOrderByNumberState: "idle",
+  selectedOrder: null,
   orderNumber: 0,
   totalPrice: 0,
 };
@@ -21,6 +35,16 @@ const orderSlice = createSlice({
       state.orderNumber = action.payload.orderNumber;
     },
     createOrderFailed(state) {
+      state.getOrderByNumberState = "failed";
+    },
+    getOrderByNumberPending(state) {
+      state.getOrderByNumberState = "pending";
+    },
+    getOrderByNumberSuccess(state, action) {
+      state.getOrderByNumberState = "success";
+      state.selectedOrder = action.payload;
+    },
+    getOrderByNumberFailed(state) {
       state.createOrderState = "failed";
     },
     getTotalPrice(state, action) {
@@ -38,6 +62,9 @@ export const {
   createOrderPending,
   createOrderSuccess,
   createOrderFailed,
+  getOrderByNumberPending,
+  getOrderByNumberSuccess,
+  getOrderByNumberFailed,
   getTotalPrice,
 } = orderSlice.actions;
 
@@ -47,14 +74,29 @@ export const createOrder = (ingredients: Array<string>): TThunkAction => {
     createOrderRequest(ingredients)
       .then((res) => {
         dispatch(createOrderSuccess({ orderNumber: res.order.number }));
+        dispatch(clearIngredientsCount());
       })
       .catch((err) => {
         console.log(err);
-        if (err.message === "jwt expired") {
+        if (err.message === "invalid token" || err.message === "jwt expired") {
           dispatch(refreshToken(createOrder(ingredients)));
         } else {
           dispatch(createOrderFailed());
         }
+      });
+  };
+};
+
+export const getOrderByNumber = (number: number): TThunkAction => {
+  return (dispatch) => {
+    dispatch(getOrderByNumberPending());
+    getOrderByNumberRequest(number)
+      .then((res) => {
+        dispatch(getOrderByNumberSuccess(res.orders[0]));
+      })
+      .catch((err) => {
+        console.log(err);
+        dispatch(getOrderByNumberFailed());
       });
   };
 };

@@ -1,19 +1,21 @@
 import { useAppSelector } from "../../hooks/redux-hooks";
 
-import OrderDetailsStyles from "./order-details.module.scss";
+import orderDetailsStyles from "./order-details.module.scss";
 import orderDoneImage from "../../images/order-done.png";
 
 const OrderDetails = () => {
   const orderNumber = useAppSelector((state) => state.order.orderNumber);
 
   return (
-    <div className={OrderDetailsStyles.container}>
-      <p className="text text_type_digits-large">{orderNumber}</p>
+    <div className={orderDetailsStyles.container}>
+      <p className={`${orderDetailsStyles.number} text text_type_digits-large`}>
+        {orderNumber}
+      </p>
       <p className="text text_type_main-medium mt-8 mb-15">
         идентификатор заказа
       </p>
       <img
-        className={OrderDetailsStyles.image}
+        className={orderDetailsStyles.image}
         src={orderDoneImage}
         alt="Заказ выполнен"
       />

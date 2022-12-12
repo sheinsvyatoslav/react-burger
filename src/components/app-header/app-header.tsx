@@ -29,12 +29,12 @@ const AppHeader = () => {
           </NavLink>
           <NavLink
             className={`${headerStyles.link} pl-5 pr-5 pb-4 pt-4`}
-            to="/orders"
+            to="/feed"
             activeClassName={headerStyles.activeLink}
             exact
           >
             <ListIcon
-              type={location.pathname === "/orders" ? "primary" : "secondary"}
+              type={location.pathname === "/feed" ? "primary" : "secondary"}
             />
             <p className="text text_type_main-default ml-2">Лента заказов</p>
           </NavLink>

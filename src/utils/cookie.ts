@@ -11,13 +11,7 @@ export const setCookie = (name: string, value: any, props?: any) => {
   }
   value = encodeURIComponent(value);
   let updatedCookie = name + "=" + value;
-  for (const propName in props) {
-    updatedCookie += "; " + propName;
-    const propValue = props[propName];
-    if (propValue !== true) {
-      updatedCookie += "=" + propValue;
-    }
-  }
+
   document.cookie = updatedCookie;
 };
 

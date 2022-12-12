@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import { TCard } from "../../../utils/constants";
-import ingredientPageStyles from "../ingredient-page/ingredient-page.module.scss";
+import ingredientPageStyles from "./ingredient-page.module.scss";
 
 const IngredientPage = () => {
   const { id } = useParams<{ id: string }>();

@@ -39,7 +39,6 @@ const IngredientCard: FC<IIngredientCard> = ({ ingredient, category }) => {
 
   return (
     <Link
-      key={id}
       to={{
         pathname: `/ingredients/${id}`,
         state: { background: location, ingredient },

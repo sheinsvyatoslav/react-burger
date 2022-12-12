@@ -75,6 +75,9 @@ const ingredientsSlice = createSlice({
     clearConstructor(state) {
       state.constructorIngredients = initialState.constructorIngredients;
     },
+    clearIngredientsCount(state) {
+      state.ingredientsCount = initialState.ingredientsCount;
+    },
   },
 });
 
@@ -88,6 +91,7 @@ export const {
   getIngredientsCount,
   updateConstructorList,
   clearConstructor,
+  clearIngredientsCount,
 } = ingredientsSlice.actions;
 
 export const getIngredients = (): TThunkAction => {

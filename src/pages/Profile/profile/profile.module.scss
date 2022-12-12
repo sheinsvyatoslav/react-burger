@@ -1,13 +1,7 @@
 .main {
   display: flex;
-  margin: 120px auto;
+  margin: 40px auto 120px;
   max-width: 1240px;
-}
-
-.container {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
 }
 
 .link {
@@ -35,9 +29,4 @@
 
 .tip {
   opacity: 0.4;
-}
-
-.buttons{
-  display: flex;
-  justify-content: flex-end;
 }

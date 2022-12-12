@@ -1,4 +1,4 @@
-import { useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useAppSelector, useAppDispatch } from "../../hooks/redux-hooks";
 import { useHistory } from "react-router-dom";
 import { useDrop } from "react-dnd";
@@ -13,7 +13,6 @@ import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
 import ConstructorCard from "../constructor-card/constructor-card";
 import { createOrder, getTotalPrice } from "../../services/slices/order";
-import { openOrderPopup, closeOrderPopup } from "../../services/slices/popups";
 import {
   addConstructorIngredient,
   clearConstructor,
@@ -25,7 +24,7 @@ import burgerConstructorStyles from "./burger-constructor.module.scss";
 
 const BurgerConstructor = () => {
   const history = useHistory();
-  const { isOrderPopupOpened } = useAppSelector((state) => state.popups);
+  const [isOrderPopupOpened, setIsOrderPopupOpened] = useState<boolean>(false);
   const { bun, noBunIngredients } = useAppSelector(
     (state) => state.ingredients.constructorIngredients
   );
@@ -36,8 +35,8 @@ const BurgerConstructor = () => {
   const dispatch = useAppDispatch();
 
   const handleClosePopup = useCallback(() => {
-    dispatch(closeOrderPopup());
-  }, [dispatch]);
+    setIsOrderPopupOpened(false);
+  }, []);
 
   useEffect(() => {
     dispatch(getConstructorIngredients(constructorIngredients));
@@ -55,7 +54,7 @@ const BurgerConstructor = () => {
           ...noBunIngredients.map((item: TCard) => item._id),
         ])
       );
-      dispatch(openOrderPopup());
+      setIsOrderPopupOpened(true);
       dispatch(clearConstructor());
     } else history.replace("/login");
   };

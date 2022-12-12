@@ -8,12 +8,12 @@ import {
 } from "./api-constants";
 import { getCookie } from "./cookie";
 
-type TPassword = { password: number }
-type TResetPasswordRequest = { token: string } & TPassword
+type TPassword = { password: number };
+type TResetPasswordRequest = { token: string } & TPassword;
 type TLogin = {
-  email: string,
-} & TPassword
-type TRegisterRequest = { name: string } & TLogin
+  email: string;
+} & TPassword;
+type TRegisterRequest = { name: string } & TLogin;
 
 export const registerRequest = ({ email, password, name }: TRegisterRequest) =>
   request(REGISTER_URL, {
@@ -39,7 +39,10 @@ export const restorePasswordRequest = (email: string) =>
     }),
   });
 
-export const resetPasswordRequest = ({ password, token }: TResetPasswordRequest) =>
+export const resetPasswordRequest = ({
+  password,
+  token,
+}: TResetPasswordRequest) =>
   request(`${RESTORE_URL}/reset`, {
     method: "POST",
     headers: {

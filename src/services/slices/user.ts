@@ -10,8 +10,14 @@ type TUser = {
   name: string;
 };
 
-const initialState = {
-  user: {} as TUser,
+type TUserState = {
+  user: TUser | null;
+  getUserState: string;
+  updateUserState: string;
+};
+
+const initialState: TUserState = {
+  user: null,
   getUserState: "idle",
   updateUserState: "idle",
 };
@@ -67,7 +73,7 @@ export const getUser = (): TThunkAction => {
       })
       .catch((err) => {
         console.log(err);
-        if (err.message === "jwt expired") {
+        if (err.message === "invalid token" || err.message === "jwt expired") {
           dispatch(refreshToken(getUser()));
         } else {
           dispatch(getUserFailed());
@@ -80,17 +86,13 @@ export const updateUser = ({ email, password, name }: TUser): TThunkAction => {
   return (dispatch) => {
     dispatch(updateUserPending());
     updateUserRequest({ email, password, name })
-      .then((res) => {
-        if (res && res.success) {
-          setCookie("password", password);
-          dispatch(updateUserSuccess({ name, email, password }));
-        } else {
-          dispatch(updateUserFailed());
-        }
+      .then(() => {
+        setCookie("password", password);
+        dispatch(updateUserSuccess({ name, email, password }));
       })
       .catch((err) => {
         console.log(err);
-        if (err.message === "jwt expired") {
+        if (err.message === "invalid token" || err.message === "jwt expired") {
           dispatch(refreshToken(updateUser({ email, password, name })));
         } else {
           dispatch(updateUserFailed());
