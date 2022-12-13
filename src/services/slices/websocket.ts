@@ -3,14 +3,14 @@ import { TOrder } from "../../utils/constants";
 
 type TWebsocketState = {
   wsConnected: boolean;
-  allOrders: Array<TOrder>;
+  allOrders: Array<TOrder> | null;
   totalOrders: number;
   totalToday: number;
 };
 
 const initialState: TWebsocketState = {
   wsConnected: false,
-  allOrders: [],
+  allOrders: null,
   totalOrders: 0,
   totalToday: 0,
 };

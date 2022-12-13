@@ -20,7 +20,7 @@ export const socketMiddleware: Middleware = (
       socket = new WebSocket(`${action.payload}`);
     }
 
-    if (action.type === wsConnectionClosed.type) {
+    if (action.type === wsConnectionClosed.type && socket?.readyState === 1) {
       socket?.close();
     }
 

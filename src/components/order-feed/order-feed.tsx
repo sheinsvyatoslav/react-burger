@@ -9,7 +9,7 @@ const OrderFeed = () => {
   return (
     <section className={`${orderFeedStyles.container} mb-10`}>
       <div className={`${orderFeedStyles.orders} pr-2`}>
-        {allOrders.map((order: TOrder) => (
+        {allOrders?.map((order: TOrder) => (
           <OrderCard key={order._id} order={order} />
         ))}
       </div>

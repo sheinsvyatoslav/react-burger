@@ -67,7 +67,7 @@ const IngredientCard: FC<IIngredientCard> = ({ ingredient, category }) => {
         constructorIngredients.bun &&
         id === constructorIngredients.bun._id ? (
           <Counter count={1} size="small" />
-        ) : ingredientsCount[id] ? (
+        ) : ingredientsCount?.[id] ? (
           <Counter count={ingredientsCount[id]} size="small" />
         ) : (
           <></>

@@ -19,7 +19,7 @@ const BurgerIngredientsSection: FC<IBurgerIngredientsSection> = ({
   const { ingredients } = useAppSelector((state) => state.ingredients);
 
   const content = useMemo(() => {
-    return ingredients.map((ingredient: TCard) => {
+    return ingredients?.map((ingredient: TCard) => {
       return (
         ingredient.type === category && (
           <IngredientCard

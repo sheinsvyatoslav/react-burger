@@ -21,7 +21,7 @@ const OrderPage = () => {
   const orderIngredients = useMemo(
     () =>
       selectedOrder?.ingredients.map(
-        (item) => allIngredients.filter((ing) => ing._id === item)[0]
+        (item) => allIngredients!.filter((ing) => ing._id === item)[0]
       ),
     [allIngredients, selectedOrder]
   );

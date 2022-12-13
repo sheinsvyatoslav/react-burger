@@ -21,14 +21,16 @@ const OrderCard: FC<IOrderCard> = ({ order }) => {
 
   const orderIngredients = useMemo(
     () =>
-      ingredients.map((item) => allIngredients.find((ing) => ing._id === item)),
+      ingredients.map(
+        (item) => allIngredients!.filter((ing) => ing._id === item)[0]
+      ),
     [ingredients, allIngredients]
   );
 
   const totalPrice = useMemo(
     () =>
       orderIngredients.reduce(
-        (a, b) => a + (b!.type === "bun" ? b!.price * 2 : b!.price),
+        (a, b) => a + b.price * (b.type === "bun" ? 2 : 1),
         0
       ),
     [orderIngredients]

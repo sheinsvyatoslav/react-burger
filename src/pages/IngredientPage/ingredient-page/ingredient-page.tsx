@@ -12,7 +12,7 @@ const IngredientPage = () => {
   return (
     <section className={ingredientPageStyles.main}>
       {ingredients
-        .filter((item: TCard) => item._id === id)
+        ?.filter((item: TCard) => item._id === id)
         .map((item: TCard) => (
           <IngredientDetails ingredient={item} key={id} />
         ))}

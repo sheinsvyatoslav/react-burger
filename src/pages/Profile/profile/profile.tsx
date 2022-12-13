@@ -4,6 +4,12 @@ import { useAppDispatch } from "../../../hooks/redux-hooks";
 
 import { logout } from "../../../services/slices/auth";
 import { getUser } from "../../../services/slices/user";
+import {
+  wsConnectionStart,
+  wsConnectionClosed,
+} from "../../../services/slices/websocket";
+import { BASE_WEBSOCKET_URL } from "../../../utils/constants";
+import { getCookie } from "../../../utils/cookie";
 
 import profileStyles from "./profile.module.scss";
 
@@ -17,6 +23,17 @@ const Profile: FC<IProfile> = ({ children }) => {
 
   useEffect(() => {
     dispatch(getUser());
+  }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(
+      wsConnectionStart(
+        `${BASE_WEBSOCKET_URL}?token=${getCookie("accessToken")}`
+      )
+    );
+    return () => {
+      dispatch(wsConnectionClosed());
+    };
   }, [dispatch]);
 
   const handleLogout = (e: MouseEvent) => {

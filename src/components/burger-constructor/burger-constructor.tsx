@@ -51,7 +51,7 @@ const BurgerConstructor = () => {
       dispatch(
         createOrder([
           bun!._id,
-          ...noBunIngredients.map((item: TCard) => item._id),
+          ...noBunIngredients!.map((item: TCard) => item._id),
         ])
       );
       setIsOrderPopupOpened(true);
@@ -64,7 +64,7 @@ const BurgerConstructor = () => {
     drop(ingredient: { id: string }) {
       dispatch(
         addConstructorIngredient({
-          draggedIngridient: ingredients.find((item: TCard) => {
+          draggedIngridient: ingredients!.find((item: TCard) => {
             return item._id === ingredient.id;
           }),
           dragId: v1(),

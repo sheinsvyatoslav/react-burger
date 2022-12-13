@@ -14,7 +14,7 @@ const OrdersStats = () => {
           <h3 className="text text_type_main-medium mb-6">Готовы:</h3>
           <div className={ordersStatsStyles.numbers}>
             {allOrders
-              .slice(0, 30)
+              ?.slice(0, 30)
               .filter((item: TOrder) => item.status === "done")
               .map((item: TOrder) => (
                 <p
@@ -30,7 +30,7 @@ const OrdersStats = () => {
           <h3 className="text text_type_main-medium mb-6">В работе:</h3>
           <div className={ordersStatsStyles.numbers}>
             {allOrders
-              .slice(0, 20)
+              ?.slice(0, 20)
               .filter((item: TOrder) => item.status === "pending")
               .map((item: TOrder) => (
                 <p

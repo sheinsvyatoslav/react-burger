@@ -23,13 +23,8 @@ import OrderFeed from "../order-feed/order-feed";
 import ProfileForm from "../profile-form/profile-form";
 
 import { getIngredients } from "../../services/slices/ingredients";
-import {
-  wsConnectionStart,
-  wsConnectionClosed,
-} from "../../services/slices/websocket";
-import { TCard, TOrder, BASE_WEBSOCKET_URL } from "../../utils/constants";
+import { TCard, TOrder } from "../../utils/constants";
 import OrderContent from "../order-content/order-content";
-import { getCookie } from "../../utils/cookie";
 export interface ILocationState {
   background: Location;
   ingredient: TCard;
@@ -43,25 +38,13 @@ const App = () => {
   const location = useLocation();
   const history = useHistory();
   const dispatch = useAppDispatch();
-  const { background, ingredient, order, totalPrice, orderIngredients } =
-    (location.state as ILocationState) || {};
+  const locationState = location.state as ILocationState;
+  const background = locationState?.background;
+  const ingredient = locationState?.ingredient;
+  const order = locationState?.order;
+  const totalPrice = locationState?.totalPrice;
+  const orderIngredients = locationState?.orderIngredients;
   const { resetForm } = useFormAndValidation();
-
-  useEffect(() => {
-    if (location.pathname === "/feed") {
-      dispatch(wsConnectionStart(`${BASE_WEBSOCKET_URL}/all`));
-    }
-    if (location.pathname === "/profile/orders") {
-      dispatch(
-        wsConnectionStart(
-          `${BASE_WEBSOCKET_URL}?token=${getCookie("accessToken")}`
-        )
-      );
-    }
-    return () => {
-      dispatch(wsConnectionClosed());
-    };
-  }, [dispatch, location]);
 
   const handleModalClose = () => {
     background.pathname === "/" ? history.replace("/") : history.goBack();
