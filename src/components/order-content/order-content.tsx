@@ -18,16 +18,14 @@ const OrderContent: FC<IOrderContent> = ({
   totalPrice,
   orderIngredients,
 }) => {
-  const { name, number, createdAt } = order || {};
-
   return (
     <>
       <p
         className={`${orderContentStyles.number} text text_type_digits-default mb-10`}
       >
-        #{number}
+        #{order?.number}
       </p>
-      <p className="text text_type_main-medium mb-3">{name}</p>
+      <p className="text text_type_main-medium mb-3">{order?.name}</p>
       {order?.status === "done" ? (
         <p
           className={`${orderContentStyles.done} text text_type_main-default mb-15`}
@@ -67,7 +65,7 @@ const OrderContent: FC<IOrderContent> = ({
       </div>
       <div className={`${orderContentStyles.info} mt-10`}>
         <p className="text text_type_main-default text_color_inactive">
-          <FormattedDate date={new Date(createdAt || "")} />
+          <FormattedDate date={new Date(order?.createdAt || "")} />
         </p>
         <div className={orderContentStyles.price}>
           <p className="text text_type_digits-default mr-2">{totalPrice}</p>

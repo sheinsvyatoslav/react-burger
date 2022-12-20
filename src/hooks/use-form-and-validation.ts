@@ -1,8 +1,8 @@
 import { useState, useCallback, ChangeEvent } from "react";
 
-interface TValues {
+type TValues = {
   [name: string]: any;
-}
+};
 
 export const useFormAndValidation = () => {
   const [values, setValues] = useState<TValues>({});
