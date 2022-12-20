@@ -27,7 +27,16 @@ type TRestorePassword = {
 } & TNewRoute &
   TResetForm;
 
-const initialState = {
+type TAuthState = {
+  registerState: string;
+  restoreState: string;
+  resetState: string;
+  loginState: string;
+  logoutState: string;
+  refreshTokenState: string;
+};
+
+const initialState: TAuthState = {
   registerState: "idle",
   restoreState: "idle",
   resetState: "idle",

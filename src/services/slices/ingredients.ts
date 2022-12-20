@@ -3,26 +3,26 @@ import { getIngredientsRequest } from "../../utils/main-api";
 import { TThunkAction, TDraggingCard, TCard } from "../../utils/constants";
 
 type TIngredientsState = {
-  ingredients: Array<TCard>;
+  ingredients: Array<TCard> | null;
   getIngredientsState: string;
   selectedIngredient: TCard | null;
   constructorIngredients: {
     bun: TDraggingCard | null;
-    noBunIngredients: Array<TDraggingCard>;
+    noBunIngredients: Array<TDraggingCard> | null;
   };
-  ingredientsCount: { [id: string]: number };
+  ingredientsCount: { [id: string]: number } | null;
 };
 
 const initialState: TIngredientsState = {
-  ingredients: [],
+  ingredients: null,
   getIngredientsState: "idle",
 
   selectedIngredient: null,
   constructorIngredients: {
     bun: null,
-    noBunIngredients: [],
+    noBunIngredients: null,
   },
-  ingredientsCount: {},
+  ingredientsCount: null,
 };
 
 const ingredientsSlice = createSlice({
@@ -52,19 +52,24 @@ const ingredientsSlice = createSlice({
         };
       } else {
         state.constructorIngredients.noBunIngredients = [
-          ...state.constructorIngredients.noBunIngredients,
+          ...(state.constructorIngredients.noBunIngredients ?? []),
           { ...draggedIngridient, dragId },
         ];
+        if (!state.ingredientsCount) {
+          state.ingredientsCount = {};
+        }
         state.ingredientsCount[newId] =
           (state.ingredientsCount[newId] || 0) + 1;
       }
     },
     deleteConstructorIngredient(state, action) {
       state.constructorIngredients.noBunIngredients =
-        state.constructorIngredients.noBunIngredients.filter(
+        state.constructorIngredients.noBunIngredients!.filter(
           (item) => item.dragId !== action.payload.dragId
         );
-      state.ingredientsCount[action.payload._id]--;
+      if (state.ingredientsCount) {
+        state.ingredientsCount[action.payload._id]--;
+      }
     },
     getIngredientsCount(state, action) {
       state.ingredientsCount = action.payload;
@@ -74,6 +79,9 @@ const ingredientsSlice = createSlice({
     },
     clearConstructor(state) {
       state.constructorIngredients = initialState.constructorIngredients;
+    },
+    clearIngredientsCount(state) {
+      state.ingredientsCount = initialState.ingredientsCount;
     },
   },
 });
@@ -88,6 +96,7 @@ export const {
   getIngredientsCount,
   updateConstructorList,
   clearConstructor,
+  clearIngredientsCount,
 } = ingredientsSlice.actions;
 
 export const getIngredients = (): TThunkAction => {

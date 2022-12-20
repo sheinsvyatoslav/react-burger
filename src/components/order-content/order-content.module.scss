@@ -1,0 +1,81 @@
+$width: 64px;
+
+.main {
+  width: 640px;
+  margin: 120px auto;
+}
+
+.number {
+  text-align: center;
+}
+
+.cards {
+  overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-height: 312px;
+}
+
+.cards::-webkit-scrollbar {
+  width: 8px;
+}
+
+.cards::-webkit-scrollbar-track {
+  background-color: #2F2F37;
+}
+
+.cards::-webkit-scrollbar-thumb {
+  background-color: #8585AD;
+}
+
+.card {
+  display: flex;
+  align-items: center;
+}
+
+.ingredient {
+  box-sizing: border-box;
+  width: $width;
+  height: $width;
+  border-radius: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  background: linear-gradient(63.18deg, #801ab3 0%, #4c4cff 100%);
+}
+
+.ingredient::before {
+  content: "";
+  width: $width - 4px;
+  height: $width - 4px;
+  margin: auto;
+  position: absolute;
+  border-radius: 100%;
+  background: #131316;
+}
+
+.image {
+  width: 112px;
+  z-index: 1;
+}
+
+.name {
+  max-width: 414px;
+}
+
+.price {
+  display: flex;
+  margin-left: auto;
+}
+
+.info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.done {
+  color: #00CCCC;
+}

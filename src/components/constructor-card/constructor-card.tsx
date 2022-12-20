@@ -36,7 +36,7 @@ const ConstructorCard: FC<TConstructorCard> = ({ item, index }) => {
     type: "constructor-cards",
     item: () => ({
       id: id,
-      index: noBunIngredients.findIndex(
+      index: noBunIngredients?.findIndex(
         (item: TDraggingCard) => item.dragId === id
       ),
     }),
@@ -47,8 +47,8 @@ const ConstructorCard: FC<TConstructorCard> = ({ item, index }) => {
 
   const moveCard = useCallback(
     (dragIndex: number, hoverIndex: number) => {
-      const dragCard = noBunIngredients[dragIndex];
-      const newCards = [...noBunIngredients];
+      const dragCard = noBunIngredients![dragIndex];
+      const newCards = [...(noBunIngredients ?? [])];
       newCards.splice(dragIndex, 1);
       newCards.splice(hoverIndex, 0, dragCard);
       dispatch(updateConstructorList(newCards));

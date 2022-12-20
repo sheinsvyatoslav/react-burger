@@ -39,7 +39,6 @@ const IngredientCard: FC<IIngredientCard> = ({ ingredient, category }) => {
 
   return (
     <Link
-      key={id}
       to={{
         pathname: `/ingredients/${id}`,
         state: { background: location, ingredient },
@@ -68,7 +67,7 @@ const IngredientCard: FC<IIngredientCard> = ({ ingredient, category }) => {
         constructorIngredients.bun &&
         id === constructorIngredients.bun._id ? (
           <Counter count={1} size="small" />
-        ) : ingredientsCount[id] ? (
+        ) : ingredientsCount?.[id] ? (
           <Counter count={ingredientsCount[id]} size="small" />
         ) : (
           <></>
