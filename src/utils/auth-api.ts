@@ -2,6 +2,7 @@ import {
   request,
   REGISTER_URL,
   RESTORE_URL,
+  RESET_URL,
   LOGIN_URL,
   LOGOUT_URL,
   REFRESH_TOKEN_URL,
@@ -43,7 +44,7 @@ export const resetPasswordRequest = ({
   password,
   token,
 }: TResetPasswordRequest) =>
-  request(`${RESTORE_URL}/reset`, {
+  request(RESET_URL, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

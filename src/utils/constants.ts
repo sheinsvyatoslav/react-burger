@@ -1,34 +1,3 @@
-import { ThunkAction } from "redux-thunk";
-import { AnyAction } from "redux";
-import { RootState } from "..";
-
-export type TCard = {
-  _id: string;
-  name: string;
-  type: string;
-  proteins: number;
-  fat: number;
-  carbohydrates: number;
-  calories: number;
-  price: number;
-  image: string;
-  image_mobile: string;
-  image_large: string;
-  __v: number;
-};
-
-export type TOrder = {
-  _id: string;
-  name: string;
-  number: number;
-  status: string;
-  createdAt: Date;
-  ingredients: ReadonlyArray<string>;
-};
-
-export type TDraggingCard = { dragId: string } & TCard;
-export type TThunkAction = ThunkAction<void, RootState, unknown, AnyAction>;
-
 export const maxOrderIngredients = 6;
 export const INGREDIENT_TYPES = {
   BUN: "bun",
@@ -36,3 +5,35 @@ export const INGREDIENT_TYPES = {
   MAIN: "main",
 };
 export const BASE_WEBSOCKET_URL = "wss://norma.nomoreparties.space/orders";
+export const testNoBunIngredient = {
+  _id: "test-id",
+  name: "Соус фирменный Space Sauce",
+  type: "sauce",
+  proteins: 50,
+  fat: 22,
+  carbohydrates: 11,
+  calories: 14,
+  price: 80,
+  image: "https://code.s3.yandex.net/react/code/sauce-04.png",
+  image_mobile: "https://code.s3.yandex.net/react/code/sauce-04-mobile.png",
+  image_large: "https://code.s3.yandex.net/react/code/sauce-04-large.png",
+  __v: 0,
+};
+export const secondIngredient = {
+  _id: "60d3b41abdacab0026a733c9",
+  name: "Мясо бессмертных моллюсков Protostomia",
+  type: "main",
+  proteins: 433,
+  fat: 244,
+  carbohydrates: 33,
+  calories: 420,
+  price: 1337,
+  image: "https://code.s3.yandex.net/react/code/meat-02.png",
+  image_mobile: "https://code.s3.yandex.net/react/code/meat-02-mobile.png",
+  image_large: "https://code.s3.yandex.net/react/code/meat-02-large.png",
+  __v: 0,
+};
+
+const testBunIngredient = { ...testNoBunIngredient };
+testBunIngredient.type = "bun";
+export { testBunIngredient };

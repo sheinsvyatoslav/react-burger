@@ -1,5 +1,5 @@
 import { useAppSelector } from "../../hooks/redux-hooks";
-import { TOrder } from "../../utils/constants";
+import { TOrder } from "../../utils/types";
 import ordersStatsStyles from "./orders-stats.module.scss";
 
 const OrdersStats = () => {

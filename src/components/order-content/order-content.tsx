@@ -3,7 +3,7 @@ import {
   CurrencyIcon,
   FormattedDate,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { TOrder, TCard } from "../../utils/constants";
+import { TOrder, TCard } from "../../utils/types";
 
 import orderContentStyles from "./order-content.module.scss";
 

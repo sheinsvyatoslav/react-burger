@@ -8,7 +8,10 @@ const OrderDetails = () => {
 
   return (
     <div className={orderDetailsStyles.container}>
-      <p className={`${orderDetailsStyles.number} text text_type_digits-large`}>
+      <p
+        className={`${orderDetailsStyles.number} text text_type_digits-large`}
+        data-at-selector="order-number"
+      >
         {orderNumber}
       </p>
       <p className="text text_type_main-medium mt-8 mb-15">

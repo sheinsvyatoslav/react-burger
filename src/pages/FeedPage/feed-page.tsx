@@ -1,11 +1,11 @@
 import { useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "../../hooks/redux-hooks";
+import { useAppDispatch } from "../../hooks/redux-hooks";
 import OrderFeed from "../../components/order-feed/order-feed";
 import OrdersStats from "../../components/orders-stats/orders-stats";
 import {
   wsConnectionStart,
   wsConnectionClosed,
-} from "../../services/slices/websocket";
+} from "../../services/slices/websocket/websocket";
 import { BASE_WEBSOCKET_URL } from "../../utils/constants";
 import feedPageStyles from "./feed-page.module.scss";
 

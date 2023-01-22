@@ -1,8 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getIngredientsRequest } from "../../utils/main-api";
-import { TThunkAction, TDraggingCard, TCard } from "../../utils/constants";
+import { getIngredientsRequest } from "../../../utils/main-api";
+import { TThunkAction, TDraggingCard, TCard } from "../../../utils/types";
 
-type TIngredientsState = {
+export type TIngredientsState = {
   ingredients: Array<TCard> | null;
   getIngredientsState: string;
   selectedIngredient: TCard | null;
@@ -13,7 +13,7 @@ type TIngredientsState = {
   ingredientsCount: { [id: string]: number } | null;
 };
 
-const initialState: TIngredientsState = {
+export const initialState: TIngredientsState = {
   ingredients: null,
   getIngredientsState: "idle",
 
@@ -38,9 +38,6 @@ const ingredientsSlice = createSlice({
     },
     getIngredientsFailed(state) {
       state.getIngredientsState = "failed";
-    },
-    getConstructorIngredients(state, action) {
-      state.constructorIngredients = action.payload;
     },
     addConstructorIngredient(state, action) {
       const { draggedIngridient, dragId } = action.payload;
@@ -71,16 +68,11 @@ const ingredientsSlice = createSlice({
         state.ingredientsCount[action.payload._id]--;
       }
     },
-    getIngredientsCount(state, action) {
-      state.ingredientsCount = action.payload;
-    },
     updateConstructorList(state, action) {
       state.constructorIngredients.noBunIngredients = [...action.payload];
     },
     clearConstructor(state) {
       state.constructorIngredients = initialState.constructorIngredients;
-    },
-    clearIngredientsCount(state) {
       state.ingredientsCount = initialState.ingredientsCount;
     },
   },
@@ -90,29 +82,22 @@ export const {
   getIngredientsPending,
   getIngredientsSuccess,
   getIngredientsFailed,
-  getConstructorIngredients,
   addConstructorIngredient,
   deleteConstructorIngredient,
-  getIngredientsCount,
   updateConstructorList,
   clearConstructor,
-  clearIngredientsCount,
 } = ingredientsSlice.actions;
 
 export const getIngredients = (): TThunkAction => {
-  return (dispatch) => {
+  return async (dispatch) => {
     dispatch(getIngredientsPending());
-    getIngredientsRequest()
+    return getIngredientsRequest()
       .then((res) => {
-        if (res && res.success) {
-          dispatch(getIngredientsSuccess(res.data));
-        } else {
-          dispatch(getIngredientsFailed);
-        }
+        dispatch(getIngredientsSuccess(res.data));
       })
       .catch((err) => {
+        dispatch(getIngredientsFailed());
         console.log(err);
-        dispatch(getIngredientsFailed);
       });
   };
 };

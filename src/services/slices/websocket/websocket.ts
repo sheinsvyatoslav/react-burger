@@ -1,14 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { TOrder } from "../../utils/constants";
+import { TOrder } from "../../../utils/types";
 
-type TWebsocketState = {
+export type TWebsocketState = {
   wsConnected: boolean;
   allOrders: Array<TOrder> | null;
   totalOrders: number;
   totalToday: number;
 };
 
-const initialState: TWebsocketState = {
+export const initialState: TWebsocketState = {
   wsConnected: false,
   allOrders: null,
   totalOrders: 0,

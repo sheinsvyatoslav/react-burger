@@ -7,7 +7,7 @@ import {
   Counter,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
-import { TCard } from "../../utils/constants";
+import { TCard } from "../../utils/types";
 
 import ingredientCardStyles from "./ingredient-card.module.scss";
 
@@ -47,6 +47,7 @@ const IngredientCard: FC<IIngredientCard> = ({ ingredient, category }) => {
     >
       <article
         className={ingredientCardStyles.card}
+        data-at-selector="ingredient-card"
         onClick={handleCardClick}
         style={{ opacity }}
         ref={ref}
@@ -60,6 +61,7 @@ const IngredientCard: FC<IIngredientCard> = ({ ingredient, category }) => {
         </div>
         <p
           className={`${ingredientCardStyles.name} text text_type_main-small mr-2 mb-6`}
+          data-at-selector="ingredient-card-name"
         >
           {ingredient.name}
         </p>

@@ -2,7 +2,7 @@ import { useMemo, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../hooks/redux-hooks";
 import OrderContent from "../../components/order-content/order-content";
-import { getOrderByNumber } from "../../services/slices/order";
+import { getOrderByNumber } from "../../services/slices/order/order";
 
 import orderPageStyles from "./order-page.module.scss";
 

@@ -10,8 +10,8 @@ import {
 import {
   deleteConstructorIngredient,
   updateConstructorList,
-} from "../../services/slices/ingredients";
-import { TDraggingCard } from "../../utils/constants";
+} from "../../services/slices/ingredients/ingredients";
+import { TDraggingCard } from "../../utils/types";
 import constructorCardStyles from "./constructor-card.module.scss";
 
 interface TConstructorCard {
@@ -59,7 +59,6 @@ const ConstructorCard: FC<TConstructorCard> = ({ item, index }) => {
   const [, drop] = useDrop({
     accept: "constructor-cards",
     hover(item: IDragItem, monitor) {
-      console.log(item);
       if (!ref.current) {
         return;
       }

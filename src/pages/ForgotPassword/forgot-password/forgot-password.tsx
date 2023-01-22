@@ -5,7 +5,7 @@ import {
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
-import { restorePassword } from "../../../services/slices/auth";
+import { restorePassword } from "../../../services/slices/auth/auth";
 import { useFormAndValidation } from "../../../hooks/use-form-and-validation";
 import forgotPasswordStyles from "./forgot-password.module.scss";
 import { useAppDispatch } from "../../../hooks/redux-hooks";

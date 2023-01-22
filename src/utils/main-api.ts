@@ -12,10 +12,12 @@ type TUpdateUserRequest = {
   name: string;
 };
 
-export const getIngredientsRequest = () => request(INGREDIENTS_URL, {});
+export const getIngredientsRequest = () => {
+  return request(INGREDIENTS_URL);
+};
 
-export const createOrderRequest = (ingredients: Array<string>) =>
-  request(ORDERS_URL, {
+export const createOrderRequest = (ingredients: Array<string>) => {
+  return request(ORDERS_URL, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -25,23 +27,26 @@ export const createOrderRequest = (ingredients: Array<string>) =>
       ingredients,
     }),
   });
+};
 
-export const getOrderByNumberRequest = (number: number) =>
-  request(`${ORDERS_URL}/${number}`, {});
+export const getOrderByNumberRequest = (number: number) => {
+  return request(`${ORDERS_URL}/${number}`);
+};
 
-export const getUserRequest = () =>
-  request(USER_URL, {
+export const getUserRequest = () => {
+  return request(USER_URL, {
     headers: {
       Authorization: "Bearer " + getCookie("accessToken"),
     },
   });
+};
 
 export const updateUserRequest = ({
   email,
   password,
   name,
-}: TUpdateUserRequest) =>
-  request(USER_URL, {
+}: TUpdateUserRequest) => {
+  return request(USER_URL, {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json",
@@ -53,3 +58,4 @@ export const updateUserRequest = ({
       name,
     }),
   });
+};

@@ -2,12 +2,12 @@ import { useEffect, MouseEvent, FC, ReactNode } from "react";
 import { NavLink, useHistory } from "react-router-dom";
 import { useAppDispatch } from "../../../hooks/redux-hooks";
 
-import { logout } from "../../../services/slices/auth";
-import { getUser } from "../../../services/slices/user";
+import { logout } from "../../../services/slices/auth/auth";
+import { getUser } from "../../../services/slices/user/user";
 import {
   wsConnectionStart,
   wsConnectionClosed,
-} from "../../../services/slices/websocket";
+} from "../../../services/slices/websocket/websocket";
 import { BASE_WEBSOCKET_URL } from "../../../utils/constants";
 import { getCookie } from "../../../utils/cookie";
 

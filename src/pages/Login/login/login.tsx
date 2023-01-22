@@ -7,7 +7,7 @@ import {
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
-import { login } from "../../../services/slices/auth";
+import { login } from "../../../services/slices/auth/auth";
 import { getCookie } from "../../../utils/cookie";
 import { ILocationState } from "../../../components/app/app";
 import loginStyles from "./login.module.scss";
@@ -65,6 +65,7 @@ const Login = () => {
           size={"default"}
           pattern="^.+@(\w+)\.(\w+)$"
           required
+          data-at-selector="login-email-input"
         />
         <Input
           type={isHidden ? "password" : "text"}
@@ -79,6 +80,7 @@ const Login = () => {
           size={"default"}
           required
           pattern=".{6,}"
+          data-at-selector="login-password-input"
         />
         <Button
           type="primary"
@@ -86,6 +88,7 @@ const Login = () => {
           htmlType="submit"
           disabled={!isValid}
           aria-label={"Войти"}
+          data-at-selector="login-button"
         >
           Войти
         </Button>

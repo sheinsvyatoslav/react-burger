@@ -22,8 +22,8 @@ import FeedPage from "../../pages/FeedPage/feed-page";
 import OrderFeed from "../order-feed/order-feed";
 import ProfileForm from "../profile-form/profile-form";
 
-import { getIngredients } from "../../services/slices/ingredients";
-import { TCard, TOrder } from "../../utils/constants";
+import { getIngredients } from "../../services/slices/ingredients/ingredients";
+import { TCard, TOrder } from "../../utils/types";
 import OrderContent from "../order-content/order-content";
 export interface ILocationState {
   background: Location;

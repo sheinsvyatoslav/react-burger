@@ -4,10 +4,10 @@ import {
   wsConnectionFailed,
   wsConnectionClosed,
   wsGetAllOrders,
-} from "../slices/websocket";
+} from "../slices/websocket/websocket";
 import { AnyAction, Middleware, MiddlewareAPI } from "redux";
 import { AppDispatch, RootState } from "../..";
-import { TOrder } from "../../utils/constants";
+import { TOrder } from "../../utils/types";
 
 export const socketMiddleware: Middleware = (
   store: MiddlewareAPI<AppDispatch, RootState>
@@ -21,7 +21,7 @@ export const socketMiddleware: Middleware = (
     }
 
     if (action.type === wsConnectionClosed.type && socket?.readyState === 1) {
-      socket?.close();
+      socket.close();
     }
 
     if (socket) {
