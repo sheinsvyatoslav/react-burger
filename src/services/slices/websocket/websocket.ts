@@ -8,6 +8,14 @@ export type TWebsocketState = {
   totalToday: number;
 };
 
+export type TwsActions = {
+  wsInit: string;
+  onOpen: string;
+  onClose: string;
+  onError: string;
+  onMessage: string;
+};
+
 export const initialState: TWebsocketState = {
   wsConnected: false,
   allOrders: null,
@@ -45,5 +53,13 @@ export const {
   wsConnectionClosed,
   wsGetAllOrders,
 } = wsSlice.actions;
+
+export const wsActions = {
+  wsInit: wsConnectionStart.type,
+  onOpen: wsConnectionSuccess.type,
+  onClose: wsConnectionClosed.type,
+  onError: wsConnectionFailed.type,
+  onMessage: wsGetAllOrders.type,
+};
 
 export default wsSlice.reducer;
