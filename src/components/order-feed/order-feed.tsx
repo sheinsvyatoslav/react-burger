@@ -1,5 +1,5 @@
 import { useAppSelector } from "../../hooks/redux-hooks";
-import { TOrder } from "../../utils/constants";
+import { TOrder } from "../../utils/types";
 import OrderCard from "../order-card/order-card";
 import orderFeedStyles from "./order-feed.module.scss";
 

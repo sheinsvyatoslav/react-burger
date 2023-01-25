@@ -7,12 +7,13 @@ import App from "./components/app/app";
 import { rootReducer } from "./services/reducers/index";
 import { socketMiddleware } from "./services/middleware/socketMiddlware";
 import reportWebVitals from "./reportWebVitals";
+import { wsActions } from "./services/slices/websocket/websocket";
 
 const store = configureStore({
   reducer: rootReducer,
   devTools: process.env.NODE_ENV !== "production",
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(socketMiddleware),
+    getDefaultMiddleware().concat(socketMiddleware(wsActions)),
 });
 
 const root = ReactDOM.createRoot(

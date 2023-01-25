@@ -12,13 +12,12 @@ import {
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
 import ConstructorCard from "../constructor-card/constructor-card";
-import { createOrder, getTotalPrice } from "../../services/slices/order";
+import { createOrder, getTotalPrice } from "../../services/slices/order/order";
 import {
   addConstructorIngredient,
   clearConstructor,
-  getConstructorIngredients,
-} from "../../services/slices/ingredients";
-import { TCard, TDraggingCard } from "../../utils/constants";
+} from "../../services/slices/ingredients/ingredients";
+import { TCard, TDraggingCard } from "../../utils/types";
 import { getCookie } from "../../utils/cookie";
 import burgerConstructorStyles from "./burger-constructor.module.scss";
 
@@ -28,19 +27,13 @@ const BurgerConstructor = () => {
   const { bun, noBunIngredients } = useAppSelector(
     (state) => state.ingredients.constructorIngredients
   );
-  const { ingredients, constructorIngredients } = useAppSelector(
-    (state) => state.ingredients
-  );
+  const { ingredients } = useAppSelector((state) => state.ingredients);
   const { totalPrice } = useAppSelector((state) => state.order);
   const dispatch = useAppDispatch();
 
   const handleClosePopup = useCallback(() => {
     setIsOrderPopupOpened(false);
   }, []);
-
-  useEffect(() => {
-    dispatch(getConstructorIngredients(constructorIngredients));
-  }, [dispatch, constructorIngredients]);
 
   useEffect(() => {
     dispatch(getTotalPrice({ bun, noBunIngredients }));
@@ -78,6 +71,7 @@ const BurgerConstructor = () => {
       <div
         className={`${burgerConstructorStyles.container} mt-25`}
         ref={ingridientsTarget}
+        data-at-selector="burger-constructor_container"
       >
         {!bun && (
           <p
@@ -130,6 +124,7 @@ const BurgerConstructor = () => {
           onClick={handleOrderClick}
           disabled={!bun}
           aria-label={"Оформить заказ"}
+          data-at-selector="create-order-button"
         >
           Оформить заказ
         </Button>

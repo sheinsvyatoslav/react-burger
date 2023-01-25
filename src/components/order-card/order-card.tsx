@@ -6,7 +6,8 @@ import {
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import orderCardStyles from "./order-card.module.scss";
-import { TOrder, maxOrderIngredients } from "../../utils/constants";
+import { maxOrderIngredients } from "../../utils/constants";
+import { TOrder } from "../../utils/types";
 
 interface IOrderCard {
   order: TOrder;

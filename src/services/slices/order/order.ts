@@ -2,12 +2,11 @@ import { createSlice } from "@reduxjs/toolkit";
 import {
   createOrderRequest,
   getOrderByNumberRequest,
-} from "../../utils/main-api";
-import { refreshToken } from "./auth";
-import { TThunkAction, TCard, TOrder } from "../../utils/constants";
-import { clearIngredientsCount } from "./ingredients";
+} from "../../../utils/main-api";
+import { refreshToken } from "../auth/auth";
+import { TThunkAction, TCard, TOrder } from "../../../utils/types";
 
-type TOrderState = {
+export type TOrderState = {
   createOrderState: string;
   getOrderByNumberState: string;
   selectedOrder: TOrder | null;
@@ -15,7 +14,7 @@ type TOrderState = {
   totalPrice: number;
 };
 
-const initialState: TOrderState = {
+export const initialState: TOrderState = {
   createOrderState: "idle",
   getOrderByNumberState: "idle",
   selectedOrder: null,
@@ -35,7 +34,7 @@ const orderSlice = createSlice({
       state.orderNumber = action.payload.orderNumber;
     },
     createOrderFailed(state) {
-      state.getOrderByNumberState = "failed";
+      state.createOrderState = "failed";
     },
     getOrderByNumberPending(state) {
       state.getOrderByNumberState = "pending";
@@ -45,7 +44,7 @@ const orderSlice = createSlice({
       state.selectedOrder = action.payload;
     },
     getOrderByNumberFailed(state) {
-      state.createOrderState = "failed";
+      state.getOrderByNumberState = "failed";
     },
     getTotalPrice(state, action) {
       state.totalPrice =
@@ -69,12 +68,11 @@ export const {
 } = orderSlice.actions;
 
 export const createOrder = (ingredients: Array<string>): TThunkAction => {
-  return (dispatch) => {
+  return async (dispatch) => {
     dispatch(createOrderPending());
-    createOrderRequest(ingredients)
+    return createOrderRequest(ingredients)
       .then((res) => {
         dispatch(createOrderSuccess({ orderNumber: res.order.number }));
-        dispatch(clearIngredientsCount());
       })
       .catch((err) => {
         console.log(err);
@@ -88,9 +86,9 @@ export const createOrder = (ingredients: Array<string>): TThunkAction => {
 };
 
 export const getOrderByNumber = (number: number): TThunkAction => {
-  return (dispatch) => {
+  return async (dispatch) => {
     dispatch(getOrderByNumberPending());
-    getOrderByNumberRequest(number)
+    return getOrderByNumberRequest(number)
       .then((res) => {
         dispatch(getOrderByNumberSuccess(res.orders[0]));
       })

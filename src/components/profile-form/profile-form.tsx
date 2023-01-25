@@ -6,7 +6,7 @@ import {
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
-import { getUser, updateUser } from "../../services/slices/user";
+import { getUser, updateUser } from "../../services/slices/user/user";
 
 import profileFormStyles from "./profile-form.module.scss";
 

@@ -2,7 +2,7 @@ import { useAppSelector } from "../../../hooks/redux-hooks";
 import { useParams } from "react-router-dom";
 
 import IngredientDetails from "../ingredient-details/ingredient-details";
-import { TCard } from "../../../utils/constants";
+import { TCard } from "../../../utils/types";
 import ingredientPageStyles from "./ingredient-page.module.scss";
 
 const IngredientPage = () => {

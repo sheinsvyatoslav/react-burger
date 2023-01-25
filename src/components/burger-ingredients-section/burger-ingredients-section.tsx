@@ -2,7 +2,7 @@ import { FC, useMemo } from "react";
 import { useAppSelector } from "../../hooks/redux-hooks";
 
 import IngredientCard from "../ingredient-card/ingredient-card";
-import { TCard } from "../../utils/constants";
+import { TCard } from "../../utils/types";
 import burgerIngredientsSectionStyles from "./burger-ingredients-section.module.scss";
 
 interface IBurgerIngredientsSection {
@@ -35,7 +35,12 @@ const BurgerIngredientsSection: FC<IBurgerIngredientsSection> = ({
   return (
     <div className="mb-10" ref={innerRef}>
       <h2 className="text text_type_main-medium mb-6">{name}</h2>
-      <div className={burgerIngredientsSectionStyles.cards}>{content}</div>
+      <div
+        className={burgerIngredientsSectionStyles.cards}
+        data-at-selector={`burger-cards-${category}`}
+      >
+        {content}
+      </div>
     </div>
   );
 };

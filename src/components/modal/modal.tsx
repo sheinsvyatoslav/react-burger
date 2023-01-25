@@ -2,7 +2,9 @@ import { useEffect, FC, ReactNode } from "react";
 import ReactDOM from "react-dom";
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import ModalOverlay from "../modal-overlay/modal-overlay";
+import AppLoader from "../loader/loader";
 import modalStyles from "./modal.module.scss";
+import { useAppSelector } from "../../hooks/redux-hooks";
 
 const modalRoot = document.getElementById("modals") as HTMLDivElement;
 
@@ -18,6 +20,8 @@ interface KeyboardEvent {
 }
 
 const Modal: FC<IModal> = ({ isOpened, children, handleClosePopup }) => {
+  const { createOrderState } = useAppSelector((state) => state.order);
+
   useEffect(() => {
     if (!isOpened) return;
     const handleEscClose = (event: KeyboardEvent) => {
@@ -37,16 +41,22 @@ const Modal: FC<IModal> = ({ isOpened, children, handleClosePopup }) => {
     <div
       className={`${modalStyles.popup} ${isOpened && modalStyles.popupOpened}`}
     >
-      <div className={`${modalStyles.container} pl-10 pr-10 pt-10 pb-15`}>
-        {children}
-        <button
-          className={modalStyles.closeButton}
-          onClick={handleClosePopup}
-          type="button"
-        >
-          <CloseIcon type="primary" />
-        </button>
-      </div>
+      {createOrderState === "pending" ? (
+        <AppLoader />
+      ) : (
+        <div className={`${modalStyles.container} pl-10 pr-10 pt-10 pb-15`}>
+          {children}
+          <button
+            className={modalStyles.closeButton}
+            onClick={handleClosePopup}
+            type="button"
+            data-at-selector="close-modal-button"
+          >
+            <CloseIcon type="primary" />
+          </button>
+        </div>
+      )}
+
       <ModalOverlay handleClosePopup={handleClosePopup} />
     </div>,
     modalRoot

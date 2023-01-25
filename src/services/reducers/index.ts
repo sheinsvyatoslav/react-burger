@@ -1,9 +1,9 @@
 import { combineReducers } from "redux";
-import ingredientsReducer from "../slices/ingredients";
-import orderReducer from "../slices/order";
-import authReducer from "../slices/auth";
-import userReducer from "../slices/user";
-import wsReducer from "../slices/websocket";
+import ingredientsReducer from "../slices/ingredients/ingredients";
+import orderReducer from "../slices/order/order";
+import authReducer from "../slices/auth/auth";
+import userReducer from "../slices/user/user";
+import wsReducer from "../slices/websocket/websocket";
 
 export const rootReducer = combineReducers({
   ingredients: ingredientsReducer,

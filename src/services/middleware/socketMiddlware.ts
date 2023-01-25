@@ -1,57 +1,53 @@
-import {
-  wsConnectionStart,
-  wsConnectionSuccess,
-  wsConnectionFailed,
-  wsConnectionClosed,
-  wsGetAllOrders,
-} from "../slices/websocket";
 import { AnyAction, Middleware, MiddlewareAPI } from "redux";
 import { AppDispatch, RootState } from "../..";
-import { TOrder } from "../../utils/constants";
+import { TOrder } from "../../utils/types";
+import { TwsActions } from "../slices/websocket/websocket";
 
-export const socketMiddleware: Middleware = (
-  store: MiddlewareAPI<AppDispatch, RootState>
-) => {
-  let socket: WebSocket | null = null;
+export const socketMiddleware =
+  (wsActions: TwsActions): Middleware =>
+  (store: MiddlewareAPI<AppDispatch, RootState>) => {
+    let socket: WebSocket | null = null;
 
-  return (next) => (action: AnyAction) => {
-    const { dispatch } = store;
-    if (action.type === wsConnectionStart.type) {
-      socket = new WebSocket(`${action.payload}`);
-    }
+    return (next) => (action: AnyAction) => {
+      const { dispatch } = store;
+      const { type, payload } = action;
+      const { wsInit, onOpen, onClose, onError, onMessage } = wsActions;
+      if (type === wsInit) {
+        socket = new WebSocket(`${payload}`);
+      }
 
-    if (action.type === wsConnectionClosed.type && socket?.readyState === 1) {
-      socket?.close();
-    }
+      if (type === wsInit && socket?.readyState === 1) {
+        socket.close();
+      }
 
-    if (socket) {
-      socket.onopen = (e) => {
-        console.log(e);
-        dispatch(wsConnectionSuccess());
-      };
+      if (socket) {
+        socket.onopen = (e) => {
+          console.log(e);
+          dispatch({ type: onOpen });
+        };
 
-      socket.onerror = () => {
-        dispatch(wsConnectionFailed());
-      };
+        socket.onerror = () => {
+          dispatch({ type: onError });
+        };
 
-      socket.onmessage = (event) => {
-        const { data } = event;
-        const parsedData = JSON.parse(data);
-        const { success, ...restParsedData } = parsedData;
+        socket.onmessage = (event) => {
+          const { data } = event;
+          const parsedData = JSON.parse(data);
+          const { success, ...restParsedData } = parsedData;
 
-        restParsedData.orders.sort(
-          (a: TOrder, b: TOrder) =>
-            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-        );
+          restParsedData.orders.sort(
+            (a: TOrder, b: TOrder) =>
+              new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+          );
 
-        dispatch(wsGetAllOrders(restParsedData));
-      };
+          dispatch({ type: onMessage, payload: restParsedData });
+        };
 
-      socket.onclose = (e) => {
-        console.log(e);
-        dispatch(wsConnectionClosed());
-      };
-    }
-    next(action);
+        socket.onclose = (e) => {
+          console.log(e);
+          dispatch({ type: onClose });
+        };
+      }
+      next(action);
+    };
   };
-};

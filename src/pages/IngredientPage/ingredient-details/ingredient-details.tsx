@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { TCard } from "../../../utils/constants";
+import { TCard } from "../../../utils/types";
 import ingredientDetailsStyles from "./ingredient-details.module.scss";
 
 interface IIngredientDetails {
@@ -22,6 +22,7 @@ const IngredientDetails: FC<IIngredientDetails> = ({ ingredient }) => {
         />
         <h2
           className={`${ingredientDetailsStyles.name} text text_type_main-medium mb-8 `}
+          data-at-selector="ingredient-details-name"
         >
           {ingredient?.name}
         </h2>
