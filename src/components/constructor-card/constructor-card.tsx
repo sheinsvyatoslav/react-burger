@@ -1,13 +1,21 @@
 import { FC, useCallback, useRef } from "react";
 import { useDrag, useDrop } from "react-dnd";
-import { ConstructorElement, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+import {
+  ConstructorElement,
+  DragIcon,
+} from "@ya.praktikum/react-developer-burger-ui-components";
 import { XYCoord } from "dnd-core";
 
 import { useAppDispatch, useAppSelector } from "../../hooks/redux-hooks";
-import { deleteConstructorIngredient, updateConstructorList } from "../../services/slices/ingredients/ingredients";
-import { DraggingCard } from "../../utils/types";
+import {
+  deleteConstructorIngredient,
+  updateConstructorList,
+} from "../../services/slices/ingredients/ingredients";
+import { Card } from "../ingredient-card/ingredient-card";
 
 import styles from "./constructor-card.module.scss";
+
+export type DraggingCard = { dragId: string } & Card;
 
 type ConstructorCardProps = {
   item: DraggingCard;
@@ -20,7 +28,9 @@ type DragItem = {
 };
 
 export const ConstructorCard: FC<ConstructorCardProps> = ({ item, index }) => {
-  const { noBunIngredients } = useAppSelector((state) => state.ingredients.constructorIngredients);
+  const { noBunIngredients } = useAppSelector(
+    (state) => state.ingredients.constructorIngredients
+  );
   const dispatch = useAppDispatch();
   const ref = useRef<HTMLDivElement>(null);
   const id = item.dragId;
@@ -29,7 +39,9 @@ export const ConstructorCard: FC<ConstructorCardProps> = ({ item, index }) => {
     type: "constructor-cards",
     item: () => ({
       id,
-      index: noBunIngredients?.findIndex((item: DraggingCard) => item.dragId === id),
+      index: noBunIngredients?.findIndex(
+        (item: DraggingCard) => item.dragId === id
+      ),
     }),
     collect: (monitor) => ({
       opacity: monitor.isDragging() ? 0.5 : 1,
@@ -38,11 +50,13 @@ export const ConstructorCard: FC<ConstructorCardProps> = ({ item, index }) => {
 
   const moveCard = useCallback(
     (dragIndex: number, hoverIndex: number) => {
-      const dragCard = noBunIngredients![dragIndex];
-      const newCards = [...(noBunIngredients ?? [])];
-      newCards.splice(dragIndex, 1);
-      newCards.splice(hoverIndex, 0, dragCard);
-      dispatch(updateConstructorList(newCards));
+      if (noBunIngredients) {
+        const dragCard = noBunIngredients[dragIndex];
+        const newCards = [...(noBunIngredients ?? [])];
+        newCards.splice(dragIndex, 1);
+        newCards.splice(hoverIndex, 0, dragCard);
+        dispatch(updateConstructorList(newCards));
+      }
     },
     [noBunIngredients, dispatch]
   );
@@ -59,7 +73,8 @@ export const ConstructorCard: FC<ConstructorCardProps> = ({ item, index }) => {
         return;
       }
       const hoverBoundingRect = ref.current?.getBoundingClientRect();
-      const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
+      const hoverMiddleY =
+        (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
       const clientOffset = monitor.getClientOffset() as XYCoord;
       const hoverClientY = clientOffset.y - hoverBoundingRect.top;
 
@@ -81,7 +96,12 @@ export const ConstructorCard: FC<ConstructorCardProps> = ({ item, index }) => {
   }
 
   return (
-    <div className={styles.card} ref={ref} style={{ opacity }} onDrop={(e) => e.preventDefault()}>
+    <div
+      className={styles.card}
+      ref={ref}
+      style={{ opacity }}
+      onDrop={(e) => e.preventDefault()}
+    >
       <div className="pr-2">
         <DragIcon type="primary" />
       </div>

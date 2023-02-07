@@ -43,7 +43,7 @@ export const ForgotPassword = () => {
           pattern="^.+@(\w+)\.(\w+)$"
           required
         />
-        <Button type="primary" size="medium" htmlType="submit" disabled={!isValid} aria-label={"Восстановить"}>
+        <Button type="primary" size="medium" htmlType="submit" disabled={!isValid} aria-label="Восстановить">
           Восстановить
         </Button>
       </form>

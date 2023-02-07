@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
-import { configureStore } from "@reduxjs/toolkit";
+import { AnyAction, configureStore, ThunkAction } from "@reduxjs/toolkit";
 
 import { App } from "./components/app/app";
 import { socketMiddleware } from "./services/middleware/socketMiddlware";
@@ -13,10 +13,13 @@ import reportWebVitals from "./reportWebVitals";
 const store = configureStore({
   reducer: rootReducer,
   devTools: process.env.NODE_ENV !== "production",
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(socketMiddleware(wsActions)),
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(socketMiddleware(wsActions)),
 });
 
-const root = ReactDOM.createRoot(document.getElementById("root") as HTMLDivElement);
+const root = ReactDOM.createRoot(
+  document.getElementById("root") as HTMLDivElement
+);
 root.render(
   <BrowserRouter>
     <React.StrictMode>
@@ -29,5 +32,11 @@ root.render(
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
+export type ThunkActionType<ReturnType = void> = ThunkAction<
+  ReturnType,
+  RootState,
+  unknown,
+  AnyAction
+>;
 
 reportWebVitals();

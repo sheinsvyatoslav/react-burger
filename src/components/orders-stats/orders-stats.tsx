@@ -1,5 +1,4 @@
 import { useAppSelector } from "../../hooks/redux-hooks";
-import { Order } from "../../utils/types";
 
 import styles from "./orders-stats.module.scss";
 
@@ -14,9 +13,12 @@ export const OrdersStats = () => {
           <div className={styles.numbers}>
             {orders
               ?.slice(0, 30)
-              .filter((item: Order) => item.status === "done")
-              .map((item: Order) => (
-                <p key={item.number} className={`${styles.doneNumber} text text_type_digits-default mb-2`}>
+              .filter((item) => item.status === "done")
+              .map((item) => (
+                <p
+                  key={item.number}
+                  className={`${styles.doneNumber} text text_type_digits-default mb-2`}
+                >
                   {item.number}
                 </p>
               ))}
@@ -27,9 +29,12 @@ export const OrdersStats = () => {
           <div className={styles.numbers}>
             {orders
               ?.slice(0, 20)
-              .filter((item: Order) => item.status === "pending")
-              .map((item: Order) => (
-                <p key={item.number} className="text text_type_digits-default mb-2">
+              .filter((item) => item.status === "pending")
+              .map((item) => (
+                <p
+                  key={item.number}
+                  className="text text_type_digits-default mb-2"
+                >
                   {item.number}
                 </p>
               ))}
@@ -38,8 +43,12 @@ export const OrdersStats = () => {
       </div>
       <h3 className="text text_type_main-medium">Выполнено за все время:</h3>
       <p className={`${styles.number} text text_type_digits-large`}>{total}</p>
-      <h3 className="text text_type_main-medium mt-15">Выполнено за сегодня:</h3>
-      <p className={`${styles.number} text text_type_digits-large`}>{totalToday}</p>
+      <h3 className="text text_type_main-medium mt-15">
+        Выполнено за сегодня:
+      </h3>
+      <p className={`${styles.number} text text_type_digits-large`}>
+        {totalToday}
+      </p>
     </section>
   );
 };

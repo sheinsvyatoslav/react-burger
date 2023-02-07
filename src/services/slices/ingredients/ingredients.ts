@@ -1,9 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+import { ThunkActionType } from "../../..";
+import { DraggingCard } from "../../../components/constructor-card/constructor-card";
+import { Card } from "../../../components/ingredient-card/ingredient-card";
 import { getIngredientsRequest } from "../../../utils/main-api";
-import { Card, DraggingCard, TThunkAction } from "../../../utils/types";
 
-export type TIngredientsState = {
+export type IngredientsState = {
   ingredients: Array<Card> | null;
   getIngredientsState: string;
   selectedIngredient: Card | null;
@@ -14,7 +16,7 @@ export type TIngredientsState = {
   ingredientsCount: { [id: string]: number } | null;
 };
 
-export const initialState: TIngredientsState = {
+export const initialState: IngredientsState = {
   ingredients: null,
   getIngredientsState: "idle",
 
@@ -56,13 +58,18 @@ const ingredientsSlice = createSlice({
         if (!state.ingredientsCount) {
           state.ingredientsCount = {};
         }
-        state.ingredientsCount[newId] = (state.ingredientsCount[newId] || 0) + 1;
+        state.ingredientsCount[newId] =
+          (state.ingredientsCount[newId] || 0) + 1;
       }
     },
     deleteConstructorIngredient(state, action) {
-      state.constructorIngredients.noBunIngredients = state.constructorIngredients.noBunIngredients!.filter(
-        (item) => item.dragId !== action.payload.dragId
-      );
+      if (state.constructorIngredients.noBunIngredients) {
+        state.constructorIngredients.noBunIngredients =
+          state.constructorIngredients.noBunIngredients.filter(
+            (item) => item.dragId !== action.payload.dragId
+          );
+      }
+
       if (state.ingredientsCount) {
         state.ingredientsCount[action.payload._id] -= 1;
       }
@@ -87,7 +94,7 @@ export const {
   clearConstructor,
 } = ingredientsSlice.actions;
 
-export const getIngredients = (): TThunkAction => {
+export const getIngredients = (): ThunkActionType => {
   return async (dispatch) => {
     dispatch(getIngredientsPending());
     return getIngredientsRequest()

@@ -1,23 +1,22 @@
-import {
-  LOGIN_URL,
-  LOGOUT_URL,
-  REFRESH_TOKEN_URL,
-  REGISTER_URL,
-  request,
-  RESET_URL,
-  RESTORE_URL,
-} from "./api-constants";
+import { request } from "./api-constants";
 import { getCookie } from "./cookie";
 
-type TPassword = { password: number };
-type TResetPasswordRequest = { token: string } & TPassword;
-type TLogin = {
-  email: string;
-} & TPassword;
-type TRegisterRequest = { name: string } & TLogin;
+const BASE_URL = "https://norma.nomoreparties.space/api";
 
-export const registerRequest = ({ email, password, name }: TRegisterRequest) =>
-  request(REGISTER_URL, {
+type ResetPasswordRequest = {
+  token: string;
+  password: number;
+};
+
+type LoginRequest = {
+  email: string;
+  password: number;
+};
+
+type RegisterRequest = { name: string } & LoginRequest;
+
+export const registerRequest = ({ email, password, name }: RegisterRequest) =>
+  request(`${BASE_URL}/auth/register`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -30,7 +29,7 @@ export const registerRequest = ({ email, password, name }: TRegisterRequest) =>
   });
 
 export const restorePasswordRequest = (email: string) =>
-  request(RESTORE_URL, {
+  request(`${BASE_URL}/password-reset`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -40,8 +39,8 @@ export const restorePasswordRequest = (email: string) =>
     }),
   });
 
-export const resetPasswordRequest = ({ password, token }: TResetPasswordRequest) =>
-  request(RESET_URL, {
+export const resetPasswordRequest = ({ password, token }: ResetPasswordRequest) =>
+  request(`${BASE_URL}/reset`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -52,8 +51,8 @@ export const resetPasswordRequest = ({ password, token }: TResetPasswordRequest)
     }),
   });
 
-export const loginRequest = ({ email, password }: TLogin) =>
-  request(LOGIN_URL, {
+export const loginRequest = ({ email, password }: LoginRequest) =>
+  request(`${BASE_URL}/auth/login`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -65,7 +64,7 @@ export const loginRequest = ({ email, password }: TLogin) =>
   });
 
 export const logoutRequest = () =>
-  request(LOGOUT_URL, {
+  request(`${BASE_URL}/auth/logout`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -76,7 +75,7 @@ export const logoutRequest = () =>
   });
 
 export const refreshTokenRequest = () =>
-  request(REFRESH_TOKEN_URL, {
+  request(`${BASE_URL}/auth/token`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

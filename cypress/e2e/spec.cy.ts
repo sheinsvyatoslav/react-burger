@@ -2,8 +2,11 @@
 
 import "@4tw/cypress-drag-drop";
 
-import { testUserEmail, testUserPassword, URL } from "./constants";
 import * as selectors from "./selectors";
+
+const URL = "http://localhost:3000";
+const testUserEmail = "testuser12345@gmail.com";
+const testUserPassword = "12345678";
 
 describe("test burger constructor", () => {
   before(() => {

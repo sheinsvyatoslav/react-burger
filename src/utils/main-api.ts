@@ -1,18 +1,20 @@
-import { INGREDIENTS_URL, ORDERS_URL, request, USER_URL } from "./api-constants";
+import { request } from "./api-constants";
 import { getCookie } from "./cookie";
 
-type TUpdateUserRequest = {
+const BASE_URL = "https://norma.nomoreparties.space/api";
+
+type UpdateUserRequest = {
   email: string;
   password: number;
   name: string;
 };
 
 export const getIngredientsRequest = () => {
-  return request(INGREDIENTS_URL);
+  return request(`${BASE_URL}/ingredients`);
 };
 
 export const createOrderRequest = (ingredients: Array<string>) => {
-  return request(ORDERS_URL, {
+  return request(`${BASE_URL}/orders`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -25,19 +27,19 @@ export const createOrderRequest = (ingredients: Array<string>) => {
 };
 
 export const getOrderByNumberRequest = (number: number) => {
-  return request(`${ORDERS_URL}/${number}`);
+  return request(`${BASE_URL}/orders/${number}`);
 };
 
 export const getUserRequest = () => {
-  return request(USER_URL, {
+  return request(`${BASE_URL}/auth/user`, {
     headers: {
       Authorization: `Bearer ${getCookie("accessToken")}`,
     },
   });
 };
 
-export const updateUserRequest = ({ email, password, name }: TUpdateUserRequest) => {
-  return request(USER_URL, {
+export const updateUserRequest = ({ email, password, name }: UpdateUserRequest) => {
+  return request(`${BASE_URL}/auth/user`, {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json",

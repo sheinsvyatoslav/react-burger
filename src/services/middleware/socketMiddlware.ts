@@ -2,7 +2,6 @@ import { PayloadAction } from "@reduxjs/toolkit";
 import { Middleware, MiddlewareAPI } from "redux";
 
 import { AppDispatch, RootState } from "../..";
-import { Order } from "../../utils/types";
 import { WebsocketState, WsActions } from "../slices/websocket/websocket";
 
 export const socketMiddleware =
@@ -39,7 +38,9 @@ export const socketMiddleware =
 
           if (restParsedData.orders) {
             restParsedData.orders.sort(
-              (a: Order, b: Order) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+              (a, b) =>
+                new Date(b.createdAt).getTime() -
+                new Date(a.createdAt).getTime()
             );
 
             dispatch({ type: onMessage, payload: restParsedData });

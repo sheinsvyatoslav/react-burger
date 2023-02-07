@@ -1,17 +1,11 @@
 import { expect } from "@jest/globals";
 import fetchMock from "fetch-mock";
+import { AnyAction } from "redux";
 import configureMockStore from "redux-mock-store";
 import thunk from "redux-thunk";
 
-import {
-  LOGIN_URL,
-  LOGOUT_URL,
-  REFRESH_TOKEN_URL,
-  REGISTER_URL,
-  RESET_URL,
-  RESTORE_URL,
-} from "../../../utils/api-constants";
-import { TThunkAction } from "../../../utils/types";
+import { ThunkActionType } from "../../..";
+import { BASE_URL } from "../../../utils/api-constants";
 
 import userReducer, {
   initialState,
@@ -40,10 +34,10 @@ import userReducer, {
   restorePending,
   restoreSuccess,
 } from "./auth";
-import { TAuthState } from "./auth";
+import { AuthState } from "./auth";
 
 const middlewares = [thunk];
-const mockStore = configureMockStore<TAuthState, TThunkAction>(middlewares);
+const mockStore = configureMockStore<AuthState, ThunkActionType>(middlewares);
 
 describe("Auth reducer", () => {
   afterEach(() => {
@@ -55,7 +49,7 @@ describe("Auth reducer", () => {
   });
 
   it("Register success", () => {
-    fetchMock.postOnce(REGISTER_URL, {
+    fetchMock.postOnce(`${BASE_URL}/auth/register`, {
       status: 200,
       user: {
         name: "user",
@@ -64,7 +58,12 @@ describe("Auth reducer", () => {
       success: true,
     });
 
-    const expectedActions = [registerPending(), registerSuccess(), loginPending(), loginFailed()];
+    const expectedActions = [
+      registerPending(),
+      registerSuccess(),
+      loginPending(),
+      loginFailed(),
+    ];
     const store = mockStore(initialState);
 
     return store
@@ -79,7 +78,7 @@ describe("Auth reducer", () => {
           resetForm: () => {
             return undefined;
           },
-        }) as any
+        }) as unknown as AnyAction
       )
       .then(() => {
         expect(store.getActions()).toEqual(expectedActions);
@@ -91,7 +90,7 @@ describe("Auth reducer", () => {
   });
 
   it("Register failed", () => {
-    fetchMock.postOnce(REGISTER_URL, {
+    fetchMock.postOnce(`${BASE_URL}/auth/register`, {
       status: 400,
       success: false,
     });
@@ -111,7 +110,7 @@ describe("Auth reducer", () => {
           resetForm: () => {
             return undefined;
           },
-        }) as any
+        }) as unknown as AnyAction
       )
       .then(() => {
         expect(store.getActions()).toEqual(expectedActions);
@@ -123,7 +122,7 @@ describe("Auth reducer", () => {
   });
 
   it("Restore password success", () => {
-    fetchMock.postOnce(RESTORE_URL, {
+    fetchMock.postOnce(`${BASE_URL}/password-reset`, {
       status: 200,
       message: "Reset email sent",
       success: true,
@@ -142,7 +141,7 @@ describe("Auth reducer", () => {
           resetForm: () => {
             return undefined;
           },
-        }) as any
+        }) as unknown as AnyAction
       )
       .then(() => {
         expect(store.getActions()).toEqual(expectedActions);
@@ -154,7 +153,7 @@ describe("Auth reducer", () => {
   });
 
   it("Restore password failed", () => {
-    fetchMock.postOnce(RESTORE_URL, {
+    fetchMock.postOnce(`${BASE_URL}/password-reset`, {
       status: 400,
       success: false,
     });
@@ -172,7 +171,7 @@ describe("Auth reducer", () => {
           resetForm: () => {
             return undefined;
           },
-        }) as any
+        }) as unknown as AnyAction
       )
       .then(() => {
         expect(store.getActions()).toEqual(expectedActions);
@@ -184,7 +183,7 @@ describe("Auth reducer", () => {
   });
 
   it("Reset password success", () => {
-    fetchMock.postOnce(RESET_URL, {
+    fetchMock.postOnce(`${BASE_URL}/reset`, {
       status: 200,
       message: "Password successfully reset",
       success: true,
@@ -204,7 +203,7 @@ describe("Auth reducer", () => {
           resetForm: () => {
             return undefined;
           },
-        }) as any
+        }) as unknown as AnyAction
       )
       .then(() => {
         expect(store.getActions()).toEqual(expectedActions);
@@ -216,7 +215,7 @@ describe("Auth reducer", () => {
   });
 
   it("Reset password failed", () => {
-    fetchMock.postOnce(RESET_URL, {
+    fetchMock.postOnce(`${BASE_URL}/reset`, {
       status: 400,
       success: false,
     });
@@ -235,7 +234,7 @@ describe("Auth reducer", () => {
           resetForm: () => {
             return undefined;
           },
-        }) as any
+        }) as unknown as AnyAction
       )
       .then(() => {
         expect(store.getActions()).toEqual(expectedActions);
@@ -247,7 +246,7 @@ describe("Auth reducer", () => {
   });
 
   it("Login success", () => {
-    fetchMock.postOnce(LOGIN_URL, {
+    fetchMock.postOnce(`${BASE_URL}/auth/login`, {
       status: 200,
       user: {
         email: "123456@mail.ru",
@@ -268,7 +267,7 @@ describe("Auth reducer", () => {
           resetForm: () => {
             return undefined;
           },
-        }) as any
+        }) as unknown as AnyAction
       )
       .then(() => {
         expect(store.getActions()).toEqual(expectedActions);
@@ -280,7 +279,7 @@ describe("Auth reducer", () => {
   });
 
   it("Login failed", () => {
-    fetchMock.postOnce(LOGIN_URL, {
+    fetchMock.postOnce(`${BASE_URL}/auth/login`, {
       status: 400,
       success: false,
     });
@@ -296,7 +295,7 @@ describe("Auth reducer", () => {
           resetForm: () => {
             return undefined;
           },
-        }) as any
+        }) as unknown as AnyAction
       )
       .then(() => {
         expect(store.getActions()).toEqual(expectedActions);
@@ -308,7 +307,7 @@ describe("Auth reducer", () => {
   });
 
   it("Logout success", () => {
-    fetchMock.postOnce(LOGOUT_URL, {
+    fetchMock.postOnce(`${BASE_URL}/auth/logout`, {
       status: 200,
       user: {
         email: "123456@mail.ru",
@@ -326,7 +325,7 @@ describe("Auth reducer", () => {
           newRoute: () => {
             return undefined;
           },
-        }) as any
+        }) as unknown as AnyAction
       )
       .then(() => {
         expect(store.getActions()).toEqual(expectedActions);
@@ -338,7 +337,7 @@ describe("Auth reducer", () => {
   });
 
   it("Logout failed", () => {
-    fetchMock.postOnce(LOGOUT_URL, {
+    fetchMock.postOnce(`${BASE_URL}/auth/logout`, {
       status: 400,
       success: false,
     });
@@ -352,7 +351,7 @@ describe("Auth reducer", () => {
           newRoute: () => {
             return undefined;
           },
-        }) as any
+        }) as unknown as AnyAction
       )
       .then(() => {
         expect(store.getActions()).toEqual(expectedActions);
@@ -364,13 +363,18 @@ describe("Auth reducer", () => {
   });
 
   it("Refresh token success", () => {
-    fetchMock.postOnce(REFRESH_TOKEN_URL, {
+    fetchMock.postOnce(`${BASE_URL}/auth/token`, {
       status: 200,
       accessToken: "Bearer 123",
       success: true,
     });
 
-    const expectedActions = [refreshTokenPending(), refreshTokenSuccess(), logoutPending(), logoutFailed()];
+    const expectedActions = [
+      refreshTokenPending(),
+      refreshTokenSuccess(),
+      logoutPending(),
+      logoutFailed(),
+    ];
     const store = mockStore(initialState);
 
     return store
@@ -381,7 +385,7 @@ describe("Auth reducer", () => {
               return undefined;
             },
           })
-        ) as any
+        ) as unknown as AnyAction
       )
       .then(() => {
         expect(store.getActions()).toEqual(expectedActions);
@@ -393,7 +397,7 @@ describe("Auth reducer", () => {
   });
 
   it("Refresh token failed", () => {
-    fetchMock.postOnce(REFRESH_TOKEN_URL, {
+    fetchMock.postOnce(`${BASE_URL}/auth/token`, {
       status: 400,
       success: false,
     });
@@ -409,7 +413,7 @@ describe("Auth reducer", () => {
               return undefined;
             },
           })
-        ) as any
+        ) as unknown as AnyAction
       )
       .then(() => {
         expect(store.getActions()).toEqual(expectedActions);

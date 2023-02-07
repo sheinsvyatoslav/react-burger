@@ -1,11 +1,16 @@
 import { expect } from "@jest/globals";
 import fetchMock from "fetch-mock";
+import { AnyAction } from "redux";
 import configureMockStore from "redux-mock-store";
 import thunk from "redux-thunk";
 
-import { ORDERS_URL } from "../../../utils/api-constants";
-import { secondIngredient, testBunIngredient, testNoBunIngredient } from "../../../utils/constants";
-import { TThunkAction } from "../../../utils/types";
+import { ThunkActionType } from "../../..";
+import { BASE_URL } from "../../../utils/api-constants";
+import {
+  secondIngredient,
+  testBunIngredient,
+  testNoBunIngredient,
+} from "../../../utils/constants";
 
 import orderReducer, {
   createOrder,
@@ -22,7 +27,7 @@ import orderReducer, {
 import { OrderState } from "./order";
 
 const middlewares = [thunk];
-const mockStore = configureMockStore<OrderState, TThunkAction>(middlewares);
+const mockStore = configureMockStore<OrderState, ThunkActionType>(middlewares);
 
 describe("Orders reducer", () => {
   afterEach(() => {
@@ -34,7 +39,7 @@ describe("Orders reducer", () => {
   });
 
   it("Create order success", () => {
-    fetchMock.postOnce(ORDERS_URL, {
+    fetchMock.postOnce(`${BASE_URL}/orders`, {
       status: 200,
       order: {
         number: 123456,
@@ -50,25 +55,27 @@ describe("Orders reducer", () => {
     ];
     const store = mockStore(initialState);
 
-    return store.dispatch(createOrder(["ing1", "ing2"]) as any).then(() => {
-      expect(store.getActions()).toEqual(expectedActions);
-      expect(
-        orderReducer(
-          initialState,
-          createOrderSuccess({
-            orderNumber: 123456,
-          })
-        )
-      ).toEqual({
-        ...initialState,
-        orderNumber: 123456,
-        createOrderState: "success",
+    return store
+      .dispatch(createOrder(["ing1", "ing2"]) as unknown as AnyAction)
+      .then(() => {
+        expect(store.getActions()).toEqual(expectedActions);
+        expect(
+          orderReducer(
+            initialState,
+            createOrderSuccess({
+              orderNumber: 123456,
+            })
+          )
+        ).toEqual({
+          ...initialState,
+          orderNumber: 123456,
+          createOrderState: "success",
+        });
       });
-    });
   });
 
   it("Create order failed", () => {
-    fetchMock.postOnce(ORDERS_URL, {
+    fetchMock.postOnce(`${BASE_URL}/orders`, {
       status: 400,
       success: false,
     });
@@ -76,17 +83,19 @@ describe("Orders reducer", () => {
     const expectedActions = [createOrderPending(), createOrderFailed()];
     const store = mockStore(initialState);
 
-    return store.dispatch(createOrder(["ing1", "ing2"]) as any).then(() => {
-      expect(store.getActions()).toEqual(expectedActions);
-      expect(orderReducer(initialState, createOrderFailed())).toEqual({
-        ...initialState,
-        createOrderState: "failed",
+    return store
+      .dispatch(createOrder(["ing1", "ing2"]) as unknown as AnyAction)
+      .then(() => {
+        expect(store.getActions()).toEqual(expectedActions);
+        expect(orderReducer(initialState, createOrderFailed())).toEqual({
+          ...initialState,
+          createOrderState: "failed",
+        });
       });
-    });
   });
 
   it("Get order by number success", () => {
-    fetchMock.getOnce(`${ORDERS_URL}/${123456}`, {
+    fetchMock.getOnce(`${BASE_URL}/orders/${123456}`, {
       status: 200,
       orders: [
         {
@@ -106,43 +115,50 @@ describe("Orders reducer", () => {
     ];
     const store = mockStore(initialState);
 
-    return store.dispatch(getOrderByNumber(123456) as any).then(() => {
-      expect(store.getActions()).toEqual(expectedActions);
-      expect(
-        orderReducer(
-          initialState,
-          getOrderByNumberSuccess({
+    return store
+      .dispatch(getOrderByNumber(123456) as unknown as AnyAction)
+      .then(() => {
+        expect(store.getActions()).toEqual(expectedActions);
+        expect(
+          orderReducer(
+            initialState,
+            getOrderByNumberSuccess({
+              name: "order",
+              number: 123456,
+            })
+          )
+        ).toEqual({
+          ...initialState,
+          selectedOrder: {
             name: "order",
             number: 123456,
-          })
-        )
-      ).toEqual({
-        ...initialState,
-        selectedOrder: {
-          name: "order",
-          number: 123456,
-        },
-        getOrderByNumberState: "success",
+          },
+          getOrderByNumberState: "success",
+        });
       });
-    });
   });
 
   it("Get order by number failed", () => {
-    fetchMock.getOnce(ORDERS_URL, {
+    fetchMock.getOnce(`${BASE_URL}/orders`, {
       status: 400,
       success: false,
     });
 
-    const expectedActions = [getOrderByNumberPending(), getOrderByNumberFailed()];
+    const expectedActions = [
+      getOrderByNumberPending(),
+      getOrderByNumberFailed(),
+    ];
     const store = mockStore(initialState);
 
-    return store.dispatch(getOrderByNumber(123456) as any).then(() => {
-      expect(store.getActions()).toEqual(expectedActions);
-      expect(orderReducer(initialState, getOrderByNumberFailed())).toEqual({
-        ...initialState,
-        getOrderByNumberState: "failed",
+    return store
+      .dispatch(getOrderByNumber(123456) as unknown as AnyAction)
+      .then(() => {
+        expect(store.getActions()).toEqual(expectedActions);
+        expect(orderReducer(initialState, getOrderByNumberFailed())).toEqual({
+          ...initialState,
+          getOrderByNumberState: "failed",
+        });
       });
-    });
   });
 
   it("Get total price", () => {

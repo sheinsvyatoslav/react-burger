@@ -1,10 +1,11 @@
 import { expect } from "@jest/globals";
 import fetchMock from "fetch-mock";
+import { AnyAction } from "redux";
 import configureMockStore from "redux-mock-store";
 import thunk from "redux-thunk";
 
-import { USER_URL } from "../../../utils/api-constants";
-import { TThunkAction } from "../../../utils/types";
+import { ThunkActionType } from "../../..";
+import { BASE_URL } from "../../../utils/api-constants";
 
 import userReducer, {
   getUser,
@@ -20,7 +21,7 @@ import userReducer, {
 import { UserState } from "./user";
 
 const middlewares = [thunk];
-const mockStore = configureMockStore<UserState, TThunkAction>(middlewares);
+const mockStore = configureMockStore<UserState, ThunkActionType>(middlewares);
 
 describe("User reducer", () => {
   afterEach(() => {
@@ -32,7 +33,7 @@ describe("User reducer", () => {
   });
 
   it("Get user success", () => {
-    fetchMock.getOnce(USER_URL, {
+    fetchMock.getOnce(`${BASE_URL}/auth/user`, {
       status: 200,
       user: {
         name: "user",
@@ -50,7 +51,7 @@ describe("User reducer", () => {
     ];
     const store = mockStore(initialState);
 
-    return store.dispatch(getUser() as any).then(() => {
+    return store.dispatch(getUser() as unknown as AnyAction).then(() => {
       expect(store.getActions()).toEqual(expectedActions);
       expect(
         userReducer(
@@ -69,7 +70,7 @@ describe("User reducer", () => {
   });
 
   it("Get user failed", () => {
-    fetchMock.getOnce(USER_URL, {
+    fetchMock.getOnce(`${BASE_URL}/auth/user`, {
       status: 400,
       success: false,
     });
@@ -77,7 +78,7 @@ describe("User reducer", () => {
     const expectedActions = [getUserPending(), getUserFailed()];
     const store = mockStore(initialState);
 
-    return store.dispatch(getUser() as any).then(() => {
+    return store.dispatch(getUser() as unknown as AnyAction).then(() => {
       expect(store.getActions()).toEqual(expectedActions);
       expect(userReducer(initialState, getUserFailed())).toEqual({
         ...initialState,
@@ -87,7 +88,7 @@ describe("User reducer", () => {
   });
 
   it("Update user success", () => {
-    fetchMock.patchOnce(USER_URL, {
+    fetchMock.patchOnce(`${BASE_URL}/auth/user`, {
       status: 200,
       user: {
         name: "me",
@@ -113,7 +114,7 @@ describe("User reducer", () => {
           name: "me",
           password: 123456,
           email: "654321@mail.ru",
-        }) as any
+        }) as unknown as AnyAction
       )
       .then(() => {
         expect(store.getActions()).toEqual(expectedActions);
@@ -139,7 +140,7 @@ describe("User reducer", () => {
   });
 
   it("Update user failed", () => {
-    fetchMock.patchOnce(USER_URL, {
+    fetchMock.patchOnce(`${BASE_URL}/auth/user`, {
       status: 400,
       success: false,
     });
@@ -153,7 +154,7 @@ describe("User reducer", () => {
           name: "me",
           password: 123456,
           email: "654321@mail.ru",
-        }) as any
+        }) as unknown as AnyAction
       )
       .then(() => {
         expect(store.getActions()).toEqual(expectedActions);
