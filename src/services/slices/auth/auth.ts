@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+import { ThunkActionType } from "../../..";
 import {
   loginRequest,
   logoutRequest,
@@ -9,26 +10,35 @@ import {
   restorePasswordRequest,
 } from "../../../utils/auth-api";
 import { clearCookie, setCookie } from "../../../utils/cookie";
-import { TThunkAction } from "../../../utils/types";
 
-type TNewRoute = { newRoute: () => void };
-type TResetForm = { resetForm: () => void };
-type TAuthData = { email: string; password: number };
-type TRegister = { name: string } & TAuthData & TNewRoute & TResetForm;
-type TLogin = TAuthData & TResetForm;
+type Register = {
+  email: string;
+  password: number;
+  name: string;
+  newRoute: () => void;
+  resetForm: () => void;
+};
 
-type TResetPassword = {
+type Login = {
+  email: string;
+  password: number;
+  resetForm: () => void;
+};
+
+type ResetPassword = {
   password: number;
   token: string;
-} & TNewRoute &
-  TResetForm;
+  newRoute: () => void;
+  resetForm: () => void;
+};
 
-type TRestorePassword = {
+type RestorePassword = {
   email: string;
-} & TNewRoute &
-  TResetForm;
+  newRoute: () => void;
+  resetForm: () => void;
+};
 
-export type TAuthState = {
+export type AuthState = {
   registerState: string;
   restoreState: string;
   resetState: string;
@@ -37,7 +47,7 @@ export type TAuthState = {
   refreshTokenState: string;
 };
 
-export const initialState: TAuthState = {
+export const initialState: AuthState = {
   registerState: "idle",
   restoreState: "idle",
   resetState: "idle",
@@ -128,7 +138,11 @@ export const {
   refreshTokenFailed,
 } = authSlice.actions;
 
-export const login = ({ email, password, resetForm }: TLogin): TThunkAction => {
+export const login = ({
+  email,
+  password,
+  resetForm,
+}: Login): ThunkActionType => {
   return async (dispatch) => {
     dispatch(loginPending());
     return loginRequest({ email, password })
@@ -149,7 +163,13 @@ export const login = ({ email, password, resetForm }: TLogin): TThunkAction => {
   };
 };
 
-export const register = ({ email, password, name, resetForm, newRoute }: TRegister): TThunkAction => {
+export const register = ({
+  email,
+  password,
+  name,
+  resetForm,
+  newRoute,
+}: Register): ThunkActionType => {
   return (dispatch) => {
     dispatch(registerPending());
     return registerRequest({ email, password, name })
@@ -165,7 +185,11 @@ export const register = ({ email, password, name, resetForm, newRoute }: TRegist
   };
 };
 
-export const restorePassword = ({ email, newRoute, resetForm }: TRestorePassword): TThunkAction => {
+export const restorePassword = ({
+  email,
+  newRoute,
+  resetForm,
+}: RestorePassword): ThunkActionType => {
   return async (dispatch) => {
     dispatch(restorePending());
     return restorePasswordRequest(email)
@@ -182,7 +206,12 @@ export const restorePassword = ({ email, newRoute, resetForm }: TRestorePassword
   };
 };
 
-export const resetPassword = ({ password, token, resetForm, newRoute }: TResetPassword): TThunkAction => {
+export const resetPassword = ({
+  password,
+  token,
+  resetForm,
+  newRoute,
+}: ResetPassword): ThunkActionType => {
   return async (dispatch) => {
     dispatch(resetPending());
     return resetPasswordRequest({ password, token })
@@ -199,7 +228,11 @@ export const resetPassword = ({ password, token, resetForm, newRoute }: TResetPa
   };
 };
 
-export const logout = ({ newRoute }: TNewRoute): TThunkAction => {
+export const logout = ({
+  newRoute,
+}: {
+  newRoute: () => void;
+}): ThunkActionType => {
   return async (dispatch) => {
     dispatch(logoutPending());
     return logoutRequest()
@@ -217,7 +250,9 @@ export const logout = ({ newRoute }: TNewRoute): TThunkAction => {
   };
 };
 
-export const refreshToken = (afterRefresh: TThunkAction): TThunkAction => {
+export const refreshToken = (
+  afterRefresh: ThunkActionType
+): ThunkActionType => {
   return async (dispatch) => {
     dispatch(refreshTokenPending());
     return refreshTokenRequest()

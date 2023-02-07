@@ -1,14 +1,20 @@
 import { useCallback, useEffect, useState } from "react";
 import { useDrop } from "react-dnd";
 import { useHistory } from "react-router-dom";
-import { Button, ConstructorElement, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+import {
+  Button,
+  ConstructorElement,
+  CurrencyIcon,
+} from "@ya.praktikum/react-developer-burger-ui-components";
 import { v1 } from "uuid";
 
 import { useAppDispatch, useAppSelector } from "../../hooks/redux-hooks";
-import { addConstructorIngredient, clearConstructor } from "../../services/slices/ingredients/ingredients";
+import {
+  addConstructorIngredient,
+  clearConstructor,
+} from "../../services/slices/ingredients/ingredients";
 import { createOrder, getTotalPrice } from "../../services/slices/order/order";
 import { getCookie } from "../../utils/cookie";
-import { Card, DraggingCard } from "../../utils/types";
 import { ConstructorCard } from "../constructor-card/constructor-card";
 import { Modal } from "../modal/modal";
 import { OrderDetails } from "../order-details/order-details";
@@ -18,7 +24,9 @@ import styles from "./burger-constructor.module.scss";
 export const BurgerConstructor = () => {
   const history = useHistory();
   const [isOrderPopupOpened, setIsOrderPopupOpened] = useState<boolean>(false);
-  const { bun, noBunIngredients } = useAppSelector((state) => state.ingredients.constructorIngredients);
+  const { bun, noBunIngredients } = useAppSelector(
+    (state) => state.ingredients.constructorIngredients
+  );
   const { ingredients } = useAppSelector((state) => state.ingredients);
   const { totalPrice } = useAppSelector((state) => state.order);
   const dispatch = useAppDispatch();
@@ -33,7 +41,12 @@ export const BurgerConstructor = () => {
 
   const handleOrderClick = () => {
     if (getCookie("accessToken")) {
-      dispatch(createOrder([bun!._id, ...noBunIngredients!.map((item: Card) => item._id)]));
+      if (bun && noBunIngredients) {
+        dispatch(
+          createOrder([bun._id, ...noBunIngredients.map((item) => item._id)])
+        );
+      }
+
       setIsOrderPopupOpened(true);
       dispatch(clearConstructor());
     } else {
@@ -46,7 +59,7 @@ export const BurgerConstructor = () => {
     drop(ingredient: { id: string }) {
       dispatch(
         addConstructorIngredient({
-          draggedIngridient: ingredients?.find((item: Card) => {
+          draggedIngridient: ingredients?.find((item) => {
             return item._id === ingredient.id;
           }),
           dragId: v1(),
@@ -80,7 +93,7 @@ export const BurgerConstructor = () => {
         </div>
         {noBunIngredients && (
           <div className={`${styles.cards} pr-2 pl-4`}>
-            {noBunIngredients.map((item: DraggingCard, i: number) => (
+            {noBunIngredients.map((item, i) => (
               <ConstructorCard item={item} key={item.dragId} index={i} />
             ))}
           </div>
@@ -108,13 +121,17 @@ export const BurgerConstructor = () => {
           htmlType="submit"
           onClick={handleOrderClick}
           disabled={!bun}
-          aria-label={"Оформить заказ"}
+          aria-label="Оформить заказ"
           data-at-selector="create-order-button"
         >
           Оформить заказ
         </Button>
       </div>
-      <Modal isOpened={isOrderPopupOpened} handleClosePopup={handleClosePopup} title="">
+      <Modal
+        isOpened={isOrderPopupOpened}
+        handleClosePopup={handleClosePopup}
+        title=""
+      >
         <OrderDetails />
       </Modal>
     </section>

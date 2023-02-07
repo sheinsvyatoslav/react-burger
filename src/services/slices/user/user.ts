@@ -1,8 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+import { ThunkActionType } from "../../..";
 import { getCookie, setCookie } from "../../../utils/cookie";
 import { getUserRequest, updateUserRequest } from "../../../utils/main-api";
-import { TThunkAction } from "../../../utils/types";
 import { refreshToken } from "../auth/auth";
 
 export type User = {
@@ -50,10 +50,16 @@ const userSlice = createSlice({
   },
 });
 
-export const { getUserPending, getUserSuccess, getUserFailed, updateUserPending, updateUserSuccess, updateUserFailed } =
-  userSlice.actions;
+export const {
+  getUserPending,
+  getUserSuccess,
+  getUserFailed,
+  updateUserPending,
+  updateUserSuccess,
+  updateUserFailed,
+} = userSlice.actions;
 
-export const getUser = (): TThunkAction => {
+export const getUser = (): ThunkActionType => {
   return async (dispatch) => {
     dispatch(getUserPending());
     return getUserRequest()
@@ -77,7 +83,11 @@ export const getUser = (): TThunkAction => {
   };
 };
 
-export const updateUser = ({ email, password, name }: User): TThunkAction => {
+export const updateUser = ({
+  email,
+  password,
+  name,
+}: User): ThunkActionType => {
   return async (dispatch) => {
     dispatch(updateUserPending());
     return updateUserRequest({ email, password, name })

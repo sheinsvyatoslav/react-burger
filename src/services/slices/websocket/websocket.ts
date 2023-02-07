@@ -1,6 +1,6 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
-import { Order } from "../../../utils/types";
+import { Order } from "../../../components/order-card/order-card";
 
 export type WebsocketState = {
   wsConnected: boolean;
@@ -49,8 +49,13 @@ const wsSlice = createSlice({
   },
 });
 
-export const { wsConnectionStart, wsConnectionSuccess, wsConnectionFailed, wsConnectionClosed, wsGetAllOrders } =
-  wsSlice.actions;
+export const {
+  wsConnectionStart,
+  wsConnectionSuccess,
+  wsConnectionFailed,
+  wsConnectionClosed,
+  wsGetAllOrders,
+} = wsSlice.actions;
 
 export const wsActions = {
   wsInit: wsConnectionStart.type,

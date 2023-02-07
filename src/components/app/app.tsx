@@ -15,10 +15,11 @@ import { Profile } from "../../pages/Profile/profile";
 import { Register } from "../../pages/Register/register";
 import { ResetPassword } from "../../pages/ResetPassword/reset-password";
 import { getIngredients } from "../../services/slices/ingredients/ingredients";
-import { Card, Order } from "../../utils/types";
 import { AppHeader } from "../app-header/app-header";
+import { Card } from "../ingredient-card/ingredient-card";
 import { Main } from "../main/main";
 import { Modal } from "../modal/modal";
+import { Order } from "../order-card/order-card";
 import { OrderContent } from "../order-content/order-content";
 import { OrderFeed } from "../order-feed/order-feed";
 import { ProfileForm } from "../profile-form/profile-form";
@@ -46,7 +47,8 @@ export const App = () => {
   const orderIngredients = locationState?.orderIngredients;
   const { resetForm } = useFormAndValidation();
 
-  const handleModalClose = () => (background.pathname === "/" ? history.replace("/") : history.goBack());
+  const handleModalClose = () =>
+    background.pathname === "/" ? history.replace("/") : history.goBack();
 
   useEffect(() => {
     resetForm();
@@ -104,7 +106,10 @@ export const App = () => {
 
       {background && (
         <Route exact path="/ingredients/:ingredientId">
-          <Modal handleClosePopup={handleModalClose} isOpened={Boolean(background)}>
+          <Modal
+            handleClosePopup={handleModalClose}
+            isOpened={Boolean(background)}
+          >
             <IngredientDetails ingredient={ingredient} />
           </Modal>
         </Route>
@@ -112,16 +117,30 @@ export const App = () => {
 
       {background && (
         <Route exact path="/feed/:id">
-          <Modal handleClosePopup={handleModalClose} isOpened={Boolean(background)}>
-            <OrderContent order={order} totalPrice={totalPrice} orderIngredients={orderIngredients} />
+          <Modal
+            handleClosePopup={handleModalClose}
+            isOpened={Boolean(background)}
+          >
+            <OrderContent
+              order={order}
+              totalPrice={totalPrice}
+              orderIngredients={orderIngredients}
+            />
           </Modal>
         </Route>
       )}
 
       {background && (
         <ProtectedRoute exact path="/profile/orders/:id">
-          <Modal handleClosePopup={handleModalClose} isOpened={Boolean(background)}>
-            <OrderContent order={order} totalPrice={totalPrice} orderIngredients={orderIngredients} />
+          <Modal
+            handleClosePopup={handleModalClose}
+            isOpened={Boolean(background)}
+          >
+            <OrderContent
+              order={order}
+              totalPrice={totalPrice}
+              orderIngredients={orderIngredients}
+            />
           </Modal>
         </ProtectedRoute>
       )}

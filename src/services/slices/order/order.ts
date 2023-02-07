@@ -1,7 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { createOrderRequest, getOrderByNumberRequest } from "../../../utils/main-api";
-import { Card, Order, TThunkAction } from "../../../utils/types";
+import { ThunkActionType } from "../../..";
+import { Card } from "../../../components/ingredient-card/ingredient-card";
+import { Order } from "../../../components/order-card/order-card";
+import {
+  createOrderRequest,
+  getOrderByNumberRequest,
+} from "../../../utils/main-api";
 import { refreshToken } from "../auth/auth";
 
 export type OrderState = {
@@ -46,7 +51,10 @@ const orderSlice = createSlice({
     },
     getTotalPrice(state, action) {
       state.totalPrice =
-        action.payload.noBunIngredients?.reduce((acc: number, item: Card) => acc + item.price, 0) +
+        action.payload.noBunIngredients?.reduce(
+          (acc: number, item: Card) => acc + item.price,
+          0
+        ) +
           action.payload.bun?.price * 2 || 0;
     },
   },
@@ -62,7 +70,7 @@ export const {
   getTotalPrice,
 } = orderSlice.actions;
 
-export const createOrder = (ingredients: Array<string>): TThunkAction => {
+export const createOrder = (ingredients: Array<string>): ThunkActionType => {
   return async (dispatch) => {
     dispatch(createOrderPending());
     return createOrderRequest(ingredients)
@@ -80,7 +88,7 @@ export const createOrder = (ingredients: Array<string>): TThunkAction => {
   };
 };
 
-export const getOrderByNumber = (number: number): TThunkAction => {
+export const getOrderByNumber = (number: number): ThunkActionType => {
   return async (dispatch) => {
     dispatch(getOrderByNumberPending());
     return getOrderByNumberRequest(number)

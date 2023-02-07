@@ -1,5 +1,3 @@
-export const maxOrderIngredients = 6;
-
 export const BASE_WEBSOCKET_URL = "wss://norma.nomoreparties.space/orders";
 export const testNoBunIngredient = {
   _id: "test-id",
