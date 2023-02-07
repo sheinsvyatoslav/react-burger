@@ -1,24 +1,26 @@
+import { expect } from "@jest/globals";
 import fetchMock from "fetch-mock";
 import configureMockStore from "redux-mock-store";
 import thunk from "redux-thunk";
-import { expect } from "@jest/globals";
+
+import { USER_URL } from "../../../utils/api-constants";
+import { TThunkAction } from "../../../utils/types";
+
 import userReducer, {
+  getUser,
+  getUserFailed,
   getUserPending,
   getUserSuccess,
-  getUserFailed,
+  initialState,
+  updateUser,
+  updateUserFailed,
   updateUserPending,
   updateUserSuccess,
-  updateUserFailed,
-  initialState,
-  getUser,
-  updateUser,
 } from "./user";
-import { TThunkAction } from "../../../utils/types";
-import { TUserState } from "./user";
-import { USER_URL } from "../../../utils/api-constants";
+import { UserState } from "./user";
 
 const middlewares = [thunk];
-const mockStore = configureMockStore<TUserState, TThunkAction>(middlewares);
+const mockStore = configureMockStore<UserState, TThunkAction>(middlewares);
 
 describe("User reducer", () => {
   afterEach(() => {

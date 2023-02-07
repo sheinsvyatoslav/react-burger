@@ -1,19 +1,21 @@
-import { AnyAction, Middleware, MiddlewareAPI } from "redux";
+import { PayloadAction } from "@reduxjs/toolkit";
+import { Middleware, MiddlewareAPI } from "redux";
+
 import { AppDispatch, RootState } from "../..";
-import { TOrder } from "../../utils/types";
-import { TwsActions } from "../slices/websocket/websocket";
+import { Order } from "../../utils/types";
+import { WebsocketState, WsActions } from "../slices/websocket/websocket";
 
 export const socketMiddleware =
-  (wsActions: TwsActions): Middleware =>
+  (wsActions: WsActions): Middleware =>
   (store: MiddlewareAPI<AppDispatch, RootState>) => {
     let socket: WebSocket | null = null;
 
-    return (next) => (action: AnyAction) => {
+    return (next) => (action: PayloadAction<string>) => {
       const { dispatch } = store;
       const { type, payload } = action;
       const { wsInit, onOpen, onClose, onError, onMessage } = wsActions;
       if (type === wsInit) {
-        socket = new WebSocket(`${payload}`);
+        socket = new WebSocket(payload);
       }
 
       if (type === wsInit && socket?.readyState === 1) {
@@ -30,17 +32,18 @@ export const socketMiddleware =
           dispatch({ type: onError });
         };
 
-        socket.onmessage = (event) => {
+        socket.onmessage = (event: MessageEvent<string>) => {
           const { data } = event;
-          const parsedData = JSON.parse(data);
-          const { success, ...restParsedData } = parsedData;
+          const parsedData = JSON.parse(data) as WebsocketState;
+          const { ...restParsedData } = parsedData;
 
-          restParsedData.orders.sort(
-            (a: TOrder, b: TOrder) =>
-              new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-          );
+          if (restParsedData.orders) {
+            restParsedData.orders.sort(
+              (a: Order, b: Order) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+            );
 
-          dispatch({ type: onMessage, payload: restParsedData });
+            dispatch({ type: onMessage, payload: restParsedData });
+          }
         };
 
         socket.onclose = (e) => {

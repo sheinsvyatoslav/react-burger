@@ -1,20 +1,19 @@
 import { useAppSelector } from "../../hooks/redux-hooks";
-import { TOrder } from "../../utils/types";
-import OrderCard from "../order-card/order-card";
-import orderFeedStyles from "./order-feed.module.scss";
+import { Order } from "../../utils/types";
+import { OrderCard } from "../order-card/order-card";
 
-const OrderFeed = () => {
-  const { allOrders } = useAppSelector((state) => state.ws);
+import styles from "./order-feed.module.scss";
+
+export const OrderFeed = () => {
+  const { orders } = useAppSelector((state) => state.ws);
 
   return (
-    <section className={`${orderFeedStyles.container} mb-10`}>
-      <div className={`${orderFeedStyles.orders} pr-2`}>
-        {allOrders?.map((order: TOrder) => (
+    <section className={`${styles.container} mb-10`}>
+      <div className={`${styles.orders} pr-2`}>
+        {orders?.map((order: Order) => (
           <OrderCard key={order._id} order={order} />
         ))}
       </div>
     </section>
   );
 };
-
-export default OrderFeed;

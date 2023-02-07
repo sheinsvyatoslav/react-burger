@@ -1,20 +1,18 @@
 import { createSlice } from "@reduxjs/toolkit";
-import {
-  createOrderRequest,
-  getOrderByNumberRequest,
-} from "../../../utils/main-api";
-import { refreshToken } from "../auth/auth";
-import { TThunkAction, TCard, TOrder } from "../../../utils/types";
 
-export type TOrderState = {
+import { createOrderRequest, getOrderByNumberRequest } from "../../../utils/main-api";
+import { Card, Order, TThunkAction } from "../../../utils/types";
+import { refreshToken } from "../auth/auth";
+
+export type OrderState = {
   createOrderState: string;
   getOrderByNumberState: string;
-  selectedOrder: TOrder | null;
+  selectedOrder: Order | null;
   orderNumber: number;
   totalPrice: number;
 };
 
-export const initialState: TOrderState = {
+export const initialState: OrderState = {
   createOrderState: "idle",
   getOrderByNumberState: "idle",
   selectedOrder: null,
@@ -48,10 +46,7 @@ const orderSlice = createSlice({
     },
     getTotalPrice(state, action) {
       state.totalPrice =
-        action.payload.noBunIngredients?.reduce(
-          (acc: number, item: TCard) => acc + item.price,
-          0
-        ) +
+        action.payload.noBunIngredients?.reduce((acc: number, item: Card) => acc + item.price, 0) +
           action.payload.bun?.price * 2 || 0;
     },
   },

@@ -1,13 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
+
 import {
-  registerRequest,
-  restorePasswordRequest,
-  resetPasswordRequest,
   loginRequest,
   logoutRequest,
   refreshTokenRequest,
+  registerRequest,
+  resetPasswordRequest,
+  restorePasswordRequest,
 } from "../../../utils/auth-api";
-import { setCookie, clearCookie } from "../../../utils/cookie";
+import { clearCookie, setCookie } from "../../../utils/cookie";
 import { TThunkAction } from "../../../utils/types";
 
 type TNewRoute = { newRoute: () => void };
@@ -127,14 +128,29 @@ export const {
   refreshTokenFailed,
 } = authSlice.actions;
 
-export const register = ({
-  email,
-  password,
-  name,
-  resetForm,
-  newRoute,
-}: TRegister): TThunkAction => {
+export const login = ({ email, password, resetForm }: TLogin): TThunkAction => {
   return async (dispatch) => {
+    dispatch(loginPending());
+    return loginRequest({ email, password })
+      .then((res) => {
+        const authToken = res.accessToken.split("Bearer ")[1];
+        if (authToken) {
+          setCookie("accessToken", authToken);
+          setCookie("password", password);
+          setCookie("refreshToken", res.refreshToken);
+          dispatch(loginSuccess());
+          resetForm();
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        dispatch(loginFailed());
+      });
+  };
+};
+
+export const register = ({ email, password, name, resetForm, newRoute }: TRegister): TThunkAction => {
+  return (dispatch) => {
     dispatch(registerPending());
     return registerRequest({ email, password, name })
       .then(() => {
@@ -149,11 +165,7 @@ export const register = ({
   };
 };
 
-export const restorePassword = ({
-  email,
-  newRoute,
-  resetForm,
-}: TRestorePassword): TThunkAction => {
+export const restorePassword = ({ email, newRoute, resetForm }: TRestorePassword): TThunkAction => {
   return async (dispatch) => {
     dispatch(restorePending());
     return restorePasswordRequest(email)
@@ -170,12 +182,7 @@ export const restorePassword = ({
   };
 };
 
-export const resetPassword = ({
-  password,
-  token,
-  resetForm,
-  newRoute,
-}: TResetPassword): TThunkAction => {
+export const resetPassword = ({ password, token, resetForm, newRoute }: TResetPassword): TThunkAction => {
   return async (dispatch) => {
     dispatch(resetPending());
     return resetPasswordRequest({ password, token })
@@ -188,27 +195,6 @@ export const resetPassword = ({
       .catch((err) => {
         console.log(err);
         dispatch(resetFailed());
-      });
-  };
-};
-
-export const login = ({ email, password, resetForm }: TLogin): TThunkAction => {
-  return async (dispatch) => {
-    dispatch(loginPending());
-    return loginRequest({ email, password })
-      .then((res) => {
-        let authToken = res.accessToken.split("Bearer ")[1];
-        if (authToken) {
-          setCookie("accessToken", authToken);
-          setCookie("password", password);
-          setCookie("refreshToken", res.refreshToken);
-          dispatch(loginSuccess());
-          resetForm();
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-        dispatch(loginFailed());
       });
   };
 };
@@ -236,7 +222,7 @@ export const refreshToken = (afterRefresh: TThunkAction): TThunkAction => {
     dispatch(refreshTokenPending());
     return refreshTokenRequest()
       .then((res) => {
-        let authToken = res.accessToken.split("Bearer ")[1];
+        const authToken = res.accessToken.split("Bearer ")[1];
         setCookie("accessToken", authToken);
         setCookie("refreshToken", res.refreshToken);
         dispatch(refreshTokenSuccess());

@@ -1,7 +1,7 @@
-export const setCookie = (name: string, value: any, props?: any) => {
+export const setCookie = (name: string, value: string | number | boolean, props?: any) => {
   props = props || {};
   let exp = props.expires;
-  if (typeof exp == "number" && exp) {
+  if (typeof exp === "number" && exp) {
     const d = new Date();
     d.setTime(d.getTime() + exp * 1000);
     exp = props.expires = d;
@@ -10,18 +10,14 @@ export const setCookie = (name: string, value: any, props?: any) => {
     props.expires = exp.toUTCString();
   }
   value = encodeURIComponent(value);
-  let updatedCookie = name + "=" + value;
+  const updatedCookie = `${name}=${value}`;
 
   document.cookie = updatedCookie;
 };
 
 export const getCookie = (name: string) => {
   const matches = document.cookie.match(
-    new RegExp(
-      "(?:^|; )" +
-        name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, "\\$1") +
-        "=([^;]*)"
-    )
+    new RegExp(`(?:^|; )${name.replace(/([.$?*|{}()[\]\\/+^])/g, "\\$1")}=([^;]*)`)
   );
   return matches ? decodeURIComponent(matches[1]) : undefined;
 };

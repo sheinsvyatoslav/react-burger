@@ -12,15 +12,14 @@ export const LOGOUT_URL = `${BASE_AUTH_URL}/logout`;
 export const USER_URL = `${BASE_AUTH_URL}/user`;
 
 const checkResponse = (res: Response) => {
-  return res.ok
-    ? res.json()
-    : res.json().then((err: Error) => Promise.reject(err));
+  return res.ok ? res.json() : res.json().then((err: Error) => Promise.reject(err));
 };
 
 const checkSuccess = (res: { success: boolean } & any) => {
   if (res && res.success) {
     return res;
-  } else throw Error("no data");
+  }
+  throw Error("no data");
 };
 
 export const request = async (url: string, options?: RequestInit) => {

@@ -1,23 +1,22 @@
-import { useAppSelector } from "../../../hooks/redux-hooks";
 import { useParams } from "react-router-dom";
 
-import IngredientDetails from "../ingredient-details/ingredient-details";
-import { TCard } from "../../../utils/types";
-import ingredientPageStyles from "./ingredient-page.module.scss";
+import { useAppSelector } from "../../../hooks/redux-hooks";
+import { Card } from "../../../utils/types";
+import { IngredientDetails } from "../ingredient-details/ingredient-details";
 
-const IngredientPage = () => {
+import styles from "./ingredient-page.module.scss";
+
+export const IngredientPage = () => {
   const { id } = useParams<{ id: string }>();
   const { ingredients } = useAppSelector((state) => state.ingredients);
 
   return (
-    <section className={ingredientPageStyles.main}>
+    <section className={styles.main}>
       {ingredients
-        ?.filter((item: TCard) => item._id === id)
-        .map((item: TCard) => (
+        ?.filter((item: Card) => item._id === id)
+        .map((item: Card) => (
           <IngredientDetails ingredient={item} key={id} />
         ))}
     </section>
   );
 };
-
-export default IngredientPage;

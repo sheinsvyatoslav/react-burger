@@ -1,29 +1,34 @@
-import { useEffect, FC, ReactNode } from "react";
+import { FC, ReactNode, useEffect } from "react";
 import ReactDOM from "react-dom";
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import ModalOverlay from "../modal-overlay/modal-overlay";
-import AppLoader from "../loader/loader";
-import modalStyles from "./modal.module.scss";
+
 import { useAppSelector } from "../../hooks/redux-hooks";
+import { AppLoader } from "../loader/loader";
+import { ModalOverlay } from "../modal-overlay/modal-overlay";
+
+import styles from "./modal.module.scss";
 
 const modalRoot = document.getElementById("modals") as HTMLDivElement;
 
-interface IModal {
+type ModalProps = {
   isOpened: boolean;
   handleClosePopup: () => void;
   title?: string;
   children: ReactNode;
-}
+};
 
-interface KeyboardEvent {
+type KeyboardEvent = {
   key: string;
-}
+};
 
-const Modal: FC<IModal> = ({ isOpened, children, handleClosePopup }) => {
+export const Modal: FC<ModalProps> = ({ isOpened, children, handleClosePopup }) => {
   const { createOrderState } = useAppSelector((state) => state.order);
 
   useEffect(() => {
-    if (!isOpened) return;
+    if (!isOpened) {
+      return undefined;
+    }
+
     const handleEscClose = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
         handleClosePopup();
@@ -32,22 +37,18 @@ const Modal: FC<IModal> = ({ isOpened, children, handleClosePopup }) => {
 
     document.addEventListener("keydown", handleEscClose);
 
-    return () => {
-      document.removeEventListener("keydown", handleEscClose);
-    };
+    return () => document.removeEventListener("keydown", handleEscClose);
   }, [isOpened, handleClosePopup]);
 
   return ReactDOM.createPortal(
-    <div
-      className={`${modalStyles.popup} ${isOpened && modalStyles.popupOpened}`}
-    >
+    <div className={`${styles.popup} ${isOpened ? styles.popupOpened : ""}`}>
       {createOrderState === "pending" ? (
         <AppLoader />
       ) : (
-        <div className={`${modalStyles.container} pl-10 pr-10 pt-10 pb-15`}>
+        <div className={`${styles.container} pl-10 pr-10 pt-10 pb-15`}>
           {children}
           <button
-            className={modalStyles.closeButton}
+            className={styles.closeButton}
             onClick={handleClosePopup}
             type="button"
             data-at-selector="close-modal-button"
@@ -62,5 +63,3 @@ const Modal: FC<IModal> = ({ isOpened, children, handleClosePopup }) => {
     modalRoot
   );
 };
-
-export default Modal;

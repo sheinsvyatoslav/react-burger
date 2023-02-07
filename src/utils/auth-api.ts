@@ -1,11 +1,11 @@
 import {
-  request,
-  REGISTER_URL,
-  RESTORE_URL,
-  RESET_URL,
   LOGIN_URL,
   LOGOUT_URL,
   REFRESH_TOKEN_URL,
+  REGISTER_URL,
+  request,
+  RESET_URL,
+  RESTORE_URL,
 } from "./api-constants";
 import { getCookie } from "./cookie";
 
@@ -40,10 +40,7 @@ export const restorePasswordRequest = (email: string) =>
     }),
   });
 
-export const resetPasswordRequest = ({
-  password,
-  token,
-}: TResetPasswordRequest) =>
+export const resetPasswordRequest = ({ password, token }: TResetPasswordRequest) =>
   request(RESET_URL, {
     method: "POST",
     headers: {

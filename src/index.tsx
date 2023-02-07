@@ -1,24 +1,22 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { configureStore } from "@reduxjs/toolkit";
 import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
-import App from "./components/app/app";
-import { rootReducer } from "./services/reducers/index";
+import { configureStore } from "@reduxjs/toolkit";
+
+import { App } from "./components/app/app";
 import { socketMiddleware } from "./services/middleware/socketMiddlware";
-import reportWebVitals from "./reportWebVitals";
+import { rootReducer } from "./services/reducers/index";
 import { wsActions } from "./services/slices/websocket/websocket";
+import reportWebVitals from "./reportWebVitals";
 
 const store = configureStore({
   reducer: rootReducer,
   devTools: process.env.NODE_ENV !== "production",
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(socketMiddleware(wsActions)),
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(socketMiddleware(wsActions)),
 });
 
-const root = ReactDOM.createRoot(
-  document.getElementById("root") as HTMLDivElement
-);
+const root = ReactDOM.createRoot(document.getElementById("root") as HTMLDivElement);
 root.render(
   <BrowserRouter>
     <React.StrictMode>

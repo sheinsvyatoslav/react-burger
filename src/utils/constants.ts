@@ -1,9 +1,5 @@
 export const maxOrderIngredients = 6;
-export const INGREDIENT_TYPES = {
-  BUN: "bun",
-  SAUCE: "sauce",
-  MAIN: "main",
-};
+
 export const BASE_WEBSOCKET_URL = "wss://norma.nomoreparties.space/orders";
 export const testNoBunIngredient = {
   _id: "test-id",
@@ -19,6 +15,7 @@ export const testNoBunIngredient = {
   image_large: "https://code.s3.yandex.net/react/code/sauce-04-large.png",
   __v: 0,
 };
+
 export const secondIngredient = {
   _id: "60d3b41abdacab0026a733c9",
   name: "Мясо бессмертных моллюсков Protostomia",

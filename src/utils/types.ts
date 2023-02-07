@@ -1,8 +1,9 @@
-import { ThunkAction } from "redux-thunk";
 import { AnyAction } from "redux";
+import { ThunkAction } from "redux-thunk";
+
 import { RootState } from "..";
 
-export type TCard = {
+export type Card = {
   _id: string;
   name: string;
   type: string;
@@ -17,7 +18,7 @@ export type TCard = {
   __v: number;
 };
 
-export type TOrder = {
+export type Order = {
   _id: string;
   name: string;
   number: number;
@@ -26,10 +27,6 @@ export type TOrder = {
   ingredients: ReadonlyArray<string>;
 };
 
-export type TDraggingCard = { dragId: string } & TCard;
-export type TThunkAction<ReturnType = void> = ThunkAction<
-  ReturnType,
-  RootState,
-  unknown,
-  AnyAction
->;
+export type DraggingCard = { dragId: string } & Card;
+
+export type TThunkAction<ReturnType = void> = ThunkAction<ReturnType, RootState, unknown, AnyAction>;

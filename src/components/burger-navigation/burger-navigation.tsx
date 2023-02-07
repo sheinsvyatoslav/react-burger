@@ -1,19 +1,15 @@
-import { useState, useEffect, FC } from "react";
+import { FC, useEffect, useState } from "react";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 
-import burgerNavigationStyles from "./burger-navigation.module.scss";
+import styles from "./burger-navigation.module.scss";
 
-interface IBurgerNavigation {
+type BurgerNavigationProps = {
   inViewBuns: boolean;
   inViewSauces: boolean;
   inViewFilling: boolean;
-}
+};
 
-const BurgerNavigation: FC<IBurgerNavigation> = ({
-  inViewBuns,
-  inViewSauces,
-  inViewFilling,
-}) => {
+export const BurgerNavigation: FC<BurgerNavigationProps> = ({ inViewBuns, inViewSauces, inViewFilling }) => {
   const [current, setCurrent] = useState("buns");
 
   useEffect(() => {
@@ -27,7 +23,7 @@ const BurgerNavigation: FC<IBurgerNavigation> = ({
   }, [inViewBuns, inViewFilling, inViewSauces]);
 
   return (
-    <div className={`${burgerNavigationStyles.container} mb-10`}>
+    <div className={`${styles.container} mb-10`}>
       <Tab value="buns" active={current === "buns"} onClick={setCurrent}>
         Булки
       </Tab>
@@ -40,5 +36,3 @@ const BurgerNavigation: FC<IBurgerNavigation> = ({
     </div>
   );
 };
-
-export default BurgerNavigation;
