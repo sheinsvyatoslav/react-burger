@@ -1,44 +1,44 @@
 import { useEffect } from "react";
-import { Route, Switch, useLocation, useHistory } from "react-router-dom";
-import { useAppDispatch } from "../../hooks/redux-hooks";
-import { useFormAndValidation } from "../../hooks/use-form-and-validation";
+import { Route, Switch, useHistory, useLocation } from "react-router-dom";
 import { Location } from "history";
 
-import AppHeader from "../app-header/app-header";
-import Main from "../main/main";
-import Login from "../../pages/Login/login/login";
-import Register from "../../pages/Register/register/register";
-import ForgotPassword from "../../pages/ForgotPassword/forgot-password/forgot-password";
-import ResetPassword from "../../pages/ResetPassword/reset-password/reset-password";
-import ProtectedRoute from "../protected-routes/protected-route";
-import ProtectedRouteAuth from "../protected-routes/protected-route-auth";
-import Profile from "../../pages/Profile/profile/profile";
-import PageNotFound from "../../pages/NotFound/not-found/not-found";
-import IngredientPage from "../../pages/IngredientPage/ingredient-page/ingredient-page";
-import Modal from "../modal/modal";
-import IngredientDetails from "../../pages/IngredientPage/ingredient-details/ingredient-details";
-import OrderPage from "../../pages/OrderPage/order-page";
-import FeedPage from "../../pages/FeedPage/feed-page";
-import OrderFeed from "../order-feed/order-feed";
-import ProfileForm from "../profile-form/profile-form";
-
+import { useAppDispatch } from "../../hooks/redux-hooks";
+import { useFormAndValidation } from "../../hooks/use-form-and-validation";
+import { FeedPage } from "../../pages/FeedPage/feed-page";
+import { ForgotPassword } from "../../pages/ForgotPassword/forgot-password";
+import { IngredientDetails } from "../../pages/IngredientPage/ingredient-details/ingredient-details";
+import { IngredientPage } from "../../pages/IngredientPage/ingredient-page/ingredient-page";
+import { Login } from "../../pages/Login/login";
+import { PageNotFound } from "../../pages/NotFound/not-found";
+import { OrderPage } from "../../pages/OrderPage/order-page";
+import { Profile } from "../../pages/Profile/profile";
+import { Register } from "../../pages/Register/register";
+import { ResetPassword } from "../../pages/ResetPassword/reset-password";
 import { getIngredients } from "../../services/slices/ingredients/ingredients";
-import { TCard, TOrder } from "../../utils/types";
-import OrderContent from "../order-content/order-content";
-export interface ILocationState {
+import { Card, Order } from "../../utils/types";
+import { AppHeader } from "../app-header/app-header";
+import { Main } from "../main/main";
+import { Modal } from "../modal/modal";
+import { OrderContent } from "../order-content/order-content";
+import { OrderFeed } from "../order-feed/order-feed";
+import { ProfileForm } from "../profile-form/profile-form";
+import { ProtectedRoute } from "../protected-routes/protected-route";
+import { ProtectedRouteAuth } from "../protected-routes/protected-route-auth";
+
+export type LocationStateProps = {
   background: Location;
-  ingredient: TCard;
-  order: TOrder;
+  ingredient: Card;
+  order: Order;
   totalPrice: number;
   from: string;
-  orderIngredients: ReadonlyArray<TCard>;
-}
+  orderIngredients: ReadonlyArray<Card>;
+};
 
-const App = () => {
+export const App = () => {
   const location = useLocation();
   const history = useHistory();
   const dispatch = useAppDispatch();
-  const locationState = location.state as ILocationState;
+  const locationState = location.state as LocationStateProps;
   const background = locationState?.background;
   const ingredient = locationState?.ingredient;
   const order = locationState?.order;
@@ -46,9 +46,7 @@ const App = () => {
   const orderIngredients = locationState?.orderIngredients;
   const { resetForm } = useFormAndValidation();
 
-  const handleModalClose = () => {
-    background.pathname === "/" ? history.replace("/") : history.goBack();
-  };
+  const handleModalClose = () => (background.pathname === "/" ? history.replace("/") : history.goBack());
 
   useEffect(() => {
     resetForm();
@@ -106,10 +104,7 @@ const App = () => {
 
       {background && (
         <Route exact path="/ingredients/:ingredientId">
-          <Modal
-            handleClosePopup={handleModalClose}
-            isOpened={Boolean(background)}
-          >
+          <Modal handleClosePopup={handleModalClose} isOpened={Boolean(background)}>
             <IngredientDetails ingredient={ingredient} />
           </Modal>
         </Route>
@@ -117,35 +112,19 @@ const App = () => {
 
       {background && (
         <Route exact path="/feed/:id">
-          <Modal
-            handleClosePopup={handleModalClose}
-            isOpened={Boolean(background)}
-          >
-            <OrderContent
-              order={order}
-              totalPrice={totalPrice}
-              orderIngredients={orderIngredients}
-            />
+          <Modal handleClosePopup={handleModalClose} isOpened={Boolean(background)}>
+            <OrderContent order={order} totalPrice={totalPrice} orderIngredients={orderIngredients} />
           </Modal>
         </Route>
       )}
 
       {background && (
         <ProtectedRoute exact path="/profile/orders/:id">
-          <Modal
-            handleClosePopup={handleModalClose}
-            isOpened={Boolean(background)}
-          >
-            <OrderContent
-              order={order}
-              totalPrice={totalPrice}
-              orderIngredients={orderIngredients}
-            />
+          <Modal handleClosePopup={handleModalClose} isOpened={Boolean(background)}>
+            <OrderContent order={order} totalPrice={totalPrice} orderIngredients={orderIngredients} />
           </Modal>
         </ProtectedRoute>
       )}
     </>
   );
 };
-
-export default App;

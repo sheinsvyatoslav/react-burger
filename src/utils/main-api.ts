@@ -1,9 +1,4 @@
-import {
-  request,
-  INGREDIENTS_URL,
-  ORDERS_URL,
-  USER_URL,
-} from "./api-constants";
+import { INGREDIENTS_URL, ORDERS_URL, request, USER_URL } from "./api-constants";
 import { getCookie } from "./cookie";
 
 type TUpdateUserRequest = {
@@ -21,7 +16,7 @@ export const createOrderRequest = (ingredients: Array<string>) => {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: "Bearer " + getCookie("accessToken"),
+      Authorization: `Bearer ${getCookie("accessToken")}`,
     },
     body: JSON.stringify({
       ingredients,
@@ -36,21 +31,17 @@ export const getOrderByNumberRequest = (number: number) => {
 export const getUserRequest = () => {
   return request(USER_URL, {
     headers: {
-      Authorization: "Bearer " + getCookie("accessToken"),
+      Authorization: `Bearer ${getCookie("accessToken")}`,
     },
   });
 };
 
-export const updateUserRequest = ({
-  email,
-  password,
-  name,
-}: TUpdateUserRequest) => {
+export const updateUserRequest = ({ email, password, name }: TUpdateUserRequest) => {
   return request(USER_URL, {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json",
-      Authorization: "Bearer " + getCookie("accessToken"),
+      Authorization: `Bearer ${getCookie("accessToken")}`,
     },
     body: JSON.stringify({
       email,

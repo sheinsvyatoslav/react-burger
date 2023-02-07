@@ -1,15 +1,14 @@
 import { useEffect } from "react";
-import { useAppDispatch } from "../../hooks/redux-hooks";
-import OrderFeed from "../../components/order-feed/order-feed";
-import OrdersStats from "../../components/orders-stats/orders-stats";
-import {
-  wsConnectionStart,
-  wsConnectionClosed,
-} from "../../services/slices/websocket/websocket";
-import { BASE_WEBSOCKET_URL } from "../../utils/constants";
-import feedPageStyles from "./feed-page.module.scss";
 
-const FeedPage = () => {
+import { OrderFeed } from "../../components/order-feed/order-feed";
+import { OrdersStats } from "../../components/orders-stats/orders-stats";
+import { useAppDispatch } from "../../hooks/redux-hooks";
+import { wsConnectionClosed, wsConnectionStart } from "../../services/slices/websocket/websocket";
+import { BASE_WEBSOCKET_URL } from "../../utils/constants";
+
+import styles from "./feed-page.module.scss";
+
+export const FeedPage = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -20,14 +19,12 @@ const FeedPage = () => {
   }, [dispatch]);
 
   return (
-    <main className={feedPageStyles.main}>
+    <main className={styles.main}>
       <h1 className="text text_type_main-large mt-10 mb-5">Лента заказов</h1>
-      <div className={feedPageStyles.container}>
+      <div className={styles.container}>
         <OrderFeed />
         <OrdersStats />
       </div>
     </main>
   );
 };
-
-export default FeedPage;

@@ -1,24 +1,19 @@
-import { ReactNode, FC } from "react";
-import { Route, Redirect, RouteProps } from "react-router-dom";
+import { FC, ReactNode } from "react";
+import { Redirect, Route, RouteProps } from "react-router-dom";
+
 import { getCookie } from "../../utils/cookie";
 
-interface IProtectedRoute extends RouteProps {
+type ProtectedRouteProps = {
   children: ReactNode;
-}
+} & RouteProps;
 
-const ProtectedRoute: FC<IProtectedRoute> = ({ children, ...props }) => {
+export const ProtectedRoute: FC<ProtectedRouteProps> = ({ children, ...props }) => {
   return (
     <Route
       {...props}
       render={({ location }) =>
-        getCookie("accessToken") ? (
-          children
-        ) : (
-          <Redirect to={{ pathname: "/login", state: { from: location } }} />
-        )
+        getCookie("accessToken") ? children : <Redirect to={{ pathname: "/login", state: { from: location } }} />
       }
     />
   );
 };
-
-export default ProtectedRoute;

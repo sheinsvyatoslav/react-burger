@@ -1,14 +1,15 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { TOrder } from "../../../utils/types";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-export type TWebsocketState = {
+import { Order } from "../../../utils/types";
+
+export type WebsocketState = {
   wsConnected: boolean;
-  allOrders: Array<TOrder> | null;
-  totalOrders: number;
+  orders: Array<Order> | null;
+  total: number;
   totalToday: number;
 };
 
-export type TwsActions = {
+export type WsActions = {
   wsInit: string;
   onOpen: string;
   onClose: string;
@@ -16,10 +17,10 @@ export type TwsActions = {
   onMessage: string;
 };
 
-export const initialState: TWebsocketState = {
+export const initialState: WebsocketState = {
   wsConnected: false,
-  allOrders: null,
-  totalOrders: 0,
+  orders: null,
+  total: 0,
   totalToday: 0,
 };
 
@@ -27,7 +28,9 @@ const wsSlice = createSlice({
   name: "websocket",
   initialState,
   reducers: {
-    wsConnectionStart(state, action) {},
+    wsConnectionStart(state, action) {
+      return undefined;
+    },
     wsConnectionSuccess(state) {
       state.wsConnected = true;
     },
@@ -37,22 +40,17 @@ const wsSlice = createSlice({
     wsConnectionClosed(state) {
       state.wsConnected = false;
     },
-    wsGetAllOrders(state, action) {
+    wsGetAllOrders(state, action: any) {
       const { orders, total, totalToday } = action.payload;
-      state.allOrders = orders;
-      state.totalOrders = total;
+      state.orders = orders;
+      state.total = total;
       state.totalToday = totalToday;
     },
   },
 });
 
-export const {
-  wsConnectionStart,
-  wsConnectionSuccess,
-  wsConnectionFailed,
-  wsConnectionClosed,
-  wsGetAllOrders,
-} = wsSlice.actions;
+export const { wsConnectionStart, wsConnectionSuccess, wsConnectionFailed, wsConnectionClosed, wsGetAllOrders } =
+  wsSlice.actions;
 
 export const wsActions = {
   wsInit: wsConnectionStart.type,

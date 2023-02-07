@@ -1,22 +1,23 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { refreshToken } from "../auth/auth";
-import { getUserRequest, updateUserRequest } from "../../../utils/main-api";
-import { getCookie, setCookie } from "../../../utils/cookie";
-import { TThunkAction } from "../../../utils/types";
 
-type TUser = {
+import { getCookie, setCookie } from "../../../utils/cookie";
+import { getUserRequest, updateUserRequest } from "../../../utils/main-api";
+import { TThunkAction } from "../../../utils/types";
+import { refreshToken } from "../auth/auth";
+
+export type User = {
   email: string;
   password: number;
   name: string;
 };
 
-export type TUserState = {
-  user: TUser | null;
+export type UserState = {
+  user: User | null;
   getUserState: string;
   updateUserState: string;
 };
 
-export const initialState: TUserState = {
+export const initialState: UserState = {
   user: null,
   getUserState: "idle",
   updateUserState: "idle",
@@ -49,14 +50,8 @@ const userSlice = createSlice({
   },
 });
 
-export const {
-  getUserPending,
-  getUserSuccess,
-  getUserFailed,
-  updateUserPending,
-  updateUserSuccess,
-  updateUserFailed,
-} = userSlice.actions;
+export const { getUserPending, getUserSuccess, getUserFailed, updateUserPending, updateUserSuccess, updateUserFailed } =
+  userSlice.actions;
 
 export const getUser = (): TThunkAction => {
   return async (dispatch) => {
@@ -82,7 +77,7 @@ export const getUser = (): TThunkAction => {
   };
 };
 
-export const updateUser = ({ email, password, name }: TUser): TThunkAction => {
+export const updateUser = ({ email, password, name }: User): TThunkAction => {
   return async (dispatch) => {
     dispatch(updateUserPending());
     return updateUserRequest({ email, password, name })

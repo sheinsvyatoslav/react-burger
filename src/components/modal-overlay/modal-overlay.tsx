@@ -1,17 +1,11 @@
 import { FC } from "react";
-import modalOverlayStyles from "./modal-overlay.module.scss";
 
-interface IModalOverlay {
+import styles from "./modal-overlay.module.scss";
+
+type ModalOverlayProps = {
   handleClosePopup: () => void;
-}
-
-const ModalOverlay: FC<IModalOverlay> = ({ handleClosePopup }) => {
-  return (
-    <div
-      className={modalOverlayStyles.container}
-      onClick={handleClosePopup}
-    ></div>
-  );
 };
 
-export default ModalOverlay;
+export const ModalOverlay: FC<ModalOverlayProps> = ({ handleClosePopup }) => {
+  return <div className={styles.container} onClick={handleClosePopup}></div>;
+};

@@ -1,14 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
+
 import { getIngredientsRequest } from "../../../utils/main-api";
-import { TThunkAction, TDraggingCard, TCard } from "../../../utils/types";
+import { Card, DraggingCard, TThunkAction } from "../../../utils/types";
 
 export type TIngredientsState = {
-  ingredients: Array<TCard> | null;
+  ingredients: Array<Card> | null;
   getIngredientsState: string;
-  selectedIngredient: TCard | null;
+  selectedIngredient: Card | null;
   constructorIngredients: {
-    bun: TDraggingCard | null;
-    noBunIngredients: Array<TDraggingCard> | null;
+    bun: DraggingCard | null;
+    noBunIngredients: Array<DraggingCard> | null;
   };
   ingredientsCount: { [id: string]: number } | null;
 };
@@ -55,17 +56,15 @@ const ingredientsSlice = createSlice({
         if (!state.ingredientsCount) {
           state.ingredientsCount = {};
         }
-        state.ingredientsCount[newId] =
-          (state.ingredientsCount[newId] || 0) + 1;
+        state.ingredientsCount[newId] = (state.ingredientsCount[newId] || 0) + 1;
       }
     },
     deleteConstructorIngredient(state, action) {
-      state.constructorIngredients.noBunIngredients =
-        state.constructorIngredients.noBunIngredients!.filter(
-          (item) => item.dragId !== action.payload.dragId
-        );
+      state.constructorIngredients.noBunIngredients = state.constructorIngredients.noBunIngredients!.filter(
+        (item) => item.dragId !== action.payload.dragId
+      );
       if (state.ingredientsCount) {
-        state.ingredientsCount[action.payload._id]--;
+        state.ingredientsCount[action.payload._id] -= 1;
       }
     },
     updateConstructorList(state, action) {

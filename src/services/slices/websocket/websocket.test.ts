@@ -1,5 +1,5 @@
-import fetchMock from "fetch-mock";
 import { expect } from "@jest/globals";
+import fetchMock from "fetch-mock";
 
 import wsReducer, { initialState } from "./websocket";
 

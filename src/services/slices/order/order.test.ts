@@ -1,30 +1,28 @@
+import { expect } from "@jest/globals";
 import fetchMock from "fetch-mock";
 import configureMockStore from "redux-mock-store";
 import thunk from "redux-thunk";
-import { expect } from "@jest/globals";
+
+import { ORDERS_URL } from "../../../utils/api-constants";
+import { secondIngredient, testBunIngredient, testNoBunIngredient } from "../../../utils/constants";
+import { TThunkAction } from "../../../utils/types";
+
 import orderReducer, {
+  createOrder,
+  createOrderFailed,
   createOrderPending,
   createOrderSuccess,
-  createOrderFailed,
+  getOrderByNumber,
+  getOrderByNumberFailed,
   getOrderByNumberPending,
   getOrderByNumberSuccess,
-  getOrderByNumberFailed,
   getTotalPrice,
   initialState,
-  createOrder,
-  getOrderByNumber,
 } from "./order";
-import { TThunkAction } from "../../../utils/types";
-import { TOrderState } from "./order";
-import { ORDERS_URL } from "../../../utils/api-constants";
-import {
-  testBunIngredient,
-  testNoBunIngredient,
-  secondIngredient,
-} from "../../../utils/constants";
+import { OrderState } from "./order";
 
 const middlewares = [thunk];
-const mockStore = configureMockStore<TOrderState, TThunkAction>(middlewares);
+const mockStore = configureMockStore<OrderState, TThunkAction>(middlewares);
 
 describe("Orders reducer", () => {
   afterEach(() => {
@@ -135,10 +133,7 @@ describe("Orders reducer", () => {
       success: false,
     });
 
-    const expectedActions = [
-      getOrderByNumberPending(),
-      getOrderByNumberFailed(),
-    ];
+    const expectedActions = [getOrderByNumberPending(), getOrderByNumberFailed()];
     const store = mockStore(initialState);
 
     return store.dispatch(getOrderByNumber(123456) as any).then(() => {

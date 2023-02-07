@@ -1,31 +1,27 @@
+import { expect } from "@jest/globals";
 import fetchMock from "fetch-mock";
 import configureMockStore from "redux-mock-store";
 import thunk from "redux-thunk";
-import { expect } from "@jest/globals";
+
+import { INGREDIENTS_URL } from "../../../utils/api-constants";
+import { secondIngredient, testBunIngredient, testNoBunIngredient } from "../../../utils/constants";
+import { TThunkAction } from "../../../utils/types";
+
 import ingredientsReducer, {
+  addConstructorIngredient,
+  clearConstructor,
+  deleteConstructorIngredient,
+  getIngredients,
+  getIngredientsFailed,
   getIngredientsPending,
   getIngredientsSuccess,
-  getIngredientsFailed,
-  addConstructorIngredient,
-  deleteConstructorIngredient,
-  updateConstructorList,
-  clearConstructor,
   initialState,
-  getIngredients,
   TIngredientsState,
+  updateConstructorList,
 } from "./ingredients";
-import { TThunkAction } from "../../../utils/types";
-import { INGREDIENTS_URL } from "../../../utils/api-constants";
-import {
-  testNoBunIngredient,
-  testBunIngredient,
-  secondIngredient,
-} from "../../../utils/constants";
 
 const middlewares = [thunk];
-const mockStore = configureMockStore<TIngredientsState, TThunkAction>(
-  middlewares
-);
+const mockStore = configureMockStore<TIngredientsState, TThunkAction>(middlewares);
 
 describe("Ingredients reducer", () => {
   afterEach(() => {
@@ -33,9 +29,7 @@ describe("Ingredients reducer", () => {
   });
 
   it("Check initial state", () => {
-    expect(ingredientsReducer(undefined, { type: undefined })).toEqual(
-      initialState
-    );
+    expect(ingredientsReducer(undefined, { type: undefined })).toEqual(initialState);
   });
 
   it("Get ingredients success", () => {
@@ -45,18 +39,13 @@ describe("Ingredients reducer", () => {
       success: true,
     });
 
-    const expectedActions = [
-      getIngredientsPending(),
-      getIngredientsSuccess([{}, {}, {}]),
-    ];
+    const expectedActions = [getIngredientsPending(), getIngredientsSuccess([{}, {}, {}])];
 
     const store = mockStore(initialState);
 
     return store.dispatch(getIngredients() as any).then(() => {
       expect(store.getActions()).toEqual(expectedActions);
-      expect(
-        ingredientsReducer(initialState, getIngredientsSuccess([{}, {}, {}]))
-      ).toEqual({
+      expect(ingredientsReducer(initialState, getIngredientsSuccess([{}, {}, {}]))).toEqual({
         ...initialState,
         ingredients: [{}, {}, {}],
         getIngredientsState: "success",

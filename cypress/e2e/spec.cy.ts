@@ -1,10 +1,14 @@
-/// <reference types="cypress" />
+// / <reference types="cypress" />
+
 import "@4tw/cypress-drag-drop";
-import * as selectors from "./selectors";
+
 import { testUserEmail, testUserPassword, URL } from "./constants";
+import * as selectors from "./selectors";
 
 describe("test burger constructor", () => {
-  before(() => {});
+  before(() => {
+    return undefined;
+  });
 
   it("create order", () => {
     cy.visit(`${URL}/login`);

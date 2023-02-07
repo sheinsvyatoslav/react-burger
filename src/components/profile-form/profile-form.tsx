@@ -1,30 +1,19 @@
-import { FormEvent, useEffect, MouseEvent } from "react";
-import { useFormAndValidation } from "../../hooks/use-form-and-validation";
-import { useAppSelector, useAppDispatch } from "../../hooks/redux-hooks";
-import {
-  Input,
-  Button,
-} from "@ya.praktikum/react-developer-burger-ui-components";
+import { FormEvent, MouseEvent, useEffect } from "react";
+import { Button, Input } from "@ya.praktikum/react-developer-burger-ui-components";
 
+import { useAppDispatch, useAppSelector } from "../../hooks/redux-hooks";
+import { useFormAndValidation } from "../../hooks/use-form-and-validation";
 import { getUser, updateUser } from "../../services/slices/user/user";
 
 import profileFormStyles from "./profile-form.module.scss";
 
-interface IIconEventTarget extends EventTarget {
+type IconEventTarget = {
   closest: (elem: string) => HTMLElement;
-}
+} & EventTarget;
 
-const ProfileForm = () => {
-  const {
-    values,
-    handleChange,
-    errors,
-    isValid,
-    resetForm,
-    editMode,
-    setEditMode,
-    setIsValid,
-  } = useFormAndValidation();
+export const ProfileForm = () => {
+  const { values, handleChange, errors, isValid, resetForm, editMode, setEditMode, setIsValid } =
+    useFormAndValidation();
   const { name, email, password } = values;
 
   const { user } = useAppSelector((state) => state.user);
@@ -36,9 +25,7 @@ const ProfileForm = () => {
 
   const onIconClick = (e: MouseEvent) => {
     e.preventDefault();
-    const target = (e.target as IIconEventTarget)
-      .closest(".input")
-      .getElementsByTagName("input")[0];
+    const target = (e.target as IconEventTarget).closest(".input").getElementsByTagName("input")[0];
     setEditMode({
       ...editMode,
       [target.name]: editMode[target.name] ? !editMode[target.name] : true,
@@ -47,13 +34,16 @@ const ProfileForm = () => {
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    dispatch(
-      updateUser({
-        name: name || user?.name,
-        email: email || user?.email,
-        password: password || user?.password,
-      })
-    );
+    if (user) {
+      dispatch(
+        updateUser({
+          name: name ?? user.name,
+          email: email ?? user.email,
+          password: password ?? user.password,
+        })
+      );
+    }
+
     setEditMode({});
     setIsValid(false);
   };
@@ -64,78 +54,60 @@ const ProfileForm = () => {
   };
 
   return (
-    <form
-      className={`${profileFormStyles.container} mb-20 mt-20`}
-      onReset={handleResetForm}
-      onSubmit={handleSubmit}
-    >
+    <form className={`${profileFormStyles.container} mb-20 mt-20`} onReset={handleResetForm} onSubmit={handleSubmit}>
       <Input
-        type={"text"}
+        type="text"
         placeholder="Имя"
         onChange={handleChange}
-        value={name || user?.name || ""}
-        name={"name"}
+        value={name ?? user?.name ?? ""}
+        name="name"
         error={Boolean(errors.name)}
         errorText={errors.name}
         icon={editMode.name ? "CheckMarkIcon" : "EditIcon"}
         onIconClick={onIconClick}
-        size={"default"}
+        size="default"
         disabled={!editMode.name}
         required
         maxLength={30}
       />
       <Input
-        type={"email"}
+        type="email"
         placeholder="E-mail"
         onChange={handleChange}
-        value={email || user?.email || ""}
-        name={"email"}
+        value={email ?? user?.email ?? ""}
+        name="email"
         error={Boolean(errors.email)}
         errorText={errors.email}
         icon={editMode.email ? "CheckMarkIcon" : "EditIcon"}
         onIconClick={onIconClick}
-        size={"default"}
+        size="default"
         disabled={!editMode.email}
         pattern="\w+[@][a-zA-Z]+\.[a-zA-Z]+"
         required
       />
       <Input
-        type={"password"}
+        type="password"
         placeholder="Пароль"
         onChange={handleChange}
-        value={password || user?.password || ""}
-        name={"password"}
+        value={(password ?? user?.password)?.toString() ?? ""}
+        name="password"
         error={Boolean(errors.password)}
         errorText={errors.password}
         icon={editMode.password ? "CheckMarkIcon" : "EditIcon"}
         onIconClick={onIconClick}
-        size={"default"}
+        size="default"
         disabled={!editMode.password}
         required
         pattern=".{6,}"
       />
       <div className={profileFormStyles.buttons}>
-        <Button
-          type="secondary"
-          size="medium"
-          htmlType="reset"
-          onClick={handleResetForm}
-          aria-label={"Отменить"}
-        >
+        <Button type="secondary" size="medium" htmlType="reset" onClick={handleResetForm} aria-label="Отменить">
           Отменить
         </Button>
-        <Button
-          type="primary"
-          size="medium"
-          htmlType="submit"
-          disabled={!isValid}
-          aria-label={"Сохранить"}
-        >
+        <Button type="primary" size="medium" htmlType="submit" disabled={!isValid} aria-label="Сохранить">
           Сохранить
         </Button>
       </div>
     </form>
   );
 };
-
-export default ProfileForm;
