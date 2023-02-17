@@ -42,9 +42,7 @@ export const BurgerConstructor = () => {
   const handleOrderClick = () => {
     if (getCookie("accessToken")) {
       if (bun && noBunIngredients) {
-        dispatch(
-          createOrder([bun._id, ...noBunIngredients.map((item) => item._id)])
-        );
+        dispatch(createOrder([bun._id, ...noBunIngredients.map((item) => item._id)]));
       }
 
       setIsOrderPopupOpened(true);
@@ -127,11 +125,7 @@ export const BurgerConstructor = () => {
           Оформить заказ
         </Button>
       </div>
-      <Modal
-        isOpened={isOrderPopupOpened}
-        handleClosePopup={handleClosePopup}
-        title=""
-      >
+      <Modal isOpened={isOrderPopupOpened} handleClosePopup={handleClosePopup} title="">
         <OrderDetails />
       </Modal>
     </section>

@@ -58,8 +58,7 @@ const ingredientsSlice = createSlice({
         if (!state.ingredientsCount) {
           state.ingredientsCount = {};
         }
-        state.ingredientsCount[newId] =
-          (state.ingredientsCount[newId] || 0) + 1;
+        state.ingredientsCount[newId] = (state.ingredientsCount[newId] || 0) + 1;
       }
     },
     deleteConstructorIngredient(state, action) {

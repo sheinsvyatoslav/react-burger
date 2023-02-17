@@ -8,5 +8,7 @@ type ProtectedRouteProps = {
 } & RouteProps;
 
 export const ProtectedRouteAuth: FC<ProtectedRouteProps> = ({ children, ...props }) => {
-  return <Route {...props} render={() => (getCookie("accessToken") ? <Redirect to="/" /> : children)} />;
+  return (
+    <Route {...props} render={() => (getCookie("accessToken") ? <Redirect to="/" /> : children)} />
+  );
 };

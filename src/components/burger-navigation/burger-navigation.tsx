@@ -9,7 +9,11 @@ type BurgerNavigationProps = {
   inViewFilling: boolean;
 };
 
-export const BurgerNavigation: FC<BurgerNavigationProps> = ({ inViewBuns, inViewSauces, inViewFilling }) => {
+export const BurgerNavigation: FC<BurgerNavigationProps> = ({
+  inViewBuns,
+  inViewSauces,
+  inViewFilling,
+}) => {
   const [current, setCurrent] = useState("buns");
 
   useEffect(() => {

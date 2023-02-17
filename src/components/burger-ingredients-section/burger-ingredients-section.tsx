@@ -22,11 +22,7 @@ export const BurgerIngredientsSection: FC<BurgerIngredientsSectionProps> = ({
     return ingredients?.map((ingredient) => {
       return (
         ingredient.type === category && (
-          <IngredientCard
-            ingredient={ingredient}
-            key={ingredient._id}
-            category={category}
-          />
+          <IngredientCard ingredient={ingredient} key={ingredient._id} category={category} />
         )
       );
     });
@@ -35,10 +31,7 @@ export const BurgerIngredientsSection: FC<BurgerIngredientsSectionProps> = ({
   return (
     <div className="mb-10" ref={innerRef}>
       <h2 className="text text_type_main-medium mb-6">{name}</h2>
-      <div
-        className={styles.cards}
-        data-at-selector={`burger-cards-${category}`}
-      >
+      <div className={styles.cards} data-at-selector={`burger-cards-${category}`}>
         {content}
       </div>
     </div>

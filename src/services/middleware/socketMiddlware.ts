@@ -38,9 +38,7 @@ export const socketMiddleware =
 
           if (restParsedData.orders) {
             restParsedData.orders.sort(
-              (a, b) =>
-                new Date(b.createdAt).getTime() -
-                new Date(a.createdAt).getTime()
+              (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
             );
 
             dispatch({ type: onMessage, payload: restParsedData });

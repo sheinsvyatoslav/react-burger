@@ -3,10 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { ThunkActionType } from "../../..";
 import { Card } from "../../../components/ingredient-card/ingredient-card";
 import { Order } from "../../../components/order-card/order-card";
-import {
-  createOrderRequest,
-  getOrderByNumberRequest,
-} from "../../../utils/main-api";
+import { createOrderRequest, getOrderByNumberRequest } from "../../../utils/main-api";
 import { refreshToken } from "../auth/auth";
 
 export type OrderState = {
@@ -51,10 +48,7 @@ const orderSlice = createSlice({
     },
     getTotalPrice(state, action) {
       state.totalPrice =
-        action.payload.noBunIngredients?.reduce(
-          (acc: number, item: Card) => acc + item.price,
-          0
-        ) +
+        action.payload.noBunIngredients?.reduce((acc: number, item: Card) => acc + item.price, 0) +
           action.payload.bun?.price * 2 || 0;
     },
   },

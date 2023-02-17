@@ -10,7 +10,8 @@ import { getCookie } from "../../utils/cookie";
 import styles from "./reset-password.module.scss";
 
 export const ResetPassword = () => {
-  const { values, handleChange, errors, isValid, resetForm, isHidden, setIsHidden } = useFormAndValidation();
+  const { values, handleChange, errors, isValid, resetForm, isHidden, setIsHidden } =
+    useFormAndValidation();
   const { password, token } = values;
   const dispatch = useAppDispatch();
   const history = useHistory();
@@ -72,7 +73,13 @@ export const ResetPassword = () => {
           size="default"
           required
         />
-        <Button type="primary" size="medium" htmlType="submit" disabled={!isValid} aria-label="Сохранить">
+        <Button
+          type="primary"
+          size="medium"
+          htmlType="submit"
+          disabled={!isValid}
+          aria-label="Сохранить"
+        >
           Сохранить
         </Button>
       </form>

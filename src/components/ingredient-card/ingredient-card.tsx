@@ -1,10 +1,7 @@
 import { FC } from "react";
 import { useDrag } from "react-dnd";
 import { Link, useHistory, useLocation } from "react-router-dom";
-import {
-  Counter,
-  CurrencyIcon,
-} from "@ya.praktikum/react-developer-burger-ui-components";
+import { Counter, CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import { useAppSelector } from "../../hooks/redux-hooks";
 
@@ -30,14 +27,9 @@ type IngredientCardProps = {
   category: string;
 };
 
-export const IngredientCard: FC<IngredientCardProps> = ({
-  ingredient,
-  category,
-}) => {
+export const IngredientCard: FC<IngredientCardProps> = ({ ingredient, category }) => {
   const { ingredientsCount } = useAppSelector((state) => state.ingredients);
-  const { constructorIngredients } = useAppSelector(
-    (state) => state.ingredients
-  );
+  const { constructorIngredients } = useAppSelector((state) => state.ingredients);
   const history = useHistory();
   const location = useLocation();
   const id = ingredient._id;
@@ -71,9 +63,7 @@ export const IngredientCard: FC<IngredientCardProps> = ({
       >
         <img src={ingredient.image} alt={ingredient.name} />
         <div className={`${styles.price} mt-2 mb-2`}>
-          <p className="text text_type_digits-default mr-2">
-            {ingredient.price}
-          </p>
+          <p className="text text_type_digits-default mr-2">{ingredient.price}</p>
           <CurrencyIcon type="primary" />
         </div>
         <p
@@ -87,9 +77,7 @@ export const IngredientCard: FC<IngredientCardProps> = ({
         id === constructorIngredients.bun._id ? (
           <Counter count={1} size="small" />
         ) : (
-          ingredientsCount?.[id] && (
-            <Counter count={ingredientsCount[id]} size="small" />
-          )
+          ingredientsCount?.[id] && <Counter count={ingredientsCount[id]} size="small" />
         )}
       </article>
     </Link>

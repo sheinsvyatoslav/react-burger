@@ -12,7 +12,11 @@ export const ProtectedRoute: FC<ProtectedRouteProps> = ({ children, ...props }) 
     <Route
       {...props}
       render={({ location }) =>
-        getCookie("accessToken") ? children : <Redirect to={{ pathname: "/login", state: { from: location } }} />
+        getCookie("accessToken") ? (
+          children
+        ) : (
+          <Redirect to={{ pathname: "/login", state: { from: location } }} />
+        )
       }
     />
   );
