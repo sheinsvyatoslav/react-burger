@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { useDrop } from "react-dnd";
 import { useHistory } from "react-router-dom";
 import {
@@ -13,7 +13,7 @@ import {
   addConstructorIngredient,
   clearConstructor,
 } from "../../services/slices/ingredients/ingredients";
-import { createOrder, getTotalPrice } from "../../services/slices/order/order";
+import { createOrder } from "../../services/slices/order/order";
 import { getCookie } from "../../utils/cookie";
 import { ConstructorCard } from "../constructor-card/constructor-card";
 import { Modal } from "../modal/modal";
@@ -24,27 +24,32 @@ import styles from "./burger-constructor.module.scss";
 export const BurgerConstructor = () => {
   const history = useHistory();
   const [isOrderPopupOpened, setIsOrderPopupOpened] = useState<boolean>(false);
-  const { bun, noBunIngredients } = useAppSelector(
-    (state) => state.ingredients.constructorIngredients
-  );
-  const { ingredients } = useAppSelector((state) => state.ingredients);
-  const { totalPrice } = useAppSelector((state) => state.order);
+  const { ingredients, constructorIngredients } = useAppSelector((state) => state.ingredients);
   const dispatch = useAppDispatch();
 
   const handleClosePopup = useCallback(() => {
     setIsOrderPopupOpened(false);
   }, []);
 
-  useEffect(() => {
-    dispatch(getTotalPrice({ bun, noBunIngredients }));
-  }, [dispatch, noBunIngredients, bun]);
+  const bun = useMemo(() => {
+    return constructorIngredients?.find((ingredient) => ingredient.type === "bun");
+  }, [constructorIngredients]);
+
+  const noBunIngredients = useMemo(() => {
+    return constructorIngredients?.filter((ingredient) => ingredient.type !== "bun");
+  }, [constructorIngredients]);
+
+  const totalPrice = useMemo(() => {
+    return constructorIngredients?.reduce(
+      (sum, ingredient) => sum + ingredient.price * (ingredient.type === "bun" ? 2 : 1),
+      0
+    );
+  }, [constructorIngredients]);
 
   const handleOrderClick = () => {
     if (getCookie("accessToken")) {
-      if (bun && noBunIngredients) {
-        dispatch(
-          createOrder([bun._id, ...noBunIngredients.map((item) => item._id)])
-        );
+      if (constructorIngredients) {
+        dispatch(createOrder([...constructorIngredients.map((item) => item._id)]));
       }
 
       setIsOrderPopupOpened(true);
@@ -127,11 +132,7 @@ export const BurgerConstructor = () => {
           Оформить заказ
         </Button>
       </div>
-      <Modal
-        isOpened={isOrderPopupOpened}
-        handleClosePopup={handleClosePopup}
-        title=""
-      >
+      <Modal isOpened={isOrderPopupOpened} handleClosePopup={handleClosePopup} title="">
         <OrderDetails />
       </Modal>
     </section>

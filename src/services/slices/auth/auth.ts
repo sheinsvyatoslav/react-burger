@@ -138,11 +138,7 @@ export const {
   refreshTokenFailed,
 } = authSlice.actions;
 
-export const login = ({
-  email,
-  password,
-  resetForm,
-}: Login): ThunkActionType => {
+export const login = ({ email, password, resetForm }: Login): ThunkActionType => {
   return async (dispatch) => {
     dispatch(loginPending());
     return loginRequest({ email, password })
@@ -163,13 +159,7 @@ export const login = ({
   };
 };
 
-export const register = ({
-  email,
-  password,
-  name,
-  resetForm,
-  newRoute,
-}: Register): ThunkActionType => {
+export const register = ({ email, password, name, resetForm, newRoute }: Register): ThunkActionType => {
   return (dispatch) => {
     dispatch(registerPending());
     return registerRequest({ email, password, name })
@@ -185,11 +175,7 @@ export const register = ({
   };
 };
 
-export const restorePassword = ({
-  email,
-  newRoute,
-  resetForm,
-}: RestorePassword): ThunkActionType => {
+export const restorePassword = ({ email, newRoute, resetForm }: RestorePassword): ThunkActionType => {
   return async (dispatch) => {
     dispatch(restorePending());
     return restorePasswordRequest(email)
@@ -206,12 +192,7 @@ export const restorePassword = ({
   };
 };
 
-export const resetPassword = ({
-  password,
-  token,
-  resetForm,
-  newRoute,
-}: ResetPassword): ThunkActionType => {
+export const resetPassword = ({ password, token, resetForm, newRoute }: ResetPassword): ThunkActionType => {
   return async (dispatch) => {
     dispatch(resetPending());
     return resetPasswordRequest({ password, token })
@@ -228,11 +209,7 @@ export const resetPassword = ({
   };
 };
 
-export const logout = ({
-  newRoute,
-}: {
-  newRoute: () => void;
-}): ThunkActionType => {
+export const logout = ({ newRoute }: { newRoute: () => void }): ThunkActionType => {
   return async (dispatch) => {
     dispatch(logoutPending());
     return logoutRequest()
@@ -250,9 +227,7 @@ export const logout = ({
   };
 };
 
-export const refreshToken = (
-  afterRefresh: ThunkActionType
-): ThunkActionType => {
+export const refreshToken = (afterRefresh: ThunkActionType): ThunkActionType => {
   return async (dispatch) => {
     dispatch(refreshTokenPending());
     return refreshTokenRequest()

@@ -11,7 +11,8 @@ import { getCookie } from "../../utils/cookie";
 import styles from "./login.module.scss";
 
 export const Login = () => {
-  const { values, handleChange, errors, isValid, resetForm, isHidden, setIsHidden } = useFormAndValidation();
+  const { values, handleChange, errors, isValid, resetForm, isHidden, setIsHidden } =
+    useFormAndValidation();
   const { email, password } = values;
   const dispatch = useAppDispatch();
   const location = useLocation();

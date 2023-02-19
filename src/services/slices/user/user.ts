@@ -83,11 +83,7 @@ export const getUser = (): ThunkActionType => {
   };
 };
 
-export const updateUser = ({
-  email,
-  password,
-  name,
-}: User): ThunkActionType => {
+export const updateUser = ({ email, password, name }: User): ThunkActionType => {
   return async (dispatch) => {
     dispatch(updateUserPending());
     return updateUserRequest({ email, password, name })

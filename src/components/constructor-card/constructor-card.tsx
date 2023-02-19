@@ -1,9 +1,6 @@
 import { FC, useCallback, useRef } from "react";
 import { useDrag, useDrop } from "react-dnd";
-import {
-  ConstructorElement,
-  DragIcon,
-} from "@ya.praktikum/react-developer-burger-ui-components";
+import { ConstructorElement, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { XYCoord } from "dnd-core";
 
 import { useAppDispatch, useAppSelector } from "../../hooks/redux-hooks";
@@ -28,9 +25,7 @@ type DragItem = {
 };
 
 export const ConstructorCard: FC<ConstructorCardProps> = ({ item, index }) => {
-  const { noBunIngredients } = useAppSelector(
-    (state) => state.ingredients.constructorIngredients
-  );
+  const { constructorIngredients } = useAppSelector((state) => state.ingredients);
   const dispatch = useAppDispatch();
   const ref = useRef<HTMLDivElement>(null);
   const id = item.dragId;
@@ -39,9 +34,7 @@ export const ConstructorCard: FC<ConstructorCardProps> = ({ item, index }) => {
     type: "constructor-cards",
     item: () => ({
       id,
-      index: noBunIngredients?.findIndex(
-        (item: DraggingCard) => item.dragId === id
-      ),
+      index: constructorIngredients?.findIndex((item: DraggingCard) => item.dragId === id),
     }),
     collect: (monitor) => ({
       opacity: monitor.isDragging() ? 0.5 : 1,
@@ -50,15 +43,15 @@ export const ConstructorCard: FC<ConstructorCardProps> = ({ item, index }) => {
 
   const moveCard = useCallback(
     (dragIndex: number, hoverIndex: number) => {
-      if (noBunIngredients) {
-        const dragCard = noBunIngredients[dragIndex];
-        const newCards = [...(noBunIngredients ?? [])];
+      if (constructorIngredients) {
+        const dragCard = constructorIngredients[dragIndex];
+        const newCards = [...(constructorIngredients ?? [])];
         newCards.splice(dragIndex, 1);
         newCards.splice(hoverIndex, 0, dragCard);
         dispatch(updateConstructorList(newCards));
       }
     },
-    [noBunIngredients, dispatch]
+    [constructorIngredients, dispatch]
   );
 
   const [, drop] = useDrop({
@@ -73,8 +66,7 @@ export const ConstructorCard: FC<ConstructorCardProps> = ({ item, index }) => {
         return;
       }
       const hoverBoundingRect = ref.current?.getBoundingClientRect();
-      const hoverMiddleY =
-        (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
+      const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
       const clientOffset = monitor.getClientOffset() as XYCoord;
       const hoverClientY = clientOffset.y - hoverBoundingRect.top;
 
@@ -96,12 +88,7 @@ export const ConstructorCard: FC<ConstructorCardProps> = ({ item, index }) => {
   }
 
   return (
-    <div
-      className={styles.card}
-      ref={ref}
-      style={{ opacity }}
-      onDrop={(e) => e.preventDefault()}
-    >
+    <div className={styles.card} ref={ref} style={{ opacity }} onDrop={(e) => e.preventDefault()}>
       <div className="pr-2">
         <DragIcon type="primary" />
       </div>

@@ -1,5 +1,5 @@
-
-  {"root": true,
+{
+  "root": true,
   "extends": ["prettier"],
   "plugins": ["@typescript-eslint", "prettier", "simple-import-sort", "react-hooks"],
   "parser": "@typescript-eslint/parser",
@@ -666,5 +666,4 @@
     "template-curly-spacing": "error",
     "yield-star-spacing": ["error", "after"]
   }
-
 }

@@ -6,11 +6,6 @@ import thunk from "redux-thunk";
 
 import { ThunkActionType } from "../../..";
 import { BASE_URL } from "../../../utils/api-constants";
-import {
-  secondIngredient,
-  testBunIngredient,
-  testNoBunIngredient,
-} from "../../../utils/constants";
 
 import orderReducer, {
   createOrder,
@@ -21,7 +16,6 @@ import orderReducer, {
   getOrderByNumberFailed,
   getOrderByNumberPending,
   getOrderByNumberSuccess,
-  getTotalPrice,
   initialState,
 } from "./order";
 import { OrderState } from "./order";
@@ -55,23 +49,21 @@ describe("Orders reducer", () => {
     ];
     const store = mockStore(initialState);
 
-    return store
-      .dispatch(createOrder(["ing1", "ing2"]) as unknown as AnyAction)
-      .then(() => {
-        expect(store.getActions()).toEqual(expectedActions);
-        expect(
-          orderReducer(
-            initialState,
-            createOrderSuccess({
-              orderNumber: 123456,
-            })
-          )
-        ).toEqual({
-          ...initialState,
-          orderNumber: 123456,
-          createOrderState: "success",
-        });
+    return store.dispatch(createOrder(["ing1", "ing2"]) as unknown as AnyAction).then(() => {
+      expect(store.getActions()).toEqual(expectedActions);
+      expect(
+        orderReducer(
+          initialState,
+          createOrderSuccess({
+            orderNumber: 123456,
+          })
+        )
+      ).toEqual({
+        ...initialState,
+        orderNumber: 123456,
+        createOrderState: "success",
       });
+    });
   });
 
   it("Create order failed", () => {
@@ -83,15 +75,13 @@ describe("Orders reducer", () => {
     const expectedActions = [createOrderPending(), createOrderFailed()];
     const store = mockStore(initialState);
 
-    return store
-      .dispatch(createOrder(["ing1", "ing2"]) as unknown as AnyAction)
-      .then(() => {
-        expect(store.getActions()).toEqual(expectedActions);
-        expect(orderReducer(initialState, createOrderFailed())).toEqual({
-          ...initialState,
-          createOrderState: "failed",
-        });
+    return store.dispatch(createOrder(["ing1", "ing2"]) as unknown as AnyAction).then(() => {
+      expect(store.getActions()).toEqual(expectedActions);
+      expect(orderReducer(initialState, createOrderFailed())).toEqual({
+        ...initialState,
+        createOrderState: "failed",
       });
+    });
   });
 
   it("Get order by number success", () => {
@@ -115,27 +105,25 @@ describe("Orders reducer", () => {
     ];
     const store = mockStore(initialState);
 
-    return store
-      .dispatch(getOrderByNumber(123456) as unknown as AnyAction)
-      .then(() => {
-        expect(store.getActions()).toEqual(expectedActions);
-        expect(
-          orderReducer(
-            initialState,
-            getOrderByNumberSuccess({
-              name: "order",
-              number: 123456,
-            })
-          )
-        ).toEqual({
-          ...initialState,
-          selectedOrder: {
+    return store.dispatch(getOrderByNumber(123456) as unknown as AnyAction).then(() => {
+      expect(store.getActions()).toEqual(expectedActions);
+      expect(
+        orderReducer(
+          initialState,
+          getOrderByNumberSuccess({
             name: "order",
             number: 123456,
-          },
-          getOrderByNumberState: "success",
-        });
+          })
+        )
+      ).toEqual({
+        ...initialState,
+        selectedOrder: {
+          name: "order",
+          number: 123456,
+        },
+        getOrderByNumberState: "success",
       });
+    });
   });
 
   it("Get order by number failed", () => {
@@ -144,32 +132,15 @@ describe("Orders reducer", () => {
       success: false,
     });
 
-    const expectedActions = [
-      getOrderByNumberPending(),
-      getOrderByNumberFailed(),
-    ];
+    const expectedActions = [getOrderByNumberPending(), getOrderByNumberFailed()];
     const store = mockStore(initialState);
 
-    return store
-      .dispatch(getOrderByNumber(123456) as unknown as AnyAction)
-      .then(() => {
-        expect(store.getActions()).toEqual(expectedActions);
-        expect(orderReducer(initialState, getOrderByNumberFailed())).toEqual({
-          ...initialState,
-          getOrderByNumberState: "failed",
-        });
+    return store.dispatch(getOrderByNumber(123456) as unknown as AnyAction).then(() => {
+      expect(store.getActions()).toEqual(expectedActions);
+      expect(orderReducer(initialState, getOrderByNumberFailed())).toEqual({
+        ...initialState,
+        getOrderByNumberState: "failed",
       });
-  });
-
-  it("Get total price", () => {
-    expect(
-      orderReducer(
-        initialState,
-        getTotalPrice({
-          bun: testBunIngredient,
-          noBunIngredients: [testNoBunIngredient, secondIngredient],
-        })
-      )
-    ).toEqual({ ...initialState, totalPrice: 1577 });
+    });
   });
 });
