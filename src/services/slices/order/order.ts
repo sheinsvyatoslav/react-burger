@@ -1,12 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 import { ThunkActionType } from "../../..";
-import { Card } from "../../../components/ingredient-card/ingredient-card";
 import { Order } from "../../../components/order-card/order-card";
-import {
-  createOrderRequest,
-  getOrderByNumberRequest,
-} from "../../../utils/main-api";
+import { createOrderRequest, getOrderByNumberRequest } from "../../../utils/main-api";
 import { refreshToken } from "../auth/auth";
 
 export type OrderState = {
@@ -14,7 +10,6 @@ export type OrderState = {
   getOrderByNumberState: string;
   selectedOrder: Order | null;
   orderNumber: number;
-  totalPrice: number;
 };
 
 export const initialState: OrderState = {
@@ -22,7 +17,6 @@ export const initialState: OrderState = {
   getOrderByNumberState: "idle",
   selectedOrder: null,
   orderNumber: 0,
-  totalPrice: 0,
 };
 
 const orderSlice = createSlice({
@@ -49,14 +43,6 @@ const orderSlice = createSlice({
     getOrderByNumberFailed(state) {
       state.getOrderByNumberState = "failed";
     },
-    getTotalPrice(state, action) {
-      state.totalPrice =
-        action.payload.noBunIngredients?.reduce(
-          (acc: number, item: Card) => acc + item.price,
-          0
-        ) +
-          action.payload.bun?.price * 2 || 0;
-    },
   },
 });
 
@@ -67,7 +53,6 @@ export const {
   getOrderByNumberPending,
   getOrderByNumberSuccess,
   getOrderByNumberFailed,
-  getTotalPrice,
 } = orderSlice.actions;
 
 export const createOrder = (ingredients: Array<string>): ThunkActionType => {

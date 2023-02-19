@@ -6,11 +6,7 @@ import thunk from "redux-thunk";
 
 import { ThunkActionType } from "../../..";
 import { BASE_URL } from "../../../utils/api-constants";
-import {
-  secondIngredient,
-  testBunIngredient,
-  testNoBunIngredient,
-} from "../../../utils/constants";
+import { secondIngredient, testBunIngredient, testNoBunIngredient } from "../../../utils/constants";
 
 import ingredientsReducer, {
   addConstructorIngredient,
@@ -26,9 +22,7 @@ import ingredientsReducer, {
 } from "./ingredients";
 
 const middlewares = [thunk];
-const mockStore = configureMockStore<IngredientsState, ThunkActionType>(
-  middlewares
-);
+const mockStore = configureMockStore<IngredientsState, ThunkActionType>(middlewares);
 
 describe("Ingredients reducer", () => {
   afterEach(() => {
@@ -36,9 +30,7 @@ describe("Ingredients reducer", () => {
   });
 
   it("Check initial state", () => {
-    expect(ingredientsReducer(undefined, { type: undefined })).toEqual(
-      initialState
-    );
+    expect(ingredientsReducer(undefined, { type: undefined })).toEqual(initialState);
   });
 
   it("Get ingredients success", () => {
@@ -48,18 +40,13 @@ describe("Ingredients reducer", () => {
       success: true,
     });
 
-    const expectedActions = [
-      getIngredientsPending(),
-      getIngredientsSuccess([{}, {}, {}]),
-    ];
+    const expectedActions = [getIngredientsPending(), getIngredientsSuccess([{}, {}, {}])];
 
     const store = mockStore(initialState);
 
     return store.dispatch(getIngredients() as unknown as AnyAction).then(() => {
       expect(store.getActions()).toEqual(expectedActions);
-      expect(
-        ingredientsReducer(initialState, getIngredientsSuccess([{}, {}, {}]))
-      ).toEqual({
+      expect(ingredientsReducer(initialState, getIngredientsSuccess([{}, {}, {}]))).toEqual({
         ...initialState,
         ingredients: [{}, {}, {}],
         getIngredientsState: "success",
@@ -137,18 +124,12 @@ describe("Ingredients reducer", () => {
       ingredientsReducer(
         {
           ...initialState,
-          constructorIngredients: {
-            ...initialState.constructorIngredients,
-            noBunIngredients: [
-              {
-                ...testNoBunIngredient,
-                dragId: "test-dragId",
-              },
-            ],
-          },
-          ingredientsCount: {
-            "test-id": 1,
-          },
+          constructorIngredients: [
+            {
+              ...testNoBunIngredient,
+              dragId: "test-dragId",
+            },
+          ],
         },
         deleteConstructorIngredient({
           ...testNoBunIngredient,
@@ -172,19 +153,16 @@ describe("Ingredients reducer", () => {
       ingredientsReducer(
         {
           ...initialState,
-          constructorIngredients: {
-            bun: null,
-            noBunIngredients: [
-              {
-                ...testNoBunIngredient,
-                dragId: "first-dragId",
-              },
-              {
-                ...secondIngredient,
-                dragId: "second-dragId",
-              },
-            ],
-          },
+          constructorIngredients: [
+            {
+              ...testNoBunIngredient,
+              dragId: "first-dragId",
+            },
+            {
+              ...secondIngredient,
+              dragId: "second-dragId",
+            },
+          ],
         },
         updateConstructorList([
           {
@@ -220,21 +198,17 @@ describe("Ingredients reducer", () => {
       ingredientsReducer(
         {
           ...initialState,
-          constructorIngredients: {
-            bun: {
+          constructorIngredients: [
+            {
               ...testBunIngredient,
               dragId: "test-dragId",
             },
-            noBunIngredients: [
-              {
-                ...testNoBunIngredient,
-                dragId: "test-dragId",
-              },
-            ],
-          },
-          ingredientsCount: {
-            "test-id": 1,
-          },
+
+            {
+              ...testNoBunIngredient,
+              dragId: "test-dragId",
+            },
+          ],
         },
         clearConstructor()
       )

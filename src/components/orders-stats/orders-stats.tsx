@@ -31,10 +31,7 @@ export const OrdersStats = () => {
               ?.slice(0, 20)
               .filter((item) => item.status === "pending")
               .map((item) => (
-                <p
-                  key={item.number}
-                  className="text text_type_digits-default mb-2"
-                >
+                <p key={item.number} className="text text_type_digits-default mb-2">
                   {item.number}
                 </p>
               ))}
@@ -43,12 +40,8 @@ export const OrdersStats = () => {
       </div>
       <h3 className="text text_type_main-medium">Выполнено за все время:</h3>
       <p className={`${styles.number} text text_type_digits-large`}>{total}</p>
-      <h3 className="text text_type_main-medium mt-15">
-        Выполнено за сегодня:
-      </h3>
-      <p className={`${styles.number} text text_type_digits-large`}>
-        {totalToday}
-      </p>
+      <h3 className="text text_type_main-medium mt-15">Выполнено за сегодня:</h3>
+      <p className={`${styles.number} text text_type_digits-large`}>{totalToday}</p>
     </section>
   );
 };

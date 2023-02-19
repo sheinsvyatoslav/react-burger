@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { AnyAction, createSlice } from "@reduxjs/toolkit";
 
 import { Order } from "../../../components/order-card/order-card";
 
@@ -40,7 +40,7 @@ const wsSlice = createSlice({
     wsConnectionClosed(state) {
       state.wsConnected = false;
     },
-    wsGetAllOrders(state, action: any) {
+    wsGetAllOrders(state, action: AnyAction) {
       const { orders, total, totalToday } = action.payload;
       state.orders = orders;
       state.total = total;

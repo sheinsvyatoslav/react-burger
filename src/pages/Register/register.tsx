@@ -9,7 +9,8 @@ import { register } from "../../services/slices/auth/auth";
 import styles from "./register.module.scss";
 
 export const Register = () => {
-  const { values, handleChange, errors, isValid, isHidden, setIsHidden, resetForm } = useFormAndValidation();
+  const { values, handleChange, errors, isValid, isHidden, setIsHidden, resetForm } =
+    useFormAndValidation();
   const { name, email, password } = values;
   const dispatch = useAppDispatch();
   const history = useHistory();
@@ -75,7 +76,13 @@ export const Register = () => {
           required
           pattern=".{6,}"
         />
-        <Button type="primary" size="medium" htmlType="submit" disabled={!isValid} aria-label="Зарегистрироваться">
+        <Button
+          type="primary"
+          size="medium"
+          htmlType="submit"
+          disabled={!isValid}
+          aria-label="Зарегистрироваться"
+        >
           Зарегистрироваться
         </Button>
       </form>

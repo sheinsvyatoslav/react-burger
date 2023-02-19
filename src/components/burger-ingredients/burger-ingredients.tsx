@@ -25,13 +25,29 @@ export const BurgerIngredients = () => {
   return (
     <section className={`${styles.container} mr-10`}>
       <h1 className="text text_type_main-large mt-10 mb-5">Соберите бургер</h1>
-      <BurgerNavigation inViewBuns={inViewBuns} inViewSauces={inViewSauces} inViewFilling={inViewFilling} />
+      <BurgerNavigation
+        inViewBuns={inViewBuns}
+        inViewSauces={inViewSauces}
+        inViewFilling={inViewFilling}
+      />
       <div className={styles.sections}>
-        <BurgerIngredientsSection name={`Булки`} category={INGREDIENT_TYPES.BUN} innerRef={bunsRef} />
+        <BurgerIngredientsSection
+          name={`Булки`}
+          category={INGREDIENT_TYPES.BUN}
+          innerRef={bunsRef}
+        />
 
-        <BurgerIngredientsSection name={`Соусы`} category={INGREDIENT_TYPES.SAUCE} innerRef={saucesRef} />
+        <BurgerIngredientsSection
+          name={`Соусы`}
+          category={INGREDIENT_TYPES.SAUCE}
+          innerRef={saucesRef}
+        />
 
-        <BurgerIngredientsSection name={`Начинки`} category={INGREDIENT_TYPES.MAIN} innerRef={mainsRef} />
+        <BurgerIngredientsSection
+          name={`Начинки`}
+          category={INGREDIENT_TYPES.MAIN}
+          innerRef={mainsRef}
+        />
       </div>
     </section>
   );

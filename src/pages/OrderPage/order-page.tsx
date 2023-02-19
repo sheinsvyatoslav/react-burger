@@ -17,13 +17,21 @@ export const OrderPage = () => {
     dispatch(getOrderByNumber(Number(id)));
   }, [dispatch, id]);
 
-  const orderIngredients = useMemo(
-    () => selectedOrder?.ingredients.map((item) => allIngredients!.filter((ing) => ing._id === item)[0]),
-    [allIngredients, selectedOrder]
-  );
+  const orderIngredients = useMemo(() => {
+    if (!allIngredients) {
+      return [];
+    }
+    return selectedOrder?.ingredients.map(
+      (item) => allIngredients.filter((ing) => ing._id === item)[0]
+    );
+  }, [allIngredients, selectedOrder]);
 
   const totalPrice = useMemo(
-    () => orderIngredients?.reduce((a, b) => a + b.price * (b.type === "bun" ? 2 : 1), 0),
+    () =>
+      orderIngredients?.reduce(
+        (sum, ingredient) => sum + ingredient.price * (ingredient.type === "bun" ? 2 : 1),
+        0
+      ),
     [orderIngredients]
   );
 

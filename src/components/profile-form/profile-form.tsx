@@ -54,7 +54,11 @@ export const ProfileForm = () => {
   };
 
   return (
-    <form className={`${profileFormStyles.container} mb-20 mt-20`} onReset={handleResetForm} onSubmit={handleSubmit}>
+    <form
+      className={`${profileFormStyles.container} mb-20 mt-20`}
+      onReset={handleResetForm}
+      onSubmit={handleSubmit}
+    >
       <Input
         type="text"
         placeholder="Имя"
@@ -101,10 +105,22 @@ export const ProfileForm = () => {
         pattern=".{6,}"
       />
       <div className={profileFormStyles.buttons}>
-        <Button type="secondary" size="medium" htmlType="reset" onClick={handleResetForm} aria-label="Отменить">
+        <Button
+          type="secondary"
+          size="medium"
+          htmlType="reset"
+          onClick={handleResetForm}
+          aria-label="Отменить"
+        >
           Отменить
         </Button>
-        <Button type="primary" size="medium" htmlType="submit" disabled={!isValid} aria-label="Сохранить">
+        <Button
+          type="primary"
+          size="medium"
+          htmlType="submit"
+          disabled={!isValid}
+          aria-label="Сохранить"
+        >
           Сохранить
         </Button>
       </div>

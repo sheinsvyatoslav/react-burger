@@ -1,7 +1,7 @@
 module.exports = {
   root: true,
   extends: ["prettier"],
-  plugins: ["@typescript-eslint", "prettier", "simple-import-sort"],
+  plugins: ["@typescript-eslint", "prettier", "simple-import-sort", "react-hooks"],
   parser: "@typescript-eslint/parser",
   overrides: [
     {
@@ -18,6 +18,8 @@ module.exports = {
     es2022: true,
   },
   rules: {
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn",
     "accessor-pairs": "off",
     "array-callback-return": "error",
     "block-scoped-var": "error",
