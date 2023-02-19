@@ -27,7 +27,11 @@ export const OrderPage = () => {
   }, [allIngredients, selectedOrder]);
 
   const totalPrice = useMemo(
-    () => orderIngredients?.reduce((a, b) => a + b.price * (b.type === "bun" ? 2 : 1), 0),
+    () =>
+      orderIngredients?.reduce(
+        (sum, ingredient) => sum + ingredient.price * (ingredient.type === "bun" ? 2 : 1),
+        0
+      ),
     [orderIngredients]
   );
 

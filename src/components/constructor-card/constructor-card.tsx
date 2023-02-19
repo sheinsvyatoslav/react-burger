@@ -25,7 +25,7 @@ type DragItem = {
 };
 
 export const ConstructorCard: FC<ConstructorCardProps> = ({ item, index }) => {
-  const { noBunIngredients } = useAppSelector((state) => state.ingredients.constructorIngredients);
+  const { constructorIngredients } = useAppSelector((state) => state.ingredients);
   const dispatch = useAppDispatch();
   const ref = useRef<HTMLDivElement>(null);
   const id = item.dragId;
@@ -34,7 +34,7 @@ export const ConstructorCard: FC<ConstructorCardProps> = ({ item, index }) => {
     type: "constructor-cards",
     item: () => ({
       id,
-      index: noBunIngredients?.findIndex((item: DraggingCard) => item.dragId === id),
+      index: constructorIngredients?.findIndex((item: DraggingCard) => item.dragId === id),
     }),
     collect: (monitor) => ({
       opacity: monitor.isDragging() ? 0.5 : 1,
@@ -43,15 +43,15 @@ export const ConstructorCard: FC<ConstructorCardProps> = ({ item, index }) => {
 
   const moveCard = useCallback(
     (dragIndex: number, hoverIndex: number) => {
-      if (noBunIngredients) {
-        const dragCard = noBunIngredients[dragIndex];
-        const newCards = [...(noBunIngredients ?? [])];
+      if (constructorIngredients) {
+        const dragCard = constructorIngredients[dragIndex];
+        const newCards = [...(constructorIngredients ?? [])];
         newCards.splice(dragIndex, 1);
         newCards.splice(hoverIndex, 0, dragCard);
         dispatch(updateConstructorList(newCards));
       }
     },
-    [noBunIngredients, dispatch]
+    [constructorIngredients, dispatch]
   );
 
   const [, drop] = useDrop({

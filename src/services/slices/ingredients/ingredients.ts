@@ -9,11 +9,7 @@ export type IngredientsState = {
   ingredients: Array<Card> | null;
   getIngredientsState: string;
   selectedIngredient: Card | null;
-  constructorIngredients: {
-    bun: DraggingCard | null;
-    noBunIngredients: Array<DraggingCard> | null;
-  };
-  ingredientsCount: { [id: string]: number } | null;
+  constructorIngredients: Array<DraggingCard> | null;
 };
 
 export const initialState: IngredientsState = {
@@ -21,11 +17,7 @@ export const initialState: IngredientsState = {
   getIngredientsState: "idle",
 
   selectedIngredient: null,
-  constructorIngredients: {
-    bun: null,
-    noBunIngredients: null,
-  },
-  ingredientsCount: null,
+  constructorIngredients: null,
 };
 
 const ingredientsSlice = createSlice({
@@ -44,41 +36,31 @@ const ingredientsSlice = createSlice({
     },
     addConstructorIngredient(state, action) {
       const { draggedIngridient, dragId } = action.payload;
-      const newId = draggedIngridient._id;
+
       if (draggedIngridient.type === "bun") {
-        state.constructorIngredients.bun = {
-          ...draggedIngridient,
-          dragId,
-        };
+        state.constructorIngredients = [
+          ...(state.constructorIngredients ?? []).filter((ingredient) => ingredient.type !== "bun"),
+          draggedIngridient,
+        ];
       } else {
-        state.constructorIngredients.noBunIngredients = [
-          ...(state.constructorIngredients.noBunIngredients ?? []),
+        state.constructorIngredients = [
+          ...(state.constructorIngredients ?? []),
           { ...draggedIngridient, dragId },
         ];
-        if (!state.ingredientsCount) {
-          state.ingredientsCount = {};
-        }
-        state.ingredientsCount[newId] = (state.ingredientsCount[newId] || 0) + 1;
       }
     },
     deleteConstructorIngredient(state, action) {
-      if (state.constructorIngredients.noBunIngredients) {
-        state.constructorIngredients.noBunIngredients =
-          state.constructorIngredients.noBunIngredients.filter(
-            (item) => item.dragId !== action.payload.dragId
-          );
-      }
-
-      if (state.ingredientsCount) {
-        state.ingredientsCount[action.payload._id] -= 1;
+      if (state.constructorIngredients) {
+        state.constructorIngredients = state.constructorIngredients.filter(
+          (item) => item.dragId !== action.payload.dragId
+        );
       }
     },
     updateConstructorList(state, action) {
-      state.constructorIngredients.noBunIngredients = [...action.payload];
+      state.constructorIngredients = [...action.payload];
     },
     clearConstructor(state) {
       state.constructorIngredients = initialState.constructorIngredients;
-      state.ingredientsCount = initialState.ingredientsCount;
     },
   },
 });
