@@ -21,6 +21,7 @@ export const OrderPage = () => {
     if (!allIngredients) {
       return [];
     }
+
     return selectedOrder?.ingredients.map(
       (item) => allIngredients.filter((ing) => ing._id === item)[0]
     );

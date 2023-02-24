@@ -5,12 +5,6 @@ import { BurgerNavigation } from "../burger-navigation/burger-navigation";
 
 import styles from "./burger-ingredients.module.scss";
 
-const INGREDIENT_TYPES = {
-  BUN: "bun",
-  SAUCE: "sauce",
-  MAIN: "main",
-};
-
 export const BurgerIngredients = () => {
   const [bunsRef, inViewBuns] = useInView({
     threshold: 0,
@@ -31,23 +25,9 @@ export const BurgerIngredients = () => {
         inViewFilling={inViewFilling}
       />
       <div className={styles.sections}>
-        <BurgerIngredientsSection
-          name={`Булки`}
-          category={INGREDIENT_TYPES.BUN}
-          innerRef={bunsRef}
-        />
-
-        <BurgerIngredientsSection
-          name={`Соусы`}
-          category={INGREDIENT_TYPES.SAUCE}
-          innerRef={saucesRef}
-        />
-
-        <BurgerIngredientsSection
-          name={`Начинки`}
-          category={INGREDIENT_TYPES.MAIN}
-          innerRef={mainsRef}
-        />
+        <BurgerIngredientsSection name="Булки" category="bun" innerRef={bunsRef} />
+        <BurgerIngredientsSection name="Соусы" category="sauce" innerRef={saucesRef} />
+        <BurgerIngredientsSection name="Начинки" category="main" innerRef={mainsRef} />
       </div>
     </section>
   );

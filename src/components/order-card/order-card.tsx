@@ -1,6 +1,7 @@
 import { FC, useMemo } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { CurrencyIcon, FormattedDate } from "@ya.praktikum/react-developer-burger-ui-components";
+import cn from "classnames";
 
 import { useAppSelector } from "../../hooks/redux-hooks";
 
@@ -19,7 +20,7 @@ type OrderCardProps = {
   order: Order;
 };
 
-const maxOrderIngredients = 6;
+const maxIngredients = 6;
 
 export const OrderCard: FC<OrderCardProps> = ({ order }) => {
   const { name, number, createdAt, ingredients } = order;
@@ -44,6 +45,9 @@ export const OrderCard: FC<OrderCardProps> = ({ order }) => {
     [orderIngredients]
   );
 
+  const isMoreIngredients = (i: number) =>
+    i === maxIngredients - 1 && maxIngredients < orderIngredients.length;
+
   return (
     <Link
       to={{
@@ -62,24 +66,16 @@ export const OrderCard: FC<OrderCardProps> = ({ order }) => {
         <p className="text text_type_main-medium mb-6 mt-6">{name}</p>
         <div className={styles.main}>
           <div className={styles.ingredients}>
-            {orderIngredients.slice(0, maxOrderIngredients).map((ingredient, i) => (
-              <div
-                key={i}
-                className={styles.ingredient}
-                style={{ zIndex: maxOrderIngredients - i - 1 }}
-              >
+            {orderIngredients.slice(0, maxIngredients).map((ingredient, i) => (
+              <div key={i} className={styles.ingredient} style={{ zIndex: maxIngredients - i - 1 }}>
                 <img
-                  className={styles.image}
-                  style={{
-                    opacity:
-                      i === maxOrderIngredients - 1 && i !== orderIngredients.length - 1 ? 0.6 : 1,
-                  }}
-                  src={ingredient?.image}
-                  alt={ingredient?.name}
+                  className={cn(styles.image, { [styles.lastIngredient]: isMoreIngredients(i) })}
+                  src={ingredient.image}
+                  alt={ingredient.name}
                 />
-                {i === maxOrderIngredients - 1 && i !== orderIngredients.length - 1 && (
+                {isMoreIngredients(i) && (
                   <p className={`${styles.tip} text text_type_main-default`}>
-                    +{ingredients.length - maxOrderIngredients + 1}
+                    +{ingredients.length - maxIngredients + 1}
                   </p>
                 )}
               </div>

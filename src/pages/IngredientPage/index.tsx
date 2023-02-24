@@ -1,7 +1,8 @@
 import { useParams } from "react-router-dom";
 
-import { useAppSelector } from "../../../hooks/redux-hooks";
-import { IngredientDetails } from "../ingredient-details/ingredient-details";
+import { useAppSelector } from "../../hooks/redux-hooks";
+
+import { IngredientDetails } from "./ingredient-details";
 
 import styles from "./ingredient-page.module.scss";
 
