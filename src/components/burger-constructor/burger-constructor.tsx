@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { useDrop } from "react-dnd";
 import { useHistory } from "react-router-dom";
 import {
@@ -27,10 +27,6 @@ export const BurgerConstructor = () => {
   const { ingredients, constructorIngredients } = useAppSelector((state) => state.ingredients);
   const dispatch = useAppDispatch();
 
-  const handleClosePopup = useCallback(() => {
-    setIsOrderPopupOpened(false);
-  }, []);
-
   const bun = useMemo(() => {
     return constructorIngredients?.find((ingredient) => ingredient.type === "bun");
   }, [constructorIngredients]);
@@ -40,6 +36,10 @@ export const BurgerConstructor = () => {
   }, [constructorIngredients]);
 
   const totalPrice = useMemo(() => {
+    if (!constructorIngredients) {
+      return 0;
+    }
+
     return constructorIngredients?.reduce(
       (sum, ingredient) => sum + ingredient.price * (ingredient.type === "bun" ? 2 : 1),
       0
@@ -132,7 +132,11 @@ export const BurgerConstructor = () => {
           Оформить заказ
         </Button>
       </div>
-      <Modal isOpened={isOrderPopupOpened} handleClosePopup={handleClosePopup} title="">
+      <Modal
+        isOpened={isOrderPopupOpened}
+        handleClosePopup={() => setIsOrderPopupOpened(false)}
+        title=""
+      >
         <OrderDetails />
       </Modal>
     </section>

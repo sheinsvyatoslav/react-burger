@@ -6,8 +6,8 @@ import { useAppDispatch } from "../../hooks/redux-hooks";
 import { useFormAndValidation } from "../../hooks/use-form-and-validation";
 import { FeedPage } from "../../pages/FeedPage/feed-page";
 import { ForgotPassword } from "../../pages/ForgotPassword/forgot-password";
-import { IngredientDetails } from "../../pages/IngredientPage/ingredient-details/ingredient-details";
-import { IngredientPage } from "../../pages/IngredientPage/ingredient-page/ingredient-page";
+import { IngredientPage } from "../../pages/IngredientPage";
+import { IngredientDetails } from "../../pages/IngredientPage/ingredient-details";
 import { Login } from "../../pages/Login/login";
 import { PageNotFound } from "../../pages/NotFound/not-found";
 import { OrderPage } from "../../pages/OrderPage/order-page";
@@ -47,7 +47,8 @@ export const App = () => {
   const orderIngredients = locationState?.orderIngredients;
   const { resetForm } = useFormAndValidation();
 
-  const handleModalClose = () => (background.pathname === "/" ? history.replace("/") : history.goBack());
+  const handleModalClose = () =>
+    background.pathname === "/" ? history.replace("/") : history.goBack();
 
   useEffect(() => {
     resetForm();
@@ -114,7 +115,11 @@ export const App = () => {
       {background && (
         <Route exact path="/feed/:id">
           <Modal handleClosePopup={handleModalClose} isOpened={Boolean(background)}>
-            <OrderContent order={order} totalPrice={totalPrice} orderIngredients={orderIngredients} />
+            <OrderContent
+              order={order}
+              totalPrice={totalPrice}
+              orderIngredients={orderIngredients}
+            />
           </Modal>
         </Route>
       )}
@@ -122,7 +127,11 @@ export const App = () => {
       {background && (
         <ProtectedRoute exact path="/profile/orders/:id">
           <Modal handleClosePopup={handleModalClose} isOpened={Boolean(background)}>
-            <OrderContent order={order} totalPrice={totalPrice} orderIngredients={orderIngredients} />
+            <OrderContent
+              order={order}
+              totalPrice={totalPrice}
+              orderIngredients={orderIngredients}
+            />
           </Modal>
         </ProtectedRoute>
       )}
