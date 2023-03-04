@@ -23,7 +23,7 @@ import styles from "./burger-constructor.module.scss";
 
 export const BurgerConstructor = () => {
   const history = useHistory();
-  const [isOrderPopupOpened, setIsOrderPopupOpened] = useState<boolean>(false);
+  const [isOrderPopupOpened, setIsOrderPopupOpened] = useState(false);
   const { ingredients, constructorIngredients } = useAppSelector((state) => state.ingredients);
   const dispatch = useAppDispatch();
 

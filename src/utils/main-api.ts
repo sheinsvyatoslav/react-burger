@@ -20,9 +20,7 @@ export const createOrderRequest = (ingredients: Array<string>) => {
       "Content-Type": "application/json",
       Authorization: `Bearer ${getCookie("accessToken")}`,
     },
-    body: JSON.stringify({
-      ingredients,
-    }),
+    body: JSON.stringify({ ingredients }),
   });
 };
 
@@ -32,9 +30,7 @@ export const getOrderByNumberRequest = (number: number) => {
 
 export const getUserRequest = () => {
   return request(`${BASE_URL}/auth/user`, {
-    headers: {
-      Authorization: `Bearer ${getCookie("accessToken")}`,
-    },
+    headers: { Authorization: `Bearer ${getCookie("accessToken")}` },
   });
 };
 
@@ -45,10 +41,6 @@ export const updateUserRequest = ({ email, password, name }: UpdateUserRequest) 
       "Content-Type": "application/json",
       Authorization: `Bearer ${getCookie("accessToken")}`,
     },
-    body: JSON.stringify({
-      email,
-      password,
-      name,
-    }),
+    body: JSON.stringify({ email, password, name }),
   });
 };

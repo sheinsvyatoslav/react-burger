@@ -1,5 +1,5 @@
 export const BASE_WEBSOCKET_URL = "wss://norma.nomoreparties.space/orders";
-export const testNoBunIngredient = {
+export const testIngredient = {
   _id: "test-id",
   name: "Соус фирменный Space Sauce",
   type: "sauce",
@@ -28,7 +28,3 @@ export const secondIngredient = {
   image_large: "https://code.s3.yandex.net/react/code/meat-02-large.png",
   __v: 0,
 };
-
-const testBunIngredient = { ...testNoBunIngredient };
-testBunIngredient.type = "bun";
-export { testBunIngredient };

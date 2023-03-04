@@ -40,9 +40,7 @@ const middlewares = [thunk];
 const mockStore = configureMockStore<AuthState, ThunkActionType>(middlewares);
 
 describe("Auth reducer", () => {
-  afterEach(() => {
-    fetchMock.restore();
-  });
+  afterEach(() => fetchMock.restore());
 
   it("Check initial state", () => {
     expect(userReducer(undefined, { type: undefined })).toEqual(initialState);
@@ -51,19 +49,15 @@ describe("Auth reducer", () => {
   it("Register success", () => {
     fetchMock.postOnce(`${BASE_URL}/auth/register`, {
       status: 200,
-      user: {
-        name: "user",
-        email: "123456@mail.ru",
-      },
+      user: { name: "user", email: "123456@mail.ru" },
       success: true,
     });
 
-    const expectedActions = [
-      registerPending(),
-      registerSuccess(),
-      loginPending(),
-      loginFailed(),
-    ];
+    fetchMock.postOnce(`${BASE_URL}/auth/login`, () => {
+      throw new Error("error");
+    });
+
+    const expectedActions = [registerPending(), registerSuccess(), loginPending()];
     const store = mockStore(initialState);
 
     return store
@@ -72,12 +66,8 @@ describe("Auth reducer", () => {
           name: "user",
           password: 123456,
           email: "123456@mail.ru",
-          newRoute: () => {
-            return undefined;
-          },
-          resetForm: () => {
-            return undefined;
-          },
+          newRoute: () => undefined,
+          resetForm: () => undefined,
         }) as unknown as AnyAction
       )
       .then(() => {
@@ -90,12 +80,11 @@ describe("Auth reducer", () => {
   });
 
   it("Register failed", () => {
-    fetchMock.postOnce(`${BASE_URL}/auth/register`, {
-      status: 400,
-      success: false,
+    fetchMock.postOnce(`${BASE_URL}/auth/register`, () => {
+      throw new Error("error");
     });
 
-    const expectedActions = [registerPending(), registerFailed()];
+    const expectedActions = [registerPending(), registerFailed("error")];
     const store = mockStore(initialState);
 
     return store
@@ -104,19 +93,16 @@ describe("Auth reducer", () => {
           name: "user",
           password: 123456,
           email: "123456@mail.ru",
-          newRoute: () => {
-            return undefined;
-          },
-          resetForm: () => {
-            return undefined;
-          },
+          newRoute: () => undefined,
+          resetForm: () => undefined,
         }) as unknown as AnyAction
       )
       .then(() => {
         expect(store.getActions()).toEqual(expectedActions);
-        expect(userReducer(initialState, registerFailed())).toEqual({
+        expect(userReducer(initialState, registerFailed("error"))).toEqual({
           ...initialState,
           registerState: "failed",
+          errorMessage: "error",
         });
       });
   });
@@ -135,12 +121,8 @@ describe("Auth reducer", () => {
       .dispatch(
         restorePassword({
           email: "654321@mail.ru",
-          newRoute: () => {
-            return undefined;
-          },
-          resetForm: () => {
-            return undefined;
-          },
+          newRoute: () => undefined,
+          resetForm: () => undefined,
         }) as unknown as AnyAction
       )
       .then(() => {
@@ -153,10 +135,7 @@ describe("Auth reducer", () => {
   });
 
   it("Restore password failed", () => {
-    fetchMock.postOnce(`${BASE_URL}/password-reset`, {
-      status: 400,
-      success: false,
-    });
+    fetchMock.postOnce(`${BASE_URL}/password-reset`, { status: 400, success: false });
 
     const expectedActions = [restorePending(), restoreFailed()];
     const store = mockStore(initialState);
@@ -165,12 +144,8 @@ describe("Auth reducer", () => {
       .dispatch(
         restorePassword({
           email: "654321@mail.ru",
-          newRoute: () => {
-            return undefined;
-          },
-          resetForm: () => {
-            return undefined;
-          },
+          newRoute: () => undefined,
+          resetForm: () => undefined,
         }) as unknown as AnyAction
       )
       .then(() => {
@@ -183,7 +158,7 @@ describe("Auth reducer", () => {
   });
 
   it("Reset password success", () => {
-    fetchMock.postOnce(`${BASE_URL}/reset`, {
+    fetchMock.postOnce(`${BASE_URL}/password-reset/reset`, {
       status: 200,
       message: "Password successfully reset",
       success: true,
@@ -197,12 +172,8 @@ describe("Auth reducer", () => {
         resetPassword({
           password: 123456,
           token: "token",
-          newRoute: () => {
-            return undefined;
-          },
-          resetForm: () => {
-            return undefined;
-          },
+          newRoute: () => undefined,
+          resetForm: () => undefined,
         }) as unknown as AnyAction
       )
       .then(() => {
@@ -215,12 +186,11 @@ describe("Auth reducer", () => {
   });
 
   it("Reset password failed", () => {
-    fetchMock.postOnce(`${BASE_URL}/reset`, {
-      status: 400,
-      success: false,
+    fetchMock.postOnce(`${BASE_URL}/password-reset/reset`, () => {
+      throw new Error("error");
     });
 
-    const expectedActions = [resetPending(), resetFailed()];
+    const expectedActions = [resetPending(), resetFailed("error")];
     const store = mockStore(initialState);
 
     return store
@@ -228,19 +198,16 @@ describe("Auth reducer", () => {
         resetPassword({
           password: 123456,
           token: "token",
-          newRoute: () => {
-            return undefined;
-          },
-          resetForm: () => {
-            return undefined;
-          },
+          newRoute: () => undefined,
+          resetForm: () => undefined,
         }) as unknown as AnyAction
       )
       .then(() => {
         expect(store.getActions()).toEqual(expectedActions);
-        expect(userReducer(initialState, resetFailed())).toEqual({
+        expect(userReducer(initialState, resetFailed("error"))).toEqual({
           ...initialState,
           resetState: "failed",
+          errorMessage: "error",
         });
       });
   });
@@ -248,10 +215,7 @@ describe("Auth reducer", () => {
   it("Login success", () => {
     fetchMock.postOnce(`${BASE_URL}/auth/login`, {
       status: 200,
-      user: {
-        email: "123456@mail.ru",
-        password: 123456,
-      },
+      user: { email: "123456@mail.ru", password: 123456 },
       accessToken: "Bearer 123",
       success: true,
     });
@@ -264,9 +228,7 @@ describe("Auth reducer", () => {
         login({
           email: "123456@mail.ru",
           password: 123456,
-          resetForm: () => {
-            return undefined;
-          },
+          resetForm: () => undefined,
         }) as unknown as AnyAction
       )
       .then(() => {
@@ -279,12 +241,11 @@ describe("Auth reducer", () => {
   });
 
   it("Login failed", () => {
-    fetchMock.postOnce(`${BASE_URL}/auth/login`, {
-      status: 400,
-      success: false,
+    fetchMock.postOnce(`${BASE_URL}/auth/login`, () => {
+      throw new Error("error");
     });
 
-    const expectedActions = [loginPending(), loginFailed()];
+    const expectedActions = [loginPending(), loginFailed("error")];
     const store = mockStore(initialState);
 
     return store
@@ -292,16 +253,15 @@ describe("Auth reducer", () => {
         login({
           email: "123456@mail.ru",
           password: 123456,
-          resetForm: () => {
-            return undefined;
-          },
+          resetForm: () => undefined,
         }) as unknown as AnyAction
       )
       .then(() => {
         expect(store.getActions()).toEqual(expectedActions);
-        expect(userReducer(initialState, loginFailed())).toEqual({
+        expect(userReducer(initialState, loginFailed("error"))).toEqual({
           ...initialState,
           loginState: "failed",
+          errorMessage: "error",
         });
       });
   });
@@ -309,10 +269,7 @@ describe("Auth reducer", () => {
   it("Logout success", () => {
     fetchMock.postOnce(`${BASE_URL}/auth/logout`, {
       status: 200,
-      user: {
-        email: "123456@mail.ru",
-        password: 123456,
-      },
+      user: { email: "123456@mail.ru", password: 123456 },
       success: true,
     });
 
@@ -320,13 +277,7 @@ describe("Auth reducer", () => {
     const store = mockStore(initialState);
 
     return store
-      .dispatch(
-        logout({
-          newRoute: () => {
-            return undefined;
-          },
-        }) as unknown as AnyAction
-      )
+      .dispatch(logout({ newRoute: () => undefined }) as unknown as AnyAction)
       .then(() => {
         expect(store.getActions()).toEqual(expectedActions);
         expect(userReducer(initialState, logoutSuccess())).toEqual({
@@ -346,13 +297,7 @@ describe("Auth reducer", () => {
     const store = mockStore(initialState);
 
     return store
-      .dispatch(
-        logout({
-          newRoute: () => {
-            return undefined;
-          },
-        }) as unknown as AnyAction
-      )
+      .dispatch(logout({ newRoute: () => undefined }) as unknown as AnyAction)
       .then(() => {
         expect(store.getActions()).toEqual(expectedActions);
         expect(userReducer(initialState, logoutFailed())).toEqual({
@@ -378,15 +323,7 @@ describe("Auth reducer", () => {
     const store = mockStore(initialState);
 
     return store
-      .dispatch(
-        refreshToken(
-          logout({
-            newRoute: () => {
-              return undefined;
-            },
-          })
-        ) as unknown as AnyAction
-      )
+      .dispatch(refreshToken(logout({ newRoute: () => undefined })) as unknown as AnyAction)
       .then(() => {
         expect(store.getActions()).toEqual(expectedActions);
         expect(userReducer(initialState, refreshTokenSuccess())).toEqual({
@@ -397,24 +334,13 @@ describe("Auth reducer", () => {
   });
 
   it("Refresh token failed", () => {
-    fetchMock.postOnce(`${BASE_URL}/auth/token`, {
-      status: 400,
-      success: false,
-    });
+    fetchMock.postOnce(`${BASE_URL}/auth/token`, { status: 400, success: false });
 
     const expectedActions = [refreshTokenPending(), refreshTokenFailed()];
     const store = mockStore(initialState);
 
     return store
-      .dispatch(
-        refreshToken(
-          logout({
-            newRoute: () => {
-              return undefined;
-            },
-          })
-        ) as unknown as AnyAction
-      )
+      .dispatch(refreshToken(logout({ newRoute: () => undefined })) as unknown as AnyAction)
       .then(() => {
         expect(store.getActions()).toEqual(expectedActions);
         expect(userReducer(initialState, refreshTokenFailed())).toEqual({

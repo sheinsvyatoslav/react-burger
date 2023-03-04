@@ -79,9 +79,7 @@ export const getIngredients = (): ThunkActionType => {
   return async (dispatch) => {
     dispatch(getIngredientsPending());
     return getIngredientsRequest()
-      .then((res) => {
-        dispatch(getIngredientsSuccess(res.data));
-      })
+      .then((res) => dispatch(getIngredientsSuccess(res.data)))
       .catch((err) => {
         dispatch(getIngredientsFailed());
         console.log(err);

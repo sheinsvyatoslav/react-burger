@@ -24,9 +24,7 @@ const middlewares = [thunk];
 const mockStore = configureMockStore<UserState, ThunkActionType>(middlewares);
 
 describe("User reducer", () => {
-  afterEach(() => {
-    fetchMock.restore();
-  });
+  afterEach(() => fetchMock.restore());
 
   it("Check initial state", () => {
     expect(userReducer(undefined, { type: undefined })).toEqual(initialState);
@@ -35,32 +33,20 @@ describe("User reducer", () => {
   it("Get user success", () => {
     fetchMock.getOnce(`${BASE_URL}/auth/user`, {
       status: 200,
-      user: {
-        name: "user",
-        email: "123456@mail.ru",
-      },
+      user: { name: "user", email: "123456@mail.ru" },
       success: true,
     });
 
     const expectedActions = [
       getUserPending(),
-      getUserSuccess({
-        name: "user",
-        email: "123456@mail.ru",
-      }),
+      getUserSuccess({ name: "user", email: "123456@mail.ru" }),
     ];
     const store = mockStore(initialState);
 
     return store.dispatch(getUser() as unknown as AnyAction).then(() => {
       expect(store.getActions()).toEqual(expectedActions);
       expect(
-        userReducer(
-          initialState,
-          getUserSuccess({
-            name: "user",
-            email: "123456@mail.ru",
-          })
-        )
+        userReducer(initialState, getUserSuccess({ name: "user", email: "123456@mail.ru" }))
       ).toEqual({
         ...initialState,
         user: { name: "user", email: "123456@mail.ru" },
@@ -70,10 +56,7 @@ describe("User reducer", () => {
   });
 
   it("Get user failed", () => {
-    fetchMock.getOnce(`${BASE_URL}/auth/user`, {
-      status: 400,
-      success: false,
-    });
+    fetchMock.getOnce(`${BASE_URL}/auth/user`, { status: 400, success: false });
 
     const expectedActions = [getUserPending(), getUserFailed()];
     const store = mockStore(initialState);
@@ -90,21 +73,13 @@ describe("User reducer", () => {
   it("Update user success", () => {
     fetchMock.patchOnce(`${BASE_URL}/auth/user`, {
       status: 200,
-      user: {
-        name: "me",
-        password: 123456,
-        email: "654321@mail.ru",
-      },
+      user: { name: "me", password: 123456, email: "654321@mail.ru" },
       success: true,
     });
 
     const expectedActions = [
       updateUserPending(),
-      updateUserSuccess({
-        name: "me",
-        password: 123456,
-        email: "654321@mail.ru",
-      }),
+      updateUserSuccess({ name: "me", password: 123456, email: "654321@mail.ru" }),
     ];
     const store = mockStore(initialState);
 
@@ -121,29 +96,18 @@ describe("User reducer", () => {
         expect(
           userReducer(
             initialState,
-            updateUserSuccess({
-              name: "me",
-              password: 123456,
-              email: "654321@mail.ru",
-            })
+            updateUserSuccess({ name: "me", password: 123456, email: "654321@mail.ru" })
           )
         ).toEqual({
           ...initialState,
-          user: {
-            name: "me",
-            password: 123456,
-            email: "654321@mail.ru",
-          },
+          user: { name: "me", password: 123456, email: "654321@mail.ru" },
           updateUserState: "success",
         });
       });
   });
 
   it("Update user failed", () => {
-    fetchMock.patchOnce(`${BASE_URL}/auth/user`, {
-      status: 400,
-      success: false,
-    });
+    fetchMock.patchOnce(`${BASE_URL}/auth/user`, { status: 400, success: false });
 
     const expectedActions = [updateUserPending(), updateUserFailed()];
     const store = mockStore(initialState);
