@@ -19,7 +19,7 @@ export const BurgerIngredientsSection: FC<BurgerIngredientsSectionProps> = ({
   const { ingredients } = useAppSelector((state) => state.ingredients);
 
   return (
-    <div className="mb-10" ref={innerRef}>
+    <div className="mb-10" ref={innerRef} id={category}>
       <h2 className="text text_type_main-medium mb-6">{name}</h2>
       <div className={styles.cards} data-at-selector={`burger-cards-${category}`}>
         {ingredients?.map(

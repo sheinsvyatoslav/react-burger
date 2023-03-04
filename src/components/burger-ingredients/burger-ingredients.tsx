@@ -6,15 +6,9 @@ import { BurgerNavigation } from "../burger-navigation/burger-navigation";
 import styles from "./burger-ingredients.module.scss";
 
 export const BurgerIngredients = () => {
-  const [bunsRef, inViewBuns] = useInView({
-    threshold: 0,
-  });
-  const [saucesRef, inViewSauces] = useInView({
-    threshold: 0,
-  });
-  const [mainsRef, inViewFilling] = useInView({
-    threshold: 0,
-  });
+  const [bunsRef, inViewBuns] = useInView({ threshold: 0 });
+  const [saucesRef, inViewSauces] = useInView({ threshold: 0 });
+  const [mainsRef, inViewFilling] = useInView({ threshold: 0 });
 
   return (
     <section className={`${styles.container} mr-10`}>
