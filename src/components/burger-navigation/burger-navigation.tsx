@@ -14,27 +14,32 @@ export const BurgerNavigation: FC<BurgerNavigationProps> = ({
   inViewSauces,
   inViewFilling,
 }) => {
-  const [current, setCurrent] = useState("buns");
+  const [current, setCurrent] = useState("bun");
 
   useEffect(() => {
     if (inViewBuns) {
-      setCurrent("buns");
+      setCurrent("bun");
     } else if (inViewSauces) {
-      setCurrent("sauces");
+      setCurrent("sauce");
     } else if (inViewFilling) {
-      setCurrent("mains");
+      setCurrent("main");
     }
   }, [inViewBuns, inViewFilling, inViewSauces]);
 
+  const handleClickTab = (name: string) => {
+    setCurrent(name);
+    document.querySelector(`#${name}`)?.scrollIntoView({ block: "start", behavior: "smooth" });
+  };
+
   return (
-    <div className={`${styles.container} mb-10`}>
-      <Tab value="buns" active={current === "buns"} onClick={setCurrent}>
+    <div className={styles.container}>
+      <Tab value="bun" active={current === "bun"} onClick={handleClickTab}>
         Булки
       </Tab>
-      <Tab value="sauces" active={current === "sauces"} onClick={setCurrent}>
+      <Tab value="sauce" active={current === "sauce"} onClick={handleClickTab}>
         Соусы
       </Tab>
-      <Tab value="fillings" active={current === "mains"} onClick={setCurrent}>
+      <Tab value="main" active={current === "main"} onClick={handleClickTab}>
         Начинки
       </Tab>
     </div>

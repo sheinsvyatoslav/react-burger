@@ -6,7 +6,7 @@ import thunk from "redux-thunk";
 
 import { ThunkActionType } from "../../..";
 import { BASE_URL } from "../../../utils/api-constants";
-import { secondIngredient, testBunIngredient, testNoBunIngredient } from "../../../utils/constants";
+import { secondIngredient, testIngredient } from "../../../utils/constants";
 
 import ingredientsReducer, {
   addConstructorIngredient,
@@ -25,9 +25,7 @@ const middlewares = [thunk];
 const mockStore = configureMockStore<IngredientsState, ThunkActionType>(middlewares);
 
 describe("Ingredients reducer", () => {
-  afterEach(() => {
-    fetchMock.restore();
-  });
+  afterEach(() => fetchMock.restore());
 
   it("Check initial state", () => {
     expect(ingredientsReducer(undefined, { type: undefined })).toEqual(initialState);
@@ -72,50 +70,18 @@ describe("Ingredients reducer", () => {
     });
   });
 
-  it("Add bun to the constructor", () => {
+  it("Add ingredient to the constructor", () => {
     expect(
       ingredientsReducer(
         initialState,
         addConstructorIngredient({
-          draggedIngridient: testBunIngredient,
+          draggedIngridient: testIngredient,
           dragId: "test-dragId",
         })
       )
     ).toEqual({
       ...initialState,
-      constructorIngredients: {
-        ...initialState.constructorIngredients,
-        bun: {
-          ...testBunIngredient,
-          dragId: "test-dragId",
-        },
-      },
-    });
-  });
-
-  it("Add ingredient(no bun) to the constructor", () => {
-    expect(
-      ingredientsReducer(
-        initialState,
-        addConstructorIngredient({
-          draggedIngridient: testNoBunIngredient,
-          dragId: "test-dragId",
-        })
-      )
-    ).toEqual({
-      ...initialState,
-      constructorIngredients: {
-        ...initialState.constructorIngredients,
-        noBunIngredients: [
-          {
-            ...testNoBunIngredient,
-            dragId: "test-dragId",
-          },
-        ],
-      },
-      ingredientsCount: {
-        "test-id": 1,
-      },
+      constructorIngredients: [{ ...testIngredient, dragId: "test-dragId" }],
     });
   });
 
@@ -124,28 +90,11 @@ describe("Ingredients reducer", () => {
       ingredientsReducer(
         {
           ...initialState,
-          constructorIngredients: [
-            {
-              ...testNoBunIngredient,
-              dragId: "test-dragId",
-            },
-          ],
+          constructorIngredients: [{ ...testIngredient, dragId: "test-dragId" }],
         },
-        deleteConstructorIngredient({
-          ...testNoBunIngredient,
-          dragId: "test-dragId",
-        })
+        deleteConstructorIngredient({ ...testIngredient, dragId: "test-dragId" })
       )
-    ).toEqual({
-      ...initialState,
-      constructorIngredients: {
-        ...initialState.constructorIngredients,
-        noBunIngredients: [],
-      },
-      ingredientsCount: {
-        "test-id": 0,
-      },
-    });
+    ).toEqual({ ...initialState, constructorIngredients: [] });
   });
 
   it("Update the constructor", () => {
@@ -154,42 +103,21 @@ describe("Ingredients reducer", () => {
         {
           ...initialState,
           constructorIngredients: [
-            {
-              ...testNoBunIngredient,
-              dragId: "first-dragId",
-            },
-            {
-              ...secondIngredient,
-              dragId: "second-dragId",
-            },
+            { ...testIngredient, dragId: "first-dragId" },
+            { ...secondIngredient, dragId: "second-dragId" },
           ],
         },
         updateConstructorList([
-          {
-            ...secondIngredient,
-            dragId: "second-dragId",
-          },
-          {
-            ...testNoBunIngredient,
-            dragId: "first-dragId",
-          },
+          { ...secondIngredient, dragId: "second-dragId" },
+          { ...testIngredient, dragId: "first-dragId" },
         ])
       )
     ).toEqual({
       ...initialState,
-      constructorIngredients: {
-        ...initialState.constructorIngredients,
-        noBunIngredients: [
-          {
-            ...secondIngredient,
-            dragId: "second-dragId",
-          },
-          {
-            ...testNoBunIngredient,
-            dragId: "first-dragId",
-          },
-        ],
-      },
+      constructorIngredients: [
+        { ...secondIngredient, dragId: "second-dragId" },
+        { ...testIngredient, dragId: "first-dragId" },
+      ],
     });
   });
 
@@ -199,15 +127,8 @@ describe("Ingredients reducer", () => {
         {
           ...initialState,
           constructorIngredients: [
-            {
-              ...testBunIngredient,
-              dragId: "test-dragId",
-            },
-
-            {
-              ...testNoBunIngredient,
-              dragId: "test-dragId",
-            },
+            { ...testIngredient, dragId: "test-dragId" },
+            { ...secondIngredient, dragId: "test-dragId" },
           ],
         },
         clearConstructor()

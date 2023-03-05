@@ -6,21 +6,32 @@
 
 .navigation {
   max-width: 1240px;
+  width: calc(100% - 100px);
   margin: auto;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 16px 0;
 }
 
 .container {
   display: flex;
   align-items: center;
+  gap: 40px;
+  padding: 16px 0;
+}
+
+@media screen and (max-width: 1279px) {
+  .container {
+    gap: 20px
+  }
 }
 
 .link {
   display: flex;
+  align-items: center;
   text-decoration: none;
-  color: #8585AD
+  color: #8585AD;
 }
 
 .logo {

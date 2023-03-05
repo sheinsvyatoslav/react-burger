@@ -45,6 +45,7 @@ export type AuthState = {
   loginState: string;
   logoutState: string;
   refreshTokenState: string;
+  errorMessage: string;
 };
 
 export const initialState: AuthState = {
@@ -54,6 +55,7 @@ export const initialState: AuthState = {
   loginState: "idle",
   logoutState: "idle",
   refreshTokenState: "idle",
+  errorMessage: "",
 };
 
 const authSlice = createSlice({
@@ -66,8 +68,9 @@ const authSlice = createSlice({
     registerSuccess(state) {
       state.registerState = "success";
     },
-    registerFailed(state) {
+    registerFailed(state, action) {
       state.registerState = "failed";
+      state.errorMessage = action.payload;
     },
     restorePending(state) {
       state.restoreState = "pending";
@@ -84,8 +87,9 @@ const authSlice = createSlice({
     resetSuccess(state) {
       state.resetState = "success";
     },
-    resetFailed(state) {
+    resetFailed(state, action) {
       state.resetState = "failed";
+      state.errorMessage = action.payload;
     },
     loginPending(state) {
       state.loginState = "pending";
@@ -93,8 +97,9 @@ const authSlice = createSlice({
     loginSuccess(state) {
       state.loginState = "success";
     },
-    loginFailed(state) {
+    loginFailed(state, action) {
       state.loginState = "failed";
+      state.errorMessage = action.payload;
     },
     logoutPending(state) {
       state.logoutState = "pending";
@@ -114,6 +119,7 @@ const authSlice = createSlice({
     refreshTokenFailed(state) {
       state.refreshTokenState = "failed";
     },
+    clearAuth: () => initialState,
   },
 });
 
@@ -136,6 +142,7 @@ export const {
   refreshTokenPending,
   refreshTokenSuccess,
   refreshTokenFailed,
+  clearAuth,
 } = authSlice.actions;
 
 export const login = ({ email, password, resetForm }: Login): ThunkActionType => {
@@ -154,12 +161,18 @@ export const login = ({ email, password, resetForm }: Login): ThunkActionType =>
       })
       .catch((err) => {
         console.log(err);
-        dispatch(loginFailed());
+        dispatch(loginFailed(err.message));
       });
   };
 };
 
-export const register = ({ email, password, name, resetForm, newRoute }: Register): ThunkActionType => {
+export const register = ({
+  email,
+  password,
+  name,
+  resetForm,
+  newRoute,
+}: Register): ThunkActionType => {
   return (dispatch) => {
     dispatch(registerPending());
     return registerRequest({ email, password, name })
@@ -170,12 +183,16 @@ export const register = ({ email, password, name, resetForm, newRoute }: Registe
       })
       .catch((err) => {
         console.log(err);
-        dispatch(registerFailed());
+        dispatch(registerFailed(err.message));
       });
   };
 };
 
-export const restorePassword = ({ email, newRoute, resetForm }: RestorePassword): ThunkActionType => {
+export const restorePassword = ({
+  email,
+  newRoute,
+  resetForm,
+}: RestorePassword): ThunkActionType => {
   return async (dispatch) => {
     dispatch(restorePending());
     return restorePasswordRequest(email)
@@ -192,7 +209,12 @@ export const restorePassword = ({ email, newRoute, resetForm }: RestorePassword)
   };
 };
 
-export const resetPassword = ({ password, token, resetForm, newRoute }: ResetPassword): ThunkActionType => {
+export const resetPassword = ({
+  password,
+  token,
+  resetForm,
+  newRoute,
+}: ResetPassword): ThunkActionType => {
   return async (dispatch) => {
     dispatch(resetPending());
     return resetPasswordRequest({ password, token })
@@ -204,7 +226,7 @@ export const resetPassword = ({ password, token, resetForm, newRoute }: ResetPas
       })
       .catch((err) => {
         console.log(err);
-        dispatch(resetFailed());
+        dispatch(resetFailed(err.message));
       });
   };
 };

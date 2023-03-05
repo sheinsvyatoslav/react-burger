@@ -2,9 +2,10 @@ import { FormEvent } from "react";
 import { Link, Redirect, useHistory } from "react-router-dom";
 import { Button, Input } from "@ya.praktikum/react-developer-burger-ui-components";
 
-import { useAppDispatch } from "../../hooks/redux-hooks";
+import { Modal } from "../../components/modal/modal";
+import { useAppDispatch, useAppSelector } from "../../hooks/redux-hooks";
 import { useFormAndValidation } from "../../hooks/use-form-and-validation";
-import { resetPassword } from "../../services/slices/auth/auth";
+import { clearAuth, resetPassword } from "../../services/slices/auth/auth";
 import { getCookie } from "../../utils/cookie";
 
 import styles from "./reset-password.module.scss";
@@ -13,6 +14,7 @@ export const ResetPassword = () => {
   const { values, handleChange, errors, isValid, resetForm, isHidden, setIsHidden } =
     useFormAndValidation();
   const { password, token } = values;
+  const { resetState, errorMessage } = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
   const history = useHistory();
 
@@ -30,18 +32,8 @@ export const ResetPassword = () => {
     }
   };
 
-  const onIconClick = () => {
-    setIsHidden(!isHidden);
-  };
-
   if (!getCookie("message")) {
-    return (
-      <Redirect
-        to={{
-          pathname: "/login",
-        }}
-      />
-    );
+    return <Redirect to={{ pathname: "/login" }} />;
   }
 
   return (
@@ -57,7 +49,7 @@ export const ResetPassword = () => {
           error={Boolean(errors.password)}
           errorText={errors.password}
           icon={isHidden ? "ShowIcon" : "HideIcon"}
-          onIconClick={onIconClick}
+          onIconClick={() => setIsHidden(!isHidden)}
           size="default"
           required
           pattern=".{6,}"
@@ -89,6 +81,10 @@ export const ResetPassword = () => {
           Войти
         </Link>
       </p>
+
+      <Modal isOpened={resetState === "failed"} handleClosePopup={() => dispatch(clearAuth())}>
+        <p className="text text_type_main-default mt-5">{errorMessage}</p>
+      </Modal>
     </section>
   );
 };

@@ -2,9 +2,10 @@ import { FormEvent } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { Button, Input } from "@ya.praktikum/react-developer-burger-ui-components";
 
-import { useAppDispatch } from "../../hooks/redux-hooks";
+import { Modal } from "../../components/modal/modal";
+import { useAppDispatch, useAppSelector } from "../../hooks/redux-hooks";
 import { useFormAndValidation } from "../../hooks/use-form-and-validation";
-import { register } from "../../services/slices/auth/auth";
+import { clearAuth, register } from "../../services/slices/auth/auth";
 
 import styles from "./register.module.scss";
 
@@ -12,6 +13,7 @@ export const Register = () => {
   const { values, handleChange, errors, isValid, isHidden, setIsHidden, resetForm } =
     useFormAndValidation();
   const { name, email, password } = values;
+  const { registerState, errorMessage } = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
   const history = useHistory();
 
@@ -28,10 +30,6 @@ export const Register = () => {
         })
       );
     }
-  };
-
-  const onIconClick = () => {
-    setIsHidden(!isHidden);
   };
 
   return (
@@ -71,7 +69,7 @@ export const Register = () => {
           error={Boolean(errors.password)}
           errorText={errors.password}
           icon={isHidden ? "ShowIcon" : "HideIcon"}
-          onIconClick={onIconClick}
+          onIconClick={() => setIsHidden(!isHidden)}
           size="default"
           required
           pattern=".{6,}"
@@ -92,6 +90,10 @@ export const Register = () => {
           Войти
         </Link>
       </p>
+
+      <Modal isOpened={registerState === "failed"} handleClosePopup={() => dispatch(clearAuth())}>
+        <p className="text text_type_main-default mt-5">{errorMessage}</p>
+      </Modal>
     </section>
   );
 };
