@@ -4,16 +4,19 @@
 
 .statuses {
   display: flex;
+  gap: 10px;
+  margin-bottom: 60px;
 }
 
 .statusesGroup {
-  width: 272px;
+  flex: 0 1 270px;
 }
 
 .numbers {
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
+  gap: 0 20px;
   max-height: 350px;
 }
 

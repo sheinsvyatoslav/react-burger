@@ -32,7 +32,7 @@ export const BurgerNavigation: FC<BurgerNavigationProps> = ({
   };
 
   return (
-    <div className={`${styles.container} mb-10`}>
+    <div className={styles.container}>
       <Tab value="bun" active={current === "bun"} onClick={handleClickTab}>
         Булки
       </Tab>

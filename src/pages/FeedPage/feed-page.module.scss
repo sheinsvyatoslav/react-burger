@@ -1,9 +1,16 @@
 .main {
   max-width: 1240px;
+  width: calc(100% - 100px);
   margin: auto;
 }
 
 .container {
   display: flex;
-  justify-content: center;
+  gap: 60px;
+}
+
+@media screen and (max-width: 1279px) {
+  .container {
+    gap: 30px;
+  }
 }

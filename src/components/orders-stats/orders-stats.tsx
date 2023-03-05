@@ -1,40 +1,57 @@
+import { useMemo } from "react";
+
 import { useAppSelector } from "../../hooks/redux-hooks";
+import { Order } from "../order-card/order-card";
 
 import styles from "./orders-stats.module.scss";
 
+const ordersInList = 20;
+
 export const OrdersStats = () => {
   const { total, totalToday, orders } = useAppSelector((state) => state.ws);
+  const { doneOrders, pendingOrders } = useMemo(() => {
+    const doneOrders: Order[] = [];
+    const pendingOrders: Order[] = [];
+
+    if (!orders) {
+      return { doneOrders, pendingOrders };
+    }
+
+    orders.slice(0, ordersInList).forEach((order) => {
+      if (order.status === "done") {
+        doneOrders.push(order);
+      } else if (order.status === "pending") {
+        pendingOrders.push(order);
+      }
+    });
+
+    return { doneOrders, pendingOrders };
+  }, [orders]);
 
   return (
-    <section className="ml-15">
-      <div className={`${styles.statuses} mb-15`}>
-        <div className={`${styles.statusesGroup} mr-9`}>
+    <section>
+      <div className={styles.statuses}>
+        <div className={styles.statusesGroup}>
           <h3 className="text text_type_main-medium mb-6">Готовы:</h3>
           <div className={styles.numbers}>
-            {orders
-              ?.slice(0, 30)
-              .filter((item) => item.status === "done")
-              .map((item) => (
-                <p
-                  key={item.number}
-                  className={`${styles.doneNumber} text text_type_digits-default mb-2`}
-                >
-                  {item.number}
-                </p>
-              ))}
+            {doneOrders.map((item) => (
+              <p
+                key={item.number}
+                className={`${styles.doneNumber} text text_type_digits-default mb-2`}
+              >
+                {item.number}
+              </p>
+            ))}
           </div>
         </div>
         <div className={styles.statusesGroup}>
           <h3 className="text text_type_main-medium mb-6">В работе:</h3>
           <div className={styles.numbers}>
-            {orders
-              ?.slice(0, 20)
-              .filter((item) => item.status === "pending")
-              .map((item) => (
-                <p key={item.number} className="text text_type_digits-default mb-2">
-                  {item.number}
-                </p>
-              ))}
+            {pendingOrders.map((item) => (
+              <p key={item.number} className="text text_type_digits-default mb-2">
+                {item.number}
+              </p>
+            ))}
           </div>
         </div>
       </div>

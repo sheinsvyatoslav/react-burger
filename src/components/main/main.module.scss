@@ -1,6 +1,6 @@
 .main {
   display: flex;
-  justify-content: center;
   max-width: 1240px;
+  width: calc(100% - 100px);
   margin: auto;
 }
